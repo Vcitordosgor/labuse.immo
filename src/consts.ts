@@ -22,6 +22,9 @@ export const DEMO_MAILTO =
 // TODO: remplacer par votre vrai lien de prise de rendez-vous (Calendly, Cal.com…)
 export const CALENDLY_URL = '#';
 
+// Ancre vers le formulaire de contact (section Contact).
+export const CONTACT_ANCHOR = '#contact';
+
 // Ancres de navigation du one-pager.
 export const NAV = [
   { href: '#produit', label: 'Le produit' },
