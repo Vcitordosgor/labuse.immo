@@ -1,0 +1,42 @@
+<!-- Placeholder Open Graph 1200x630. TODO: exporter en og.png (voir README) pour une compat maximale (certains crawlers ignorent le SVG). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="glow" cx="78%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#2fe0a0" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#060a08" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#060a08"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Radar décoratif -->
+  <g transform="translate(880 315)" fill="none" stroke="#2fe0a0">
+    <circle r="230" stroke-opacity="0.18" stroke-width="2"/>
+    <circle r="155" stroke-opacity="0.14" stroke-width="2"/>
+    <circle r="80" stroke-opacity="0.12" stroke-width="2"/>
+    <path d="M0 0 L230 -120 A258 258 0 0 0 0 -230 Z" fill="#2fe0a0" fill-opacity="0.16" stroke="none"/>
+    <circle cx="60" cy="-40" r="7" fill="#8ff0cf" stroke="none"/>
+    <circle cx="-90" cy="70" r="6" fill="#8ff0cf" stroke="none"/>
+    <circle cx="30" cy="120" r="6" fill="#8ff0cf" stroke="none"/>
+    <circle cx="-140" cy="-60" r="5" fill="#8ff0cf" stroke="none"/>
+  </g>
+
+  <!-- Pill -->
+  <g transform="translate(90 150)">
+    <rect x="0" y="0" width="330" height="46" rx="23" fill="#2fe0a0" fill-opacity="0.08" stroke="#2fe0a0" stroke-opacity="0.4"/>
+    <text x="24" y="30" font-family="'JetBrains Mono', monospace" font-size="19" letter-spacing="2" font-weight="700" fill="#8ff0cf">RADAR FONCIER · LA RÉUNION</text>
+  </g>
+
+  <!-- Titre -->
+  <text x="88" y="290" font-family="Inter, sans-serif" font-size="66" font-weight="700" letter-spacing="-2" fill="#f3f6f4">Repérez les parcelles</text>
+  <text x="88" y="366" font-family="Inter, sans-serif" font-size="66" font-weight="700" letter-spacing="-2" fill="#f3f6f4">mutables <tspan fill="#2fe0a0">avant les autres.</tspan></text>
+
+  <text x="90" y="440" font-family="Inter, sans-serif" font-size="27" fill="#aab5b0">Intelligence foncière pour promoteurs · La Réunion</text>
+
+  <!-- Wordmark -->
+  <g transform="translate(90 520)">
+    <rect x="0" y="0" width="40" height="40" rx="10" fill="none" stroke="#2fe0a0" stroke-opacity="0.7" stroke-width="2"/>
+    <circle cx="20" cy="20" r="5" fill="#8ff0cf"/>
+    <text x="58" y="30" font-family="Inter, sans-serif" font-size="26" font-weight="700" letter-spacing="8" fill="#f3f6f4">LA BUSE</text>
+  </g>
+</svg>

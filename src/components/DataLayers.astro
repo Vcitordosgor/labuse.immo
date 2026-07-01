@@ -1,0 +1,67 @@
+---
+import Reveal from './Reveal.astro';
+
+// 22 couches croisées.
+const layers = [
+  'Cadastre',
+  'BD TOPO',
+  'PLU',
+  'PPR',
+  'SAR',
+  'Vue mer',
+  'Relief (MNT)',
+  'Pente',
+  'Accès & voirie',
+  'Réseaux',
+  'Servitudes',
+  'Aléa inondation',
+  'Mouvement de terrain',
+  'Recul littoral',
+  'Zones humides',
+  'Espaces protégés',
+  'Emplacements réservés',
+  'Assainissement',
+  'Prix de marché (DVF)',
+  'Permis récents',
+  'Densité bâtie',
+  'Orientation',
+];
+---
+
+<section id="donnees">
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16">
+      <Reveal>
+        <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
+          Les données
+        </p>
+        <h2 class="mt-5 max-w-[520px] text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+          22 couches croisées, <span class="text-green">une seule lecture.</span>
+        </h2>
+        <p class="mt-7 max-w-[480px] text-[17px] leading-relaxed text-[#aab5b0] sm:text-[19px]">
+          Chaque parcelle est passée au tamis de sources publiques et terrain, consolidées
+          et tenues à jour. Pas de données génériques recopiées de métropole :
+          <span class="font-medium text-ink"> une méthodologie propre à La Réunion</span>,
+          calibrée commune par commune.
+        </p>
+        <p class="mt-5 max-w-[480px] text-[16px] leading-relaxed text-muted">
+          Reliefs, aléas, littoral, contraintes réglementaires : le contexte réunionnais
+          est intégré au cœur du scoring, pas ajouté après coup.
+        </p>
+      </Reveal>
+
+      <Reveal delay={120}>
+        <ul class="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+          {
+            layers.map((layer) => (
+              <li class="flex items-center gap-2.5 rounded-xl border border-white/[.06] bg-surface/70 px-3.5 py-3 text-[14px] text-[#cdd8d2]">
+                <span class="h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true" />
+                {layer}
+              </li>
+            ))
+          }
+        </ul>
+      </Reveal>
+    </div>
+  </div>
+</section>

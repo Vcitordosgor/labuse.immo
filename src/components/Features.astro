@@ -1,0 +1,67 @@
+---
+import Reveal from './Reveal.astro';
+
+const features = [
+  {
+    title: 'Détection des parcelles',
+    body: 'On isole les parcelles à potentiel : façades sur rue, largeurs de voirie, unités foncières regroupables, exclusions cadastrales. Le repérage manuel devient automatique.',
+    icon: 'scan',
+  },
+  {
+    title: 'Scoring d’opportunité',
+    body: 'Chaque parcelle reçoit un score : constructibilité, hauteur prospect, vue mer, contraintes. Vous voyez d’un coup d’œil où concentrer vos efforts.',
+    icon: 'gauge',
+  },
+  {
+    title: 'PLU · PPR croisés',
+    body: 'Règlement de zone, coefficients d’emprise, hauteurs, aléas naturels : les règles sont calibrées commune par commune, pas approximées.',
+    icon: 'layers',
+  },
+  {
+    title: 'Pipeline / CRM',
+    body: 'Du repérage à la prise de contact propriétaire : qualifiez, relancez, suivez. Le foncier devient un pipeline, plus un tableur qui traîne.',
+    icon: 'route',
+  },
+];
+
+// Tracés SVG des icônes (stroke, viewBox 0 0 24 24).
+const icons: Record<string, string> = {
+  scan: '<path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/>',
+  gauge: '<path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M13.4 10.6 19 5"/><path d="M6.34 17A8 8 0 1 1 17.66 17"/>',
+  layers: '<path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/>',
+  route: '<circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h6a3 3 0 0 0 3-3V8"/>',
+};
+---
+
+<section id="produit">
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
+    <Reveal class="max-w-[720px]">
+      <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
+        Le produit
+      </p>
+      <h2 class="mt-5 text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+        Ce que fait <span class="text-green">LA BUSE.</span>
+      </h2>
+      <p class="mt-6 text-[17px] leading-relaxed text-[#aab5b0] sm:text-[19px]">
+        Une chaîne complète, du signal foncier brut jusqu’au contact propriétaire —
+        pensée pour le terrain réunionnais.
+      </p>
+    </Reveal>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2">
+      {
+        features.map((f, i) => (
+          <Reveal delay={i * 90}>
+            <article class="group h-full rounded-3xl border border-white/[.07] bg-surface p-7 transition-colors duration-300 hover:border-green/40">
+              <span class="mb-6 grid h-14 w-14 place-items-center rounded-2xl border border-green/30 bg-green/5 text-green transition-colors group-hover:bg-green/10">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[f.icon]} />
+              </span>
+              <h3 class="text-[21px] font-semibold tracking-tight">{f.title}</h3>
+              <p class="mt-3 text-[16px] leading-relaxed text-[#a7b2ac]">{f.body}</p>
+            </article>
+          </Reveal>
+        ))
+      }
+    </div>
+  </div>
+</section>

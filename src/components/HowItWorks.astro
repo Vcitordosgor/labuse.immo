@@ -1,0 +1,48 @@
+---
+import Reveal from './Reveal.astro';
+
+const steps = [
+  {
+    n: '01',
+    title: 'Choisir une commune',
+    body: 'Sélectionnez une commune déjà calibrée par nos soins : couches à jour, règles locales du PLU et du PPR intégrées. Pas de paramétrage.',
+  },
+  {
+    n: '02',
+    title: 'Lire la carte de scores',
+    body: 'La carte fait remonter les parcelles les mieux notées. Filtrez par zone, hauteur, surface ou vue — et comprenez pourquoi une parcelle sort du lot.',
+  },
+  {
+    n: '03',
+    title: 'Passer à l’action',
+    body: 'Ouvrez la fiche de pré-faisabilité, identifiez le propriétaire, lancez le contact et suivez l’avancement dans le pipeline.',
+  },
+];
+---
+
+<section class="border-y border-white/5 bg-surface/30">
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
+    <Reveal class="max-w-[720px]">
+      <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
+        Comment ça marche
+      </p>
+      <h2 class="mt-5 text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+        Trois étapes, <span class="text-green">du signal au contact.</span>
+      </h2>
+    </Reveal>
+
+    <ol class="mt-12 grid gap-5 md:grid-cols-3">
+      {
+        steps.map((step, i) => (
+          <Reveal as="li" delay={i * 110}>
+            <div class="relative h-full rounded-3xl border border-white/[.07] bg-bg/40 p-7">
+              <span class="font-mono text-[46px] font-bold leading-none text-green/25">{step.n}</span>
+              <h3 class="mt-5 text-[21px] font-semibold tracking-tight">{step.title}</h3>
+              <p class="mt-3 text-[16px] leading-relaxed text-[#a7b2ac]">{step.body}</p>
+            </div>
+          </Reveal>
+        ))
+      }
+    </ol>
+  </div>
+</section>

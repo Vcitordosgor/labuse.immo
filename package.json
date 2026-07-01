@@ -1,0 +1,21 @@
+{
+  "name": "labuse-immo",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site vitrine LA BUSE — intelligence foncière pour promoteurs à La Réunion.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^5.1.5",
+    "@fontsource-variable/inter": "^5.1.1",
+    "@fontsource/jetbrains-mono": "^5.1.1",
+    "astro": "^4.16.18",
+    "tailwindcss": "^3.4.17"
+  }
+}

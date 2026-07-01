@@ -1,0 +1,77 @@
+---
+import { NAV, CONTACT_EMAIL } from '../consts';
+
+const year = new Date().getFullYear();
+
+// Liens légaux — pages à créer ultérieurement (placeholders).
+const legal = [
+  { href: '#', label: 'Mentions légales' },
+  { href: '#', label: 'Politique de confidentialité' },
+  { href: '#', label: 'CGU' },
+];
+---
+
+<footer class="border-t border-white/5 bg-bg">
+  <div class="mx-auto max-w-content px-5 py-14 sm:px-8">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      <!-- Marque -->
+      <div>
+        <a href="#top" class="flex items-center gap-3 font-bold tracking-[.34em] text-ink" aria-label="LA BUSE — haut de page">
+          <span class="grid h-9 w-9 place-items-center rounded-[10px] border border-green/70">
+            <span class="h-2.5 w-2.5 rounded-full bg-green-soft" style="box-shadow:0 0 14px rgba(124,243,207,.9)"></span>
+          </span>
+          <span class="text-[17px]">LA&nbsp;BUSE</span>
+        </a>
+        <p class="mt-5 max-w-[320px] text-[15px] leading-relaxed text-muted">
+          Intelligence foncière pour promoteurs, à La Réunion. Le foncier dormant, révélé —
+          ce qui est là, sous vos pieds.
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <nav aria-label="Liens du site">
+        <h2 class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-muted">Le site</h2>
+        <ul class="mt-4 flex flex-col gap-3">
+          {
+            NAV.map((item) => (
+              <li>
+                <a href={item.href} class="text-[15px] text-[#c3cdc7] transition-colors hover:text-green">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Contact + légal -->
+      <div>
+        <h2 class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-muted">Contact</h2>
+        <ul class="mt-4 flex flex-col gap-3">
+          <li>
+            <a href={`mailto:${CONTACT_EMAIL}`} class="text-[15px] text-[#c3cdc7] transition-colors hover:text-green">
+              {CONTACT_EMAIL}
+            </a>
+          </li>
+          <li class="text-[15px] text-muted">La Réunion (974)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-4 border-t border-white/5 pt-6 text-[13px] text-muted md:flex-row md:items-center md:justify-between">
+      <p>© {year} LA BUSE · Fait à La Réunion.</p>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2">
+        {
+          legal.map((item) => (
+            <li>
+              {/* TODO: créer les pages légales et brancher les liens */}
+              <a href={item.href} class="transition-colors hover:text-green">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</footer>

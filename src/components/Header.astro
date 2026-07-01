@@ -1,0 +1,120 @@
+---
+import { NAV, DEMO_MAILTO } from '../consts';
+---
+
+<header
+  data-header
+  class="fixed inset-x-0 top-0 z-50 transition-colors duration-300 data-[scrolled]:border-b data-[scrolled]:border-white/5 data-[scrolled]:bg-bg/80 data-[scrolled]:backdrop-blur-md"
+>
+  <div
+    class="mx-auto flex h-[76px] max-w-content items-center justify-between px-5 transition-[height] duration-300 data-[scrolled]:h-[64px] sm:px-8"
+    data-header
+  >
+    <!-- Logo -->
+    <a href="#top" class="flex items-center gap-3 font-bold tracking-[.34em] text-ink" aria-label="LA BUSE — accueil">
+      <span class="grid h-10 w-10 place-items-center rounded-[11px] border border-green/70">
+        <span class="brand-dot h-[10px] w-[10px] rounded-full bg-green-soft"></span>
+      </span>
+      <span class="text-[18px] sm:text-[20px]">LA&nbsp;BUSE</span>
+    </a>
+
+    <!-- Nav desktop -->
+    <nav class="hidden items-center gap-8 lg:flex" aria-label="Navigation principale">
+      {
+        NAV.map((item) => (
+          <a
+            href={item.href}
+            class="text-[16px] font-medium text-muted transition-colors hover:text-ink"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href={DEMO_MAILTO}
+        class="rounded-xl border border-coast/30 px-5 py-2.5 text-[15px] font-medium text-ink transition-colors hover:border-green/60 hover:bg-green/5"
+      >
+        Demander une démo
+      </a>
+    </nav>
+
+    <!-- Bouton menu mobile -->
+    <button
+      type="button"
+      data-menu-btn
+      class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 text-ink lg:hidden"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="menu-mobile"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Panneau mobile -->
+  <div
+    id="menu-mobile"
+    data-menu-panel
+    hidden
+    class="border-t border-white/5 bg-bg/95 px-5 pb-6 pt-2 backdrop-blur-md lg:hidden"
+  >
+    <nav class="flex flex-col" aria-label="Navigation mobile">
+      {
+        NAV.map((item) => (
+          <a
+            href={item.href}
+            data-menu-link
+            class="border-b border-white/5 py-3.5 text-[17px] font-medium text-ink"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href={DEMO_MAILTO}
+        data-menu-link
+        class="mt-4 rounded-xl bg-green px-5 py-3.5 text-center text-[16px] font-semibold text-[#04140f]"
+      >
+        Demander une démo
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .brand-dot {
+    box-shadow: 0 0 16px rgba(124, 243, 207, 0.9);
+    animation: blink 2.4s infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-dot {
+      animation: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const btn = document.querySelector('[data-menu-btn]');
+    const panel = document.querySelector('[data-menu-panel]');
+    if (!btn || !panel) return;
+    const close = () => {
+      panel.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Ouvrir le menu');
+    };
+    const open = () => {
+      panel.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      btn.setAttribute('aria-label', 'Fermer le menu');
+    };
+    btn.addEventListener('click', () => {
+      panel.hidden ? open() : close();
+    });
+    panel.querySelectorAll('[data-menu-link]').forEach((link) => {
+      link.addEventListener('click', close);
+    });
+  })();
+</script>

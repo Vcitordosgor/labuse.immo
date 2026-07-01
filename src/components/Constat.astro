@@ -1,0 +1,53 @@
+---
+import Reveal from './Reveal.astro';
+
+const pains = [
+  'Une dizaine de portails à recouper à la main : Géoportail, cadastre, PLU, PPR, SAR…',
+  'Des règlements de zone en PDF, illisibles à l’échelle d’un territoire entier.',
+  'Du repérage terrain chronophage pour vérifier façades, accès et voisinage.',
+  'Des gisements dormants qui restent invisibles — et partent chez un concurrent.',
+];
+---
+
+<section class="border-y border-white/5">
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-16">
+      <Reveal>
+        <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
+          Le constat
+        </p>
+        <h2 class="mt-5 max-w-[620px] text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+          Prospecter le foncier ici, c’est recouper dix sources <span class="text-green">à la main.</span>
+        </h2>
+        <p class="mt-7 max-w-[560px] text-[17px] leading-relaxed text-[#aab5b0] sm:text-[19px]">
+          L’information existe — mais elle est éclatée entre des portails, des PDF de
+          règlement et des heures de terrain. Résultat : des semaines pour qualifier une
+          commune, des opportunités qui filent, et du foncier constructible qui reste
+          sous les radars.
+        </p>
+        <p class="mt-5 max-w-[560px] text-[17px] leading-relaxed text-[#aab5b0] sm:text-[19px]">
+          LA BUSE fait ce recoupement à votre place, et fait remonter ce qui est
+          <span class="font-medium text-ink"> réellement exploitable</span>. Le trésor
+          foncier est là, sous vos pieds : on vous donne la carte.
+        </p>
+      </Reveal>
+
+      <Reveal delay={120}>
+        <ul class="flex flex-col gap-3">
+          {
+            pains.map((pain) => (
+              <li class="flex items-start gap-4 rounded-2xl border border-white/5 bg-surface/60 px-5 py-4">
+                <span class="mt-0.5 grid h-6 w-6 flex-none place-items-center rounded-md bg-green/10 text-green-soft" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18M6 6l12 12" />
+                  </svg>
+                </span>
+                <span class="text-[16px] leading-snug text-[#cdd8d2]">{pain}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </Reveal>
+    </div>
+  </div>
+</section>

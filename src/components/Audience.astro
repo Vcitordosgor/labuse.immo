@@ -1,0 +1,62 @@
+---
+import Reveal from './Reveal.astro';
+
+const audiences = [
+  {
+    title: 'Promoteurs',
+    body: 'Sécurisez votre sourcing : un flux continu de parcelles constructibles qualifiées, avant qu’elles n’arrivent sur le marché.',
+    icon: 'building',
+  },
+  {
+    title: 'Lotisseurs',
+    body: 'Repérez les grandes unités foncières divisibles et les tènements regroupables, avec la faisabilité réglementaire déjà vérifiée.',
+    icon: 'grid',
+  },
+  {
+    title: 'Marchands de biens',
+    body: 'Détectez les biens à fort potentiel de valorisation et les situations à saisir vite, sur toute la commune.',
+    icon: 'tag',
+  },
+  {
+    title: 'Aménageurs',
+    body: 'Lisez le foncier à l’échelle d’un quartier ou d’une ZAC : contraintes, réseaux, aléas et mutabilité en un seul plan.',
+    icon: 'compass',
+  },
+];
+
+const icons: Record<string, string> = {
+  building: '<path d="M3 21h18"/><path d="M5 21V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v16"/><path d="M13 9h5a1 1 0 0 1 1 1v11"/><path d="M8 8h.01M8 12h.01M8 16h.01"/>',
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  tag: '<path d="M12.6 3H7a4 4 0 0 0-4 4v5.6a2 2 0 0 0 .6 1.4l7.4 7.4a2 2 0 0 0 2.8 0l5.6-5.6a2 2 0 0 0 0-2.8L14 3.6A2 2 0 0 0 12.6 3Z"/><circle cx="8.5" cy="8.5" r="1.2"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>',
+};
+---
+
+<section>
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
+    <Reveal class="max-w-[720px]">
+      <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
+        Pour qui
+      </p>
+      <h2 class="mt-5 text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+        Fait pour ceux qui <span class="text-green">construisent l’île.</span>
+      </h2>
+    </Reveal>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        audiences.map((a, i) => (
+          <Reveal delay={i * 80}>
+            <article class="h-full rounded-3xl border border-white/[.07] bg-surface p-6">
+              <span class="mb-5 grid h-12 w-12 place-items-center rounded-xl border border-green/30 bg-green/5 text-green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[a.icon]} />
+              </span>
+              <h3 class="text-[19px] font-semibold tracking-tight">{a.title}</h3>
+              <p class="mt-2.5 text-[15px] leading-relaxed text-[#a7b2ac]">{a.body}</p>
+            </article>
+          </Reveal>
+        ))
+      }
+    </div>
+  </div>
+</section>

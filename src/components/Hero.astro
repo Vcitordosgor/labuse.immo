@@ -1,0 +1,128 @@
+---
+import Radar from './Radar.astro';
+import { DEMO_MAILTO } from '../consts';
+---
+
+<section id="top" class="relative overflow-hidden pt-[76px]">
+  <div
+    class="mx-auto grid max-w-content items-center gap-10 px-5 pb-8 pt-8 sm:px-8 lg:grid-cols-[46%_54%] lg:gap-6 lg:pb-12 lg:pt-12"
+  >
+    <!-- Colonne texte -->
+    <div class="relative z-10">
+      <div
+        class="inline-flex items-center rounded-full border border-green/40 bg-green/5 px-4 py-2 font-mono text-[13px] font-semibold uppercase tracking-[.14em] text-green-soft sm:text-[15px]"
+      >
+        Radar foncier · La Réunion
+      </div>
+
+      <h1
+        class="mt-7 max-w-[660px] text-[38px] font-semibold leading-[1.05] tracking-tightest sm:text-[52px] lg:text-[64px]"
+      >
+        Repérez les parcelles mutables <span class="text-green">avant les autres.</span>
+      </h1>
+
+      <p class="mt-6 max-w-[560px] text-[17px] leading-relaxed text-[#aab5b0] sm:text-[21px]">
+        LA BUSE croise cadastre, PLU, risques, accès, marché et faisabilité pour faire
+        remonter les opportunités foncières réellement exploitables à La Réunion.
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-5">
+        <a
+          href={DEMO_MAILTO}
+          class="inline-flex h-[58px] items-center gap-3 rounded-2xl bg-green px-7 text-[17px] font-semibold text-[#04140f] shadow-glow transition-transform hover:-translate-y-0.5 sm:text-[19px]"
+        >
+          Demander une démo
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+        <a
+          href="#produit"
+          class="inline-flex items-center gap-2.5 text-[17px] font-medium text-ink transition-opacity hover:opacity-80 sm:text-[18px]"
+        >
+          Voir comment ça marche
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 5v14M6 13l6 6 6-6"></path>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <dl class="mt-12 flex flex-wrap gap-8 sm:gap-10">
+        <div class="flex items-center gap-4">
+          <span class="grid h-12 w-12 flex-none place-items-center rounded-full border border-green/45 text-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <circle cx="12" cy="12" r="5"></circle>
+              <circle cx="12" cy="12" r="1.4" fill="currentColor"></circle>
+            </svg>
+          </span>
+          <span>
+            <dd class="text-[24px] font-semibold leading-none sm:text-[26px]">3 000+</dd>
+            <dt class="mt-1 text-[15px] text-muted">parcelles analysées</dt>
+          </span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="grid h-12 w-12 flex-none place-items-center rounded-full border border-green/45 text-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3 3 8l9 5 9-5-9-5Z"></path>
+              <path d="M3 13l9 5 9-5"></path>
+            </svg>
+          </span>
+          <span>
+            <dd class="text-[24px] font-semibold leading-none sm:text-[26px]">22</dd>
+            <dt class="mt-1 text-[15px] text-muted">couches de données</dt>
+          </span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="grid h-12 w-12 flex-none place-items-center rounded-full border border-green/45 text-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z"></path>
+              <circle cx="12" cy="10" r="2.4"></circle>
+            </svg>
+          </span>
+          <span>
+            <dd class="text-[24px] font-semibold leading-none sm:text-[26px]">Saint-Paul</dd>
+            <dt class="mt-1 text-[15px] text-muted">en pilote</dt>
+          </span>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Colonne radar -->
+    <div class="relative">
+      <Radar>
+        <!-- Carte de détection flottante (exemple illustratif) -->
+        <div class="detect-card hidden sm:block">
+          <div class="mb-5 flex items-center gap-2.5 text-[15px] font-medium text-[#d3ded8]">
+            <i class="h-[9px] w-[9px] rounded-full bg-green-soft" style="box-shadow:0 0 10px rgba(124,243,207,.9)"></i>
+            Parcelle détectée · Saint-Paul
+          </div>
+          <div class="mb-1 text-[14px] text-muted">Score d'opportunité</div>
+          <div class="mb-5 text-[46px] font-bold leading-none text-green">
+            87<span class="text-[20px] font-semibold text-[#8b978f]">/100</span>
+          </div>
+          <div class="h-px bg-coast/10"></div>
+          <div class="flex items-center justify-between py-2.5 text-[15px]">
+            <span class="text-[#cdd8d2]">Façade sur voirie</span>
+            <span class="font-semibold text-green">18&nbsp;m</span>
+          </div>
+          <div class="flex items-center justify-between py-2.5 text-[15px]">
+            <span class="text-[#cdd8d2]">Hauteur prospect</span>
+            <span class="font-semibold">R+3</span>
+          </div>
+          <div class="flex items-center justify-between py-2.5 text-[15px]">
+            <span class="text-[#cdd8d2]">Vue mer</span>
+            <span class="font-semibold text-green">oui</span>
+          </div>
+          <div class="mt-2 flex items-center justify-center gap-2 border-t border-coast/10 pt-4 text-[15px] font-medium text-ink">
+            Ouvrir la fiche
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </div>
+        </div>
+      </Radar>
+    </div>
+  </div>
+</section>

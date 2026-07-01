@@ -1,0 +1,52 @@
+---
+// Élément signature : radar circulaire + faisceau + contour réel de La Réunion
+// (path issu du GeoJSON officiel dépt 974 — france-geojson, gregoiredavid),
+// points parcellaires clignotants + un point « détecté » en surbrillance.
+// Le <slot /> permet de superposer une carte de détection (voir Hero).
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['radar-wrap', className]}>
+  <div class="radar" role="img" aria-label="Radar foncier de La Réunion : les parcelles à potentiel sont détectées à la volée.">
+    <div class="ticks" aria-hidden="true"></div>
+    <div class="sweep" aria-hidden="true"></div>
+    <div class="island" aria-hidden="true">
+      <svg viewBox="0 0 500 440" xmlns="http://www.w3.org/2000/svg">
+        <path
+          class="coast"
+          d="M47.8 204.6 L30.6 190.6 L23.1 180.5 L23.8 166.4 L26.9 162.8 L25.5 163.6 L23.4 160.1 L20.0 151.2 L33.8 136.4 L42.1 137.9 L49.6 135.2 L64.4 123.9 L69.1 106.9 L65.1 89.7 L67.3 85.2 L68.1 76.4 L69.9 76.8 L68.8 82.6 L70.0 77.5 L71.7 79.0 L72.3 74.7 L73.9 75.0 L72.8 74.3 L74.2 73.3 L71.8 73.0 L73.0 71.7 L71.2 71.6 L71.6 75.5 L69.4 75.2 L69.6 68.9 L72.3 66.6 L85.0 70.6 L95.4 69.9 L96.2 72.1 L92.6 73.5 L100.2 75.2 L100.4 70.9 L98.8 70.6 L97.9 68.5 L99.5 70.1 L104.4 69.7 L114.8 65.4 L120.4 57.4 L126.3 54.8 L133.4 48.0 L152.3 35.5 L171.7 30.0 L186.0 31.6 L194.0 28.0 L207.7 37.2 L222.5 38.3 L232.4 35.8 L257.5 42.6 L256.5 43.6 L261.1 45.0 L267.8 45.5 L273.9 42.6 L284.9 44.2 L290.9 47.1 L298.8 45.9 L319.7 56.9 L325.9 56.8 L339.8 60.5 L353.4 68.6 L366.2 81.8 L376.3 97.8 L379.1 107.3 L380.7 136.5 L384.4 143.9 L392.2 147.1 L398.3 156.8 L402.6 160.2 L401.9 167.7 L407.4 176.2 L420.0 189.2 L425.1 197.8 L431.6 202.5 L438.0 213.6 L442.4 216.4 L446.6 215.4 L452.9 217.6 L460.1 225.0 L472.0 229.7 L473.6 236.3 L478.8 242.2 L477.4 250.3 L480.0 259.2 L476.5 261.5 L472.0 261.2 L471.2 273.9 L463.3 282.1 L459.1 292.0 L458.8 300.3 L454.0 315.8 L455.6 330.0 L459.0 336.3 L455.7 353.0 L457.4 365.2 L459.7 368.6 L458.2 373.0 L450.5 383.3 L434.5 394.4 L420.5 392.5 L416.1 396.0 L398.7 397.6 L385.1 402.6 L364.9 401.2 L357.0 407.9 L348.3 407.2 L339.1 412.0 L335.5 408.4 L329.2 407.0 L311.3 410.4 L303.0 404.1 L296.7 402.3 L294.5 398.9 L283.6 402.1 L271.4 398.6 L268.1 401.0 L266.9 398.1 L258.8 393.2 L247.7 391.1 L231.0 383.3 L221.4 383.0 L218.4 384.6 L214.4 378.1 L207.9 378.8 L200.2 376.3 L196.2 371.5 L196.7 369.2 L192.3 366.8 L178.3 365.3 L170.6 361.7 L164.6 356.5 L160.7 349.7 L149.1 339.9 L131.5 334.3 L112.1 332.1 L108.0 329.2 L105.7 325.7 L107.5 323.5 L104.5 315.1 L96.7 310.6 L97.5 308.0 L89.8 301.3 L76.6 293.6 L70.8 276.9 L67.4 273.4 L72.4 258.9 L72.1 242.5 L67.9 236.9 L61.5 234.7 L59.7 229.7 L60.3 220.9 L47.1 207.7 L47.8 204.6 Z"
+        ></path>
+        <circle class="phot-ring" cx="108.2" cy="250.0" r="26"></circle>
+        <circle class="phot-ring" cx="108.2" cy="250.0" r="16" style="animation-delay:.7s"></circle>
+        <circle class="phot" cx="108.2" cy="250.0" r="7"></circle>
+        <circle class="pdot" cx="250" cy="215" r="4.4" style="animation-delay:1.93s"></circle>
+        <circle class="pdot" cx="171.8" cy="91.5" r="4.9" style="animation-delay:1.92s"></circle>
+        <circle class="pdot" cx="265.9" cy="170.6" r="3.4" style="animation-delay:1.21s"></circle>
+        <circle class="pdot" cx="216.5" cy="340.3" r="4.4" style="animation-delay:2.34s"></circle>
+        <circle class="pring" cx="216.5" cy="340.3" r="10.9" style="animation-delay:2.34s"></circle>
+        <circle class="pdot" cx="83.0" cy="118.2" r="4.2" style="animation-delay:0.64s"></circle>
+        <circle class="pdot" cx="306.6" cy="384.8" r="4.3" style="animation-delay:0.03s"></circle>
+        <circle class="pring" cx="306.6" cy="384.8" r="10.8" style="animation-delay:0.03s"></circle>
+        <circle class="pdot" cx="165.0" cy="336.3" r="3.8" style="animation-delay:2.38s"></circle>
+        <circle class="pdot" cx="311.7" cy="173.0" r="3.7" style="animation-delay:2.07s"></circle>
+        <circle class="pring" cx="311.7" cy="173.0" r="10.2" style="animation-delay:2.07s"></circle>
+        <circle class="pdot" cx="271.2" cy="59.1" r="4.4" style="animation-delay:0.33s"></circle>
+        <circle class="pring" cx="271.2" cy="59.1" r="10.9" style="animation-delay:0.33s"></circle>
+        <circle class="pdot" cx="330.1" cy="193.4" r="4.8" style="animation-delay:0.54s"></circle>
+        <circle class="pring" cx="330.1" cy="193.4" r="11.3" style="animation-delay:0.54s"></circle>
+        <circle class="pdot" cx="167.5" cy="251.5" r="5.0" style="animation-delay:2.27s"></circle>
+        <circle class="pring" cx="167.5" cy="251.5" r="11.5" style="animation-delay:2.27s"></circle>
+        <circle class="pdot" cx="229.2" cy="146.3" r="4.9" style="animation-delay:1.4s"></circle>
+        <circle class="pdot" cx="380.7" cy="293.2" r="3.7" style="animation-delay:2.45s"></circle>
+        <circle class="pdot" cx="136.4" cy="247.4" r="4.9" style="animation-delay:2.32s"></circle>
+        <circle class="pring" cx="136.4" cy="247.4" r="11.4" style="animation-delay:2.32s"></circle>
+        <circle class="pdot" cx="261.2" cy="358.1" r="4.0" style="animation-delay:0.43s"></circle>
+        <circle class="pring" cx="261.2" cy="358.1" r="10.5" style="animation-delay:0.43s"></circle>
+      </svg>
+    </div>
+  </div>
+  <slot />
+</div>

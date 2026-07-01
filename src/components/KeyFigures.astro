@@ -1,0 +1,36 @@
+---
+import Reveal from './Reveal.astro';
+
+const figures = [
+  { value: '3 000+', label: 'parcelles analysées' },
+  { value: '24', label: 'communes visées' },
+  { value: '22', label: 'couches croisées' },
+  { value: 'Saint-Paul', label: 'commune pilote' },
+];
+---
+
+<section id="reunion" class="border-y border-white/5 bg-surface/30">
+  <div class="mx-auto max-w-content px-5 py-16 sm:px-8 sm:py-20">
+    <Reveal class="max-w-[720px]">
+      <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
+        Chiffres clés · La Réunion
+      </p>
+      <h2 class="mt-5 text-[26px] font-semibold leading-[1.12] tracking-tightest sm:text-[36px]">
+        Le territoire, <span class="text-green">déjà cartographié.</span>
+      </h2>
+    </Reveal>
+
+    <dl class="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+      {
+        figures.map((fig, i) => (
+          <Reveal as="div" delay={i * 90} class="border-l border-green/25 pl-5">
+            <dd class="text-[38px] font-bold leading-none tracking-tight text-green sm:text-[52px]">
+              {fig.value}
+            </dd>
+            <dt class="mt-3 text-[15px] text-muted sm:text-[16px]">{fig.label}</dt>
+          </Reveal>
+        ))
+      }
+    </dl>
+  </div>
+</section>

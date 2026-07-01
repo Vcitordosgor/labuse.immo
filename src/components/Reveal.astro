@@ -1,0 +1,18 @@
+---
+// Wrapper d'apparition douce au scroll. Le JS (BaseLayout) ajoute .is-visible
+// quand l'élément entre dans le viewport. Figé si prefers-reduced-motion.
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+  delay?: number; // ms
+}
+const { as = 'div', class: className = '', delay = 0 } = Astro.props;
+const Tag = as as any;
+---
+
+<Tag
+  class:list={['reveal', className]}
+  style={delay ? `transition-delay:${delay}ms` : undefined}
+>
+  <slot />
+</Tag>
