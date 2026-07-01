@@ -33,21 +33,19 @@ const icons: Record<string, string> = {
 ---
 
 <section>
-  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-24">
     <Reveal class="max-w-[720px]">
-      <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
-        Pour qui
-      </p>
-      <h2 class="mt-5 text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+      <p class="eyebrow">Pour qui</p>
+      <h2 class="mt-6 text-[30px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
         Fait pour ceux qui <span class="text-green">construisent l’île.</span>
       </h2>
     </Reveal>
 
-    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {
         audiences.map((a, i) => (
           <Reveal delay={i * 80}>
-            <article class="h-full rounded-3xl border border-white/[.07] bg-surface p-6">
+            <article class="card card-interactive h-full p-6">
               <span class="mb-5 grid h-12 w-12 place-items-center rounded-xl border border-green/30 bg-green/5 text-green">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[a.icon]} />
               </span>

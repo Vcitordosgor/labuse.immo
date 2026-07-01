@@ -9,14 +9,12 @@ const pains = [
 ];
 ---
 
-<section class="border-y border-white/5">
-  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
-    <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-16">
+<section class="border-t border-white/5">
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-24">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-center lg:gap-20">
       <Reveal>
-        <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
-          Le constat
-        </p>
-        <h2 class="mt-5 max-w-[620px] text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+        <p class="eyebrow">Le constat</p>
+        <h2 class="mt-6 max-w-[620px] text-[30px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
           Prospecter le foncier ici, c’est recouper dix sources <span class="text-green">à la main.</span>
         </h2>
         <p class="mt-7 max-w-[560px] text-[17px] leading-relaxed text-[#aab5b0] sm:text-[19px]">
@@ -36,13 +34,9 @@ const pains = [
         <ul class="flex flex-col gap-3">
           {
             pains.map((pain) => (
-              <li class="flex items-start gap-4 rounded-2xl border border-white/5 bg-surface/60 px-5 py-4">
-                <span class="mt-0.5 grid h-6 w-6 flex-none place-items-center rounded-md bg-green/10 text-green-soft" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 6 6 18M6 6l12 12" />
-                  </svg>
-                </span>
-                <span class="text-[16px] leading-snug text-[#cdd8d2]">{pain}</span>
+              <li class="card flex items-start gap-4 px-5 py-4">
+                <span class="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-green shadow-[0_0_10px_rgba(47,224,160,.7)]" aria-hidden="true" />
+                <span class="text-[15.5px] leading-snug text-[#c3ceca]">{pain}</span>
               </li>
             ))
           }

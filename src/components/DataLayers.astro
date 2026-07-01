@@ -29,13 +29,11 @@ const layers = [
 ---
 
 <section id="donnees">
-  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
-    <div class="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16">
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-24">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-16">
       <Reveal>
-        <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
-          Les données
-        </p>
-        <h2 class="mt-5 max-w-[520px] text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+        <p class="eyebrow">Les données</p>
+        <h2 class="mt-6 max-w-[520px] text-[30px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
           22 couches croisées, <span class="text-green">une seule lecture.</span>
         </h2>
         <p class="mt-7 max-w-[480px] text-[17px] leading-relaxed text-[#aab5b0] sm:text-[19px]">
@@ -51,10 +49,10 @@ const layers = [
       </Reveal>
 
       <Reveal delay={120}>
-        <ul class="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+        <ul class="flex flex-wrap gap-2.5">
           {
             layers.map((layer) => (
-              <li class="flex items-center gap-2.5 rounded-xl border border-white/[.06] bg-surface/70 px-3.5 py-3 text-[14px] text-[#cdd8d2]">
+              <li class="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/[.07] bg-surface/70 px-4 py-2.5 text-[13.5px] text-[#c3ceca] transition-colors hover:border-green/35 hover:text-ink">
                 <span class="h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true" />
                 {layer}
               </li>

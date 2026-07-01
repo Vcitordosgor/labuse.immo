@@ -48,43 +48,18 @@ import { DEMO_MAILTO } from '../consts';
       </div>
 
       <!-- Stats -->
-      <dl class="mt-12 flex flex-wrap gap-8 sm:gap-10">
-        <div class="flex items-center gap-4">
-          <span class="grid h-12 w-12 flex-none place-items-center rounded-full border border-green/45 text-green">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              <circle cx="12" cy="12" r="9"></circle>
-              <circle cx="12" cy="12" r="5"></circle>
-              <circle cx="12" cy="12" r="1.4" fill="currentColor"></circle>
-            </svg>
-          </span>
-          <span>
-            <dd class="text-[24px] font-semibold leading-none sm:text-[26px]">3 000+</dd>
-            <dt class="mt-1 text-[15px] text-muted">parcelles analysées</dt>
-          </span>
+      <dl class="mt-12 grid grid-cols-1 gap-6 border-t border-white/[.07] pt-8 min-[420px]:grid-cols-3 min-[420px]:gap-4">
+        <div>
+          <dd class="whitespace-nowrap text-[clamp(22px,2.2vw,30px)] font-semibold leading-none tracking-tight text-green">3 000+</dd>
+          <dt class="mt-2 text-[14px] leading-tight text-muted">parcelles analysées</dt>
         </div>
-        <div class="flex items-center gap-4">
-          <span class="grid h-12 w-12 flex-none place-items-center rounded-full border border-green/45 text-green">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 3 3 8l9 5 9-5-9-5Z"></path>
-              <path d="M3 13l9 5 9-5"></path>
-            </svg>
-          </span>
-          <span>
-            <dd class="text-[24px] font-semibold leading-none sm:text-[26px]">22</dd>
-            <dt class="mt-1 text-[15px] text-muted">couches de données</dt>
-          </span>
+        <div class="min-[420px]:border-l min-[420px]:border-white/[.07] min-[420px]:pl-4">
+          <dd class="whitespace-nowrap text-[clamp(22px,2.2vw,30px)] font-semibold leading-none tracking-tight text-green">22</dd>
+          <dt class="mt-2 text-[14px] leading-tight text-muted">couches de données</dt>
         </div>
-        <div class="flex items-center gap-4">
-          <span class="grid h-12 w-12 flex-none place-items-center rounded-full border border-green/45 text-green">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z"></path>
-              <circle cx="12" cy="10" r="2.4"></circle>
-            </svg>
-          </span>
-          <span>
-            <dd class="text-[24px] font-semibold leading-none sm:text-[26px]">Saint-Paul</dd>
-            <dt class="mt-1 text-[15px] text-muted">en pilote</dt>
-          </span>
+        <div class="min-[420px]:border-l min-[420px]:border-white/[.07] min-[420px]:pl-4">
+          <dd class="whitespace-nowrap text-[clamp(22px,2.2vw,30px)] font-semibold leading-none tracking-tight text-green">Saint-Paul</dd>
+          <dt class="mt-2 text-[14px] leading-tight text-muted">commune pilote</dt>
         </div>
       </dl>
     </div>
@@ -94,32 +69,30 @@ import { DEMO_MAILTO } from '../consts';
       <Radar>
         <!-- Carte de détection flottante (exemple illustratif) -->
         <div class="detect-card hidden sm:block">
-          <div class="mb-5 flex items-center gap-2.5 text-[15px] font-medium text-[#d3ded8]">
-            <i class="h-[9px] w-[9px] rounded-full bg-green-soft" style="box-shadow:0 0 10px rgba(124,243,207,.9)"></i>
-            Parcelle détectée · Saint-Paul
+          <div class="mb-3.5 flex items-center gap-2 text-[13px] font-medium text-[#d3ded8]">
+            <i class="h-2 w-2 flex-none rounded-full bg-green-soft" style="box-shadow:0 0 10px rgba(124,243,207,.9)"></i>
+            Parcelle · Saint-Paul
           </div>
-          <div class="mb-1 text-[14px] text-muted">Score d'opportunité</div>
-          <div class="mb-5 text-[46px] font-bold leading-none text-green">
-            87<span class="text-[20px] font-semibold text-[#8b978f]">/100</span>
+          <div class="flex items-end justify-between">
+            <div>
+              <div class="text-[11px] uppercase tracking-wide text-muted">Score</div>
+              <div class="text-[34px] font-bold leading-none text-green">
+                87<span class="text-[15px] font-semibold text-[#8b978f]">/100</span>
+              </div>
+            </div>
           </div>
-          <div class="h-px bg-coast/10"></div>
-          <div class="flex items-center justify-between py-2.5 text-[15px]">
-            <span class="text-[#cdd8d2]">Façade sur voirie</span>
+          <div class="my-3.5 h-px bg-coast/10"></div>
+          <div class="flex items-center justify-between py-[5px] text-[13px]">
+            <span class="text-[#b6c2bc]">Façade voirie</span>
             <span class="font-semibold text-green">18&nbsp;m</span>
           </div>
-          <div class="flex items-center justify-between py-2.5 text-[15px]">
-            <span class="text-[#cdd8d2]">Hauteur prospect</span>
+          <div class="flex items-center justify-between py-[5px] text-[13px]">
+            <span class="text-[#b6c2bc]">Hauteur prospect</span>
             <span class="font-semibold">R+3</span>
           </div>
-          <div class="flex items-center justify-between py-2.5 text-[15px]">
-            <span class="text-[#cdd8d2]">Vue mer</span>
+          <div class="flex items-center justify-between py-[5px] text-[13px]">
+            <span class="text-[#b6c2bc]">Vue mer</span>
             <span class="font-semibold text-green">oui</span>
-          </div>
-          <div class="mt-2 flex items-center justify-center gap-2 border-t border-coast/10 pt-4 text-[15px] font-medium text-ink">
-            Ouvrir la fiche
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6"></path>
-            </svg>
           </div>
         </div>
       </Radar>

@@ -34,12 +34,10 @@ const icons: Record<string, string> = {
 ---
 
 <section id="produit">
-  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-28">
+  <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-24">
     <Reveal class="max-w-[720px]">
-      <p class="font-mono text-[13px] font-semibold uppercase tracking-[.16em] text-green-soft">
-        Le produit
-      </p>
-      <h2 class="mt-5 text-[30px] font-semibold leading-[1.1] tracking-tightest sm:text-[42px]">
+      <p class="eyebrow">Le produit</p>
+      <h2 class="mt-6 text-[30px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
         Ce que fait <span class="text-green">LA BUSE.</span>
       </h2>
       <p class="mt-6 text-[17px] leading-relaxed text-[#aab5b0] sm:text-[19px]">
@@ -48,16 +46,16 @@ const icons: Record<string, string> = {
       </p>
     </Reveal>
 
-    <div class="mt-12 grid gap-5 sm:grid-cols-2">
+    <div class="mt-14 grid gap-4 sm:grid-cols-2">
       {
         features.map((f, i) => (
           <Reveal delay={i * 90}>
-            <article class="group h-full rounded-3xl border border-white/[.07] bg-surface p-7 transition-colors duration-300 hover:border-green/40">
+            <article class="card card-interactive group h-full p-7">
               <span class="mb-6 grid h-14 w-14 place-items-center rounded-2xl border border-green/30 bg-green/5 text-green transition-colors group-hover:bg-green/10">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[f.icon]} />
               </span>
               <h3 class="text-[21px] font-semibold tracking-tight">{f.title}</h3>
-              <p class="mt-3 text-[16px] leading-relaxed text-[#a7b2ac]">{f.body}</p>
+              <p class="mt-3 text-[15.5px] leading-relaxed text-[#a7b2ac]">{f.body}</p>
             </article>
           </Reveal>
         ))
