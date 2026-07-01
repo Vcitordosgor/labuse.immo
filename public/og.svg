@@ -34,9 +34,10 @@
   <text x="90" y="440" font-family="Inter, sans-serif" font-size="27" fill="#aab5b0">Intelligence foncière pour promoteurs · La Réunion</text>
 
   <!-- Wordmark -->
-  <g transform="translate(90 520)">
-    <rect x="0" y="0" width="40" height="40" rx="10" fill="none" stroke="#2fe0a0" stroke-opacity="0.7" stroke-width="2"/>
-    <circle cx="20" cy="20" r="5" fill="#8ff0cf"/>
-    <text x="58" y="30" font-family="Inter, sans-serif" font-size="26" font-weight="700" letter-spacing="8" fill="#f3f6f4">LA BUSE</text>
+  <g transform="translate(90 512)">
+    <g transform="scale(0.19)">
+      <path d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z" fill="#2fe0a0"/>
+    </g>
+    <text x="60" y="26" font-family="Inter, sans-serif" font-size="26" font-weight="700" letter-spacing="8" fill="#f3f6f4">LA BUSE</text>
   </g>
 </svg>

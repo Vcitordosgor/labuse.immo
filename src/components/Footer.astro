@@ -1,5 +1,6 @@
 ---
 import { NAV, CONTACT_EMAIL } from '../consts';
+import Logo from './Logo.astro';
 
 const year = new Date().getFullYear();
 
@@ -17,9 +18,7 @@ const legal = [
       <!-- Marque -->
       <div>
         <a href="#top" class="flex items-center gap-3 font-bold tracking-[.34em] text-ink" aria-label="LA BUSE — haut de page">
-          <span class="grid h-9 w-9 place-items-center rounded-[10px] border border-green/70">
-            <span class="h-2.5 w-2.5 rounded-full bg-green-soft" style="box-shadow:0 0 14px rgba(124,243,207,.9)"></span>
-          </span>
+          <Logo class="h-[14px] w-auto text-green" />
           <span class="text-[17px]">LA&nbsp;BUSE</span>
         </a>
         <p class="mt-5 max-w-[320px] text-[15px] leading-relaxed text-muted">
