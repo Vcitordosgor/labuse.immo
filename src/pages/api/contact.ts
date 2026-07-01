@@ -1,12 +1,13 @@
 import type { APIRoute } from 'astro';
 import { createNotionLead, type Marque } from '../../lib/notionLead';
+import { sendEmail, type EmailBinding } from '../../lib/sendEmail';
 
 export const prerender = false;
 
 // ===== À PERSONNALISER PAR SITE =====
 const MARQUE: Marque = 'LABUSE'; // 'LABUSE' | 'TANIA' | '9site4'
 const NOTIFY_EMAIL = 'labuse@gmail.com'; // où tu reçois les leads
-const SENDER_EMAIL = 'contact@labuse.re'; // sender vérifié dans Email Routing
+const SENDER_EMAIL = 'contact@labuse.immo'; // sender vérifié dans Email Routing (labuse.immo)
 const SITE_NAME = 'LABUSE';
 // ====================================
 
@@ -48,8 +49,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
   if (!email || !EMAIL_REGEX.test(email)) errors.push('email');
   if (errors.length) return json({ ok: false, error: 'validation', fields: errors }, 400);
   const env = (locals as { runtime?: { env?: Record<string, unknown> } }).runtime?.env;
-  const seb = env?.SEB as Seb | undefined;
-  if (!seb) return json({ ok: false, error: 'binding_missing' }, 500);
+  const sebBinding = env?.SEB as EmailBinding | undefined;
+  if (!sebBinding) return json({ ok: false, error: 'binding_missing' }, 500);
+  // Enveloppe le binding natif Email Routing : construit le MIME sous le capot,
+  // pour que les appels seb.send({ from, to, subject, text, html, replyTo }) restent inchangés.
+  const seb: Seb = { send: (msg) => sendEmail(sebBinding, msg) };
   const lines = [
     `Nom : ${nom}`,
     entreprise ? `Entreprise : ${entreprise}` : '',

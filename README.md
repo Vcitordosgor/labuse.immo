@@ -40,8 +40,9 @@ l'endpoint `src/pages/api/contact.ts`. Celui-ci :
   `SEB` (Production **et** Preview). Déclaré aussi dans `wrangler.jsonc` (`send_email`).
 - **Pages → Settings → Environment variables** : `NOTION_TOKEN = secret_xxx`
   (Production + Preview). **Jamais** dans `wrangler.jsonc`.
-- Activer **Email Routing** sur le domaine, vérifier le sender (`contact@labuse.re`) et
-  ajouter **SPF + DKIM + DMARC** (sinon les mails partent en spam).
+- Activer **Email Routing** sur le domaine **`labuse.immo`**, vérifier le sender
+  (`contact@labuse.immo`) et ajouter **SPF + DKIM + DMARC** sur `labuse.immo`
+  (sinon les mails partent en spam).
 
 > En **dev local**, les bindings n'existent pas → l'API répond `binding_missing` (500).
 > C'est normal : le flux email/Notion ne fonctionne que sur Cloudflare (Preview/Prod).
