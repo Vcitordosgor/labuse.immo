@@ -3,24 +3,24 @@ import Reveal from './Reveal.astro';
 
 const features = [
   {
-    title: 'Détection des parcelles',
-    body: 'On isole les parcelles à potentiel : façades sur rue, largeurs de voirie, unités foncières regroupables, exclusions cadastrales. Le repérage manuel devient automatique.',
+    title: 'Détection multicritère',
+    body: 'Filtres croisés : façade, voirie, unité foncière, division possible, dents creuses, zonage… Les parcelles à potentiel remontent seules, à l’échelle d’une commune entière.',
     icon: 'scan',
   },
   {
-    title: 'Scoring d’opportunité',
-    body: 'Chaque parcelle reçoit un score : constructibilité, hauteur prospect, vue mer, contraintes. Vous voyez d’un coup d’œil où concentrer vos efforts.',
+    title: 'Faisabilité pré-calculée',
+    body: 'Constructibilité, gabarit, hauteur, nombre de logements, contraintes et ordre de prix : chaque parcelle est déjà évaluée. Vous arbitrez, vous ne calculez plus.',
     icon: 'gauge',
   },
   {
-    title: 'PLU · PPR croisés',
-    body: 'Règlement de zone, coefficients d’emprise, hauteurs, aléas naturels : les règles sont calibrées commune par commune, pas approximées.',
+    title: 'PLU · PPR · SAR à jour',
+    body: 'Règlement de zone, coefficients, hauteurs, aléas, servitudes : des règles intégrées et calibrées commune par commune, sur les 24 communes de l’île.',
     icon: 'layers',
   },
   {
-    title: 'Pipeline / CRM',
-    body: 'Du repérage à la prise de contact propriétaire : qualifiez, relancez, suivez. Le foncier devient un pipeline, plus un tableur qui traîne.',
-    icon: 'route',
+    title: 'Propriétaires & pilotage',
+    body: 'Qui possède la parcelle, comment le joindre, où en est la piste : de la détection au contact, tout se suit comme un CRM — plus jamais dans un tableur.',
+    icon: 'contact',
   },
 ];
 
@@ -30,6 +30,8 @@ const icons: Record<string, string> = {
   gauge: '<path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M13.4 10.6 19 5"/><path d="M6.34 17A8 8 0 1 1 17.66 17"/>',
   layers: '<path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/>',
   route: '<circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h6a3 3 0 0 0 3-3V8"/>',
+  contact:
+    '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
 };
 ---
 

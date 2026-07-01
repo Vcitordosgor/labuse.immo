@@ -4,31 +4,31 @@ import Reveal from './Reveal.astro';
 const audiences = [
   {
     title: 'Promoteurs',
-    body: 'Sécurisez votre sourcing : un flux continu de parcelles constructibles qualifiées, avant qu’elles n’arrivent sur le marché.',
+    body: 'Sécurisez votre sourcing : un flux continu de parcelles constructibles qualifiées, avec leur faisabilité et leur propriétaire — avant qu’elles n’arrivent sur le marché.',
     icon: 'building',
   },
   {
-    title: 'Lotisseurs',
-    body: 'Repérez les grandes unités foncières divisibles et les tènements regroupables, avec la faisabilité réglementaire déjà vérifiée.',
-    icon: 'grid',
+    title: 'Bailleurs sociaux',
+    body: 'Identifiez le foncier mobilisable pour du logement social : zones, densités, servitudes et propriétaires, sur les 24 communes, dans un seul outil.',
+    icon: 'community',
   },
   {
     title: 'Marchands de biens',
-    body: 'Détectez les biens à fort potentiel de valorisation et les situations à saisir vite, sur toute la commune.',
+    body: 'Repérez vite les biens à fort potentiel de valorisation, les divisions possibles et les situations à saisir — estimation et contact propriétaire compris.',
     icon: 'tag',
   },
   {
-    title: 'Aménageurs',
-    body: 'Lisez le foncier à l’échelle d’un quartier ou d’une ZAC : contraintes, réseaux, aléas et mutabilité en un seul plan.',
-    icon: 'compass',
+    title: 'Investisseurs & foncières',
+    body: 'Bâtissez votre stratégie d’acquisition sur des données solides : potentiel, contraintes et prix à l’échelle de toute La Réunion.',
+    icon: 'chart',
   },
 ];
 
 const icons: Record<string, string> = {
   building: '<path d="M3 21h18"/><path d="M5 21V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v16"/><path d="M13 9h5a1 1 0 0 1 1 1v11"/><path d="M8 8h.01M8 12h.01M8 16h.01"/>',
-  grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  community: '<path d="M3 21h18"/><path d="M5 21V8l5-4 5 4v13"/><path d="M15 21V11l4 2.5V21"/><path d="M8.5 10h.01M11.5 10h.01M8.5 13.5h.01M11.5 13.5h.01M8.5 17h.01M11.5 17h.01"/>',
   tag: '<path d="M12.6 3H7a4 4 0 0 0-4 4v5.6a2 2 0 0 0 .6 1.4l7.4 7.4a2 2 0 0 0 2.8 0l5.6-5.6a2 2 0 0 0 0-2.8L14 3.6A2 2 0 0 0 12.6 3Z"/><circle cx="8.5" cy="8.5" r="1.2"/>',
-  compass: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>',
+  chart: '<path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/>',
 };
 ---
 
