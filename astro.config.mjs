@@ -10,8 +10,12 @@ export default defineConfig({
   site: 'https://labuse.immo',
   output: 'hybrid',
   adapter: cloudflare({
-    // Expose les bindings Cloudflare (SEB, NOTION_TOKEN…) en dev local via wrangler.
-    platformProxy: { enabled: true },
+    // Proxy des bindings Cloudflare en dev local : DÉSACTIVÉ.
+    // Il lance workerd, qui exige macOS 13.5+ / glibc 2.35+ et plante ailleurs.
+    // Les bindings (SEB, NOTION_TOKEN) n'existent que déployés sur Cloudflare ;
+    // en dev, /api/contact répond simplement `binding_missing` (comportement documenté).
+    // Pour le réactiver ponctuellement : CF_PROXY=1 npm run dev
+    platformProxy: { enabled: process.env.CF_PROXY === '1' },
   }),
   integrations: [
     tailwind({ applyBaseStyles: false }),
