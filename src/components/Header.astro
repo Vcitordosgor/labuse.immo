@@ -12,7 +12,7 @@ import Logo from './Logo.astro';
     data-header
   >
     <!-- Logo -->
-    <a href="#top" class="flex items-center gap-3 font-bold tracking-[.34em] text-ink" aria-label="LA BUSE — accueil">
+    <a href="/" class="flex items-center gap-3 font-bold tracking-[.34em] text-ink" aria-label="LA BUSE — accueil">
       <Logo class="h-[15px] w-auto text-green drop-shadow-[0_0_10px_rgba(47,224,160,0.35)]" />
       <span class="text-[18px] sm:text-[20px]">LA&nbsp;BUSE</span>
     </a>
@@ -102,6 +102,16 @@ import Logo from './Logo.astro';
     });
     panel.querySelectorAll('[data-menu-link]').forEach((link) => {
       link.addEventListener('click', close);
+    });
+    // Fermeture clavier (Échap, focus rendu au bouton) et clic hors panneau
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) {
+        close();
+        btn.focus();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) close();
     });
   })();
 </script>

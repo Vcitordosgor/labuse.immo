@@ -38,7 +38,7 @@ import { CONTACT_ANCHOR } from '../consts';
           </svg>
         </a>
         <a
-          href="#produit"
+          href="#methode"
           class="inline-flex items-center gap-2.5 text-[17px] font-medium text-ink transition-opacity hover:opacity-80 sm:text-[18px]"
         >
           Voir comment ça marche
@@ -49,18 +49,19 @@ import { CONTACT_ANCHOR } from '../consts';
       </div>
 
       <!-- Stats -->
+      <!-- Ordre DOM valide dt→dd ; la valeur s'affiche en premier via `order` -->
       <dl class="mt-12 grid grid-cols-1 gap-6 border-t border-white/[.07] pt-8 min-[420px]:grid-cols-3 min-[420px]:gap-4">
-        <div>
-          <dd class="whitespace-nowrap text-[clamp(24px,2.4vw,32px)] font-semibold leading-none tracking-tight text-green">24</dd>
-          <dt class="mt-2 text-[14px] leading-tight text-muted">communes couvertes</dt>
+        <div class="flex flex-col">
+          <dt class="order-2 mt-2 text-[14px] leading-tight text-muted">communes couvertes</dt>
+          <dd class="order-1 whitespace-nowrap text-[clamp(24px,2.4vw,32px)] font-semibold leading-none tracking-tight text-green">24</dd>
         </div>
-        <div class="min-[420px]:border-l min-[420px]:border-white/[.07] min-[420px]:pl-4">
-          <dd class="whitespace-nowrap text-[clamp(24px,2.4vw,32px)] font-semibold leading-none tracking-tight text-green">22</dd>
-          <dt class="mt-2 text-[14px] leading-tight text-muted">couches croisées</dt>
+        <div class="flex flex-col min-[420px]:border-l min-[420px]:border-white/[.07] min-[420px]:pl-4">
+          <dt class="order-2 mt-2 text-[14px] leading-tight text-muted">couches croisées</dt>
+          <dd class="order-1 whitespace-nowrap text-[clamp(24px,2.4vw,32px)] font-semibold leading-none tracking-tight text-green">22</dd>
         </div>
-        <div class="min-[420px]:border-l min-[420px]:border-white/[.07] min-[420px]:pl-4">
-          <dd class="whitespace-nowrap text-[clamp(24px,2.4vw,32px)] font-semibold leading-none tracking-tight text-green">100 %</dd>
-          <dt class="mt-2 text-[14px] leading-tight text-muted">du foncier passé au crible</dt>
+        <div class="flex flex-col min-[420px]:border-l min-[420px]:border-white/[.07] min-[420px]:pl-4">
+          <dt class="order-2 mt-2 text-[14px] leading-tight text-muted">du foncier passé au crible</dt>
+          <dd class="order-1 whitespace-nowrap text-[clamp(24px,2.4vw,32px)] font-semibold leading-none tracking-tight text-green">100 %</dd>
         </div>
       </dl>
     </div>
@@ -68,8 +69,8 @@ import { CONTACT_ANCHOR } from '../consts';
     <!-- Colonne radar -->
     <div class="relative">
       <Radar>
-        <!-- Carte de détection flottante (exemple illustratif) -->
-        <div class="detect-card hidden sm:block">
+        <!-- Carte de détection flottante (exemple illustratif, décoratif pour les lecteurs d'écran) -->
+        <div class="detect-card hidden sm:block" aria-hidden="true">
           <div class="mb-3.5 flex items-center gap-2 text-[13px] font-medium text-[#d3ded8]">
             <i class="h-2 w-2 flex-none rounded-full bg-green-soft" style="box-shadow:0 0 10px rgba(124,243,207,.9)"></i>
             Parcelle · Saint-Paul

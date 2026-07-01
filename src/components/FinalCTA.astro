@@ -1,9 +1,9 @@
 ---
 import Reveal from './Reveal.astro';
-import { CONTACT_ANCHOR, CALENDLY_URL } from '../consts';
+import { CONTACT_ANCHOR } from '../consts';
 ---
 
-<section class="scroll-mt-24">
+<section id="tarifs" class="scroll-mt-24">
   <div class="mx-auto max-w-content px-5 py-20 sm:px-8 sm:py-24">
     <Reveal>
       <div
@@ -21,16 +21,17 @@ import { CONTACT_ANCHOR, CALENDLY_URL } from '../consts';
           <div
             class="inline-flex items-center rounded-full border border-green/40 bg-green/5 px-4 py-2 font-mono text-[13px] font-semibold uppercase tracking-[.14em] text-green-soft"
           >
-            Tarifs sur demande
+            Tarifs · sur devis
           </div>
           <h2
             class="mx-auto mt-7 max-w-[720px] text-[32px] font-semibold leading-[1.08] tracking-tightest sm:text-[46px]"
           >
             Arrêtez de prospecter <span class="text-green">à l’aveugle.</span>
           </h2>
-          <p class="mx-auto mt-6 max-w-[560px] text-[17px] leading-relaxed text-[#aab5b0] sm:text-[20px]">
-            Voyez, sur votre commune cible, les parcelles que LA BUSE fait remonter —
-            score, faisabilité et propriétaire. Démonstration en conditions réelles.
+          <p class="mx-auto mt-6 max-w-[600px] text-[17px] leading-relaxed text-[#aab5b0] sm:text-[20px]">
+            Chaque périmètre est différent : la tarification s’ajuste à vos communes
+            cibles et à votre équipe. Dites-nous ce que vous cherchez — on revient vers
+            vous sous 24&nbsp;h avec une démonstration et une proposition.
           </p>
 
           <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -38,17 +39,10 @@ import { CONTACT_ANCHOR, CALENDLY_URL } from '../consts';
               href={CONTACT_ANCHOR}
               class="inline-flex h-[58px] items-center gap-3 rounded-2xl bg-green px-8 text-[18px] font-semibold text-[#04140f] shadow-glow transition-transform hover:-translate-y-0.5"
             >
-              Demander une démo
+              Prendre contact
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6"></path>
               </svg>
-            </a>
-            <!-- TODO: brancher CALENDLY_URL sur votre vrai lien de prise de rendez-vous -->
-            <a
-              href={CALENDLY_URL}
-              class="inline-flex h-[58px] items-center gap-2.5 rounded-2xl border border-coast/30 px-7 text-[17px] font-medium text-ink transition-colors hover:border-green/60 hover:bg-green/5"
-            >
-              Réserver un créneau
             </a>
           </div>
         </div>

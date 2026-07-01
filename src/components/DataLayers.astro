@@ -44,7 +44,7 @@ const layers = [
         </p>
         <p class="mt-5 max-w-[480px] text-[16px] leading-relaxed text-muted">
           Reliefs, aléas, littoral, contraintes réglementaires : le contexte réunionnais
-          est intégré au cœur du scoring, pas ajouté après coup.
+          est intégré directement dans le scoring, pas ajouté après coup.
         </p>
       </Reveal>
 
@@ -52,7 +52,7 @@ const layers = [
         <ul class="flex flex-wrap gap-2.5">
           {
             layers.map((layer) => (
-              <li class="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/[.07] bg-surface/70 px-4 py-2.5 text-[13.5px] text-[#c3ceca] transition-colors hover:border-green/35 hover:text-ink">
+              <li class="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/[.07] bg-surface/70 px-4 py-2.5 text-[13.5px] text-[#c3ceca]">
                 <span class="h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true" />
                 {layer}
               </li>

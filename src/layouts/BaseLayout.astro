@@ -3,6 +3,9 @@
 import '@fontsource-variable/inter';
 import '@fontsource/jetbrains-mono/600.css';
 import '@fontsource/jetbrains-mono/700.css';
+// URLs des 2 fichiers critiques pour le preload (mêmes assets hashés que le CSS).
+import interLatinUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import monoLatinUrl from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-600-normal.woff2?url';
 import '../styles/global.css';
 
 export interface Props {
@@ -17,7 +20,7 @@ const {
 
 const site = 'https://labuse.immo';
 const canonical = new URL(Astro.url.pathname, site).href;
-const ogImage = `${site}/og.svg`;
+const ogImage = `${site}/og.png`;
 
 // JSON-LD Organization
 const jsonLd = {
@@ -47,6 +50,12 @@ const jsonLd = {
     'PPR',
   ],
   email: 'contact@labuse.immo',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    email: 'contact@labuse.immo',
+    availableLanguage: 'French',
+  },
 };
 ---
 
@@ -60,15 +69,15 @@ const jsonLd = {
       document.documentElement.classList.add('js');
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#060a08" />
+    <!-- Preload des 2 fonts critiques (h1 Inter + labels mono) : pas de FOUT sur le titre -->
+    <link rel="preload" href={interLatinUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={monoLatinUrl} as="font" type="font/woff2" crossorigin />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta
-      name="keywords"
-      content="intelligence foncière, foncier constructible, promoteurs immobiliers, La Réunion, cadastre, PLU, PPR, prospection foncière, parcelles mutables"
-    />
     <link rel="canonical" href={canonical} />
 
     <!-- Open Graph -->

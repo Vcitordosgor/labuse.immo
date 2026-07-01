@@ -83,26 +83,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
     console.error('[api/contact] internal email failed', detail);
     return json({ ok: false, error: 'send_failed', detail }, 502);
   }
-  // 2) Best-effort : auto-réponse + Notion (ne bloquent jamais le 200)
-  const autoReplyTask = seb
-    .send({
-      from: `${SITE_NAME} <${SENDER_EMAIL}>`,
-      to: email,
-      replyTo: SENDER_EMAIL,
-      subject: `Votre demande a bien été reçue — ${SITE_NAME}`,
-      text: `Bonjour ${nom},\n\nMerci pour votre message. Nous revenons vers vous rapidement.\n\nL'équipe ${SITE_NAME}`,
-    })
-    .then(() => undefined);
+  // 2) Best-effort : lead Notion (ne bloque jamais le 200).
+  //    Pas d'auto-réponse au visiteur : le binding Email Routing n'autorise que
+  //    des destinataires vérifiés, et le message de succès à l'écran suffit.
   const notionToken = typeof env?.NOTION_TOKEN === 'string' ? (env.NOTION_TOKEN as string) : null;
-  const notionTask = notionToken
-    ? createNotionLead(
+  if (notionToken) {
+    const [notionRes] = await Promise.allSettled([
+      createNotionLead(
         { nom, email, telephone, entreprise: entreprise || undefined, message: message || undefined, marque: MARQUE },
         notionToken
-      )
-    : Promise.resolve();
-  const [autoReplyRes, notionRes] = await Promise.allSettled([autoReplyTask, notionTask]);
-  if (autoReplyRes.status === 'rejected') console.error('[api/contact] auto-reply failed', String(autoReplyRes.reason));
-  if (notionRes.status === 'rejected') console.error('[api/contact] notion failed', String(notionRes.reason));
+      ),
+    ]);
+    if (notionRes.status === 'rejected') console.error('[api/contact] notion failed', String(notionRes.reason));
+  }
   return json({ ok: true }, 200);
 };
 

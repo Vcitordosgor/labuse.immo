@@ -32,14 +32,22 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--text);
-  background:
-    radial-gradient(circle at 74% 20%, rgba(37, 214, 162, 0.1), transparent 40%),
-    radial-gradient(circle at 16% 12%, rgba(37, 214, 162, 0.05), transparent 30%),
-    var(--bg);
-  background-attachment: fixed;
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   font-family: 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system,
     'Segoe UI', sans-serif;
+}
+
+/* Glow d'ambiance en couche fixe séparée (background-attachment:fixed jank sur mobile) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 74% 20%, rgba(37, 214, 162, 0.1), transparent 40%),
+    radial-gradient(circle at 16% 12%, rgba(37, 214, 162, 0.05), transparent 30%);
 }
 
 /* Ancres décalées pour ne pas passer sous le header sticky */
@@ -105,7 +113,6 @@ body {
   transition:
     opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
-  will-change: opacity, transform;
 }
 .js .reveal.is-visible {
   opacity: 1;
@@ -233,7 +240,7 @@ body {
 .detect-card {
   position: absolute;
   z-index: 10;
-  left: -20px;
+  left: 0;
   bottom: 10%;
   width: 208px;
   padding: 16px 17px;
@@ -248,10 +255,19 @@ body {
 }
 @media (min-width: 1024px) {
   .detect-card {
+    left: -20px;
     bottom: auto;
     top: 50%;
     transform: translateY(-50%);
   }
+}
+
+/* Radar hors viewport : animations en pause (CPU/batterie) — voir Radar.astro */
+.radar-paused .sweep,
+.radar-paused .pdot,
+.radar-paused .pring,
+.radar-paused .phot-ring {
+  animation-play-state: paused;
 }
 
 /* ───────────────────────────────────────────────────────────────────────────

@@ -26,10 +26,13 @@ du site est statique.
 Section `Contact.astro` → îlot Preact `ContactForm.tsx` (`client:load`) qui POST vers
 l'endpoint `src/pages/api/contact.ts`. Celui-ci :
 
-1. valide (nom / téléphone / email) + **honeypot** + **time-trap** anti-spam ;
+1. valide (nom / téléphone / email) + **honeypot** + **time-trap** anti-spam
+   (la soumission trop rapide est différée, jamais perdue) ;
 2. envoie l'email interne via le binding Email Routing **`SEB`** (obligatoire) ;
-3. best-effort (ne bloque jamais le `200`) : auto-réponse au visiteur + création du
-   lead dans la base Notion « Deals » (`src/lib/notionLead.ts`) si `NOTION_TOKEN` est là.
+3. best-effort (ne bloque jamais le `200`) : création du lead dans la base Notion
+   « Deals » (`src/lib/notionLead.ts`) si `NOTION_TOKEN` est présent.
+   **Pas d'auto-réponse au visiteur** (choix produit + limite du binding :
+   destinataires vérifiés uniquement).
 
 **À personnaliser** en haut de `src/pages/api/contact.ts` : `MARQUE`, `NOTIFY_EMAIL`,
 `SENDER_EMAIL`, `SITE_NAME`.
@@ -92,10 +95,11 @@ Toutes les animations se **figent proprement** avec `prefers-reduced-motion: red
 
 - [ ] Remplacer les **logos placeholders** du bandeau confiance par de vrais clients
       (avec accord signé) — `src/components/TrustBar.astro`.
-- [ ] Brancher le **vrai lien de prise de RDV** (Calendly / Cal.com) — `CALENDLY_URL`
-      dans `src/consts.ts`.
-- [ ] Confirmer l'**adresse de contact** — `CONTACT_EMAIL` dans `src/consts.ts`.
-- [ ] Exporter une image **Open Graph en PNG** (1200×630) et remplacer `public/og.svg`
-      (certains crawlers ignorent le SVG). Réf. `og:image` dans `BaseLayout.astro`.
-- [ ] Créer les **pages légales** (mentions, confidentialité, CGU) et brancher les liens
-      du footer.
+- [ ] Compléter l'**identité légale** (forme juridique, SIREN, siège, directeur de la
+      publication) — `src/pages/mentions-legales.astro`.
+- [ ] Confirmer le **volume réel de parcelles** — `src/components/KeyFigures.astro`
+      (« 500 000+ », à ajuster à la fin du run prototype).
+- [x] ~~Image Open Graph en PNG~~ → `public/og.png` généré (1200×630).
+- [x] ~~Pages légales~~ → `/mentions-legales` + `/confidentialite` créées et liées.
+- [x] ~~Page 404~~ → `src/pages/404.astro`.
+- [x] ~~Headers sécurité/cache~~ → `public/_headers` (CSP, X-Frame-Options, cache immutable).

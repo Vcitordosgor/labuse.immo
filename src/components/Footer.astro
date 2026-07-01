@@ -4,11 +4,10 @@ import Logo from './Logo.astro';
 
 const year = new Date().getFullYear();
 
-// Liens légaux — pages à créer ultérieurement (placeholders).
+// Liens légaux. (CGU à ajouter quand il y aura des conditions contractuelles.)
 const legal = [
-  { href: '#', label: 'Mentions légales' },
-  { href: '#', label: 'Politique de confidentialité' },
-  { href: '#', label: 'CGU' },
+  { href: '/mentions-legales', label: 'Mentions légales' },
+  { href: '/confidentialite', label: 'Politique de confidentialité' },
 ];
 ---
 
@@ -17,7 +16,7 @@ const legal = [
     <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
       <!-- Marque -->
       <div>
-        <a href="#top" class="flex items-center gap-3 font-bold tracking-[.34em] text-ink" aria-label="LA BUSE — haut de page">
+        <a href="/" class="flex items-center gap-3 font-bold tracking-[.34em] text-ink" aria-label="LA BUSE — accueil">
           <Logo class="h-[14px] w-auto text-green" />
           <span class="text-[17px]">LA&nbsp;BUSE</span>
         </a>
@@ -29,12 +28,12 @@ const legal = [
 
       <!-- Navigation -->
       <nav aria-label="Liens du site">
-        <h2 class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-muted">Le site</h2>
+        <p class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-muted" aria-hidden="true">Le site</p>
         <ul class="mt-4 flex flex-col gap-3">
           {
             NAV.map((item) => (
               <li>
-                <a href={item.href} class="text-[15px] text-[#c3cdc7] transition-colors hover:text-green">
+                <a href={item.href} class="inline-block py-1 text-[15px] text-[#c3cdc7] transition-colors hover:text-green">
                   {item.label}
                 </a>
               </li>
@@ -45,7 +44,7 @@ const legal = [
 
       <!-- Contact + légal -->
       <div>
-        <h2 class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-muted">Contact</h2>
+        <p class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-muted" aria-hidden="true">Contact</p>
         <ul class="mt-4 flex flex-col gap-3">
           <li>
             <a href={`mailto:${CONTACT_EMAIL}`} class="text-[15px] text-[#c3cdc7] transition-colors hover:text-green">
@@ -63,8 +62,7 @@ const legal = [
         {
           legal.map((item) => (
             <li>
-              {/* TODO: créer les pages légales et brancher les liens */}
-              <a href={item.href} class="transition-colors hover:text-green">
+              <a href={item.href} class="inline-block py-1.5 transition-colors hover:text-green">
                 {item.label}
               </a>
             </li>

@@ -19,6 +19,7 @@ export default {
         coast: '#7cf3cf', // trait de la carte
         ink: '#f3f6f4', // texte
         muted: '#93a09a', // texte atténué
+        danger: '#ff9b8f', // erreurs formulaire
       },
       fontFamily: {
         sans: [

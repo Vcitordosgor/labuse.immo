@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { CONTACT_EMAIL } from '../consts';
+---
+
+<BaseLayout
+  title="Politique de confidentialité — LA BUSE"
+  description="Comment LA BUSE collecte et protège vos données personnelles (formulaire de contact) sur labuse.immo."
+>
+  <Header />
+  <main id="contenu" class="pt-[76px]">
+    <section class="mx-auto max-w-[760px] px-5 py-16 sm:px-8 sm:py-20">
+      <p class="eyebrow">Vos données</p>
+      <h1 class="mt-6 text-[32px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
+        Politique de <span class="text-green">confidentialité.</span>
+      </h1>
+
+      <div class="mt-10 flex flex-col gap-8 text-[16px] leading-relaxed text-[#c3ceca]">
+        <div>
+          <h2 class="text-[20px] font-semibold text-ink">Responsable de traitement</h2>
+          <p class="mt-3">
+            LA BUSE — contact : <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-[20px] font-semibold text-ink">Données collectées</h2>
+          <p class="mt-3">
+            Le formulaire de contact collecte : nom, entreprise (facultatif), numéro de
+            téléphone, adresse email et message. Aucune autre donnée n'est collectée :
+            ce site n'utilise <strong class="text-ink">aucun cookie ni traceur</strong>,
+            et aucun outil de mesure d'audience tiers.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-[20px] font-semibold text-ink">Finalité et base légale</h2>
+          <p class="mt-3">
+            Ces données servent uniquement à répondre à votre demande de contact ou de
+            démonstration (mesures précontractuelles, article 6.1.b du RGPD).
+            Elles ne sont ni vendues, ni utilisées à d'autres fins.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-[20px] font-semibold text-ink">Destinataires et sous-traitants</h2>
+          <p class="mt-3">
+            Votre demande est transmise à l'équipe LA BUSE par email (acheminement :
+            Cloudflare, Inc.) et enregistrée dans notre outil de suivi commercial
+            (Notion Labs, Inc., États-Unis — transferts encadrés par des clauses
+            contractuelles types).
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-[20px] font-semibold text-ink">Durée de conservation</h2>
+          <p class="mt-3">
+            Les données de prospection sont conservées au maximum 3 ans après le dernier
+            contact de votre part, puis supprimées.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-[20px] font-semibold text-ink">Vos droits</h2>
+          <p class="mt-3">
+            Vous disposez d'un droit d'accès, de rectification, d'effacement, d'opposition
+            et de portabilité sur vos données. Pour l'exercer, écrivez à
+            <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>.
+            Vous pouvez également adresser une réclamation à la CNIL
+            (<a href="https://www.cnil.fr" rel="noopener" class="text-green underline decoration-green/40 underline-offset-2">www.cnil.fr</a>).
+          </p>
+        </div>
+      </div>
+
+      <a href="/" class="mt-12 inline-flex items-center gap-2.5 text-[16px] font-medium text-ink transition-opacity hover:opacity-80">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5M11 6l-6 6 6 6"></path>
+        </svg>
+        Retour au site
+      </a>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

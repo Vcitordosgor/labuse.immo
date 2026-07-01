@@ -50,3 +50,17 @@ const { class: className = '' } = Astro.props;
   </div>
   <slot />
 </div>
+
+<script is:inline>
+  // Pause des animations radar hors viewport (CPU/batterie).
+  (() => {
+    if (!('IntersectionObserver' in window)) return;
+    document.querySelectorAll('.radar-wrap').forEach((wrap) => {
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          wrap.classList.toggle('radar-paused', !entry.isIntersecting);
+        });
+      }).observe(wrap);
+    });
+  })();
+</script>

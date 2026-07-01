@@ -4,6 +4,14 @@
 > Méthode : exploration exhaustive du repo, build réel, crawl du HTML généré (liens, ancres, poids),
 > calculs de contraste WCAG, relecture de chaque composant. Aucune modification effectuée.
 > Date : 2026-07-01 · Commit audité : `dbb7b40`
+>
+> **MISE À JOUR post-validation** : corrections appliquées après validation item par item.
+> ✅ Résolus : P0-1 (bouton retiré), P0-2 (pages légales créées — identité à compléter),
+> P1-1 (#tarifs + copy sur devis), P1-2 (#methode), P1-3 (og.png généré), P1-4 (auto-mail
+> supprimé), P1-5 (contrastes), P1-6 (preload + « œ » supprimés), P1-8 (_headers),
+> P2-1..7, P2-10..17, P2-19, P2-22..24. ⏳ Restants : P1-7 (chiffre à confirmer fin de
+> run prototype), P2-8/9 (consolidation tokens — partiel), P2-18 (JSON-LD — enrichi a
+> minima), P2-20 (vulns npm/Astro 5), P2-21 (ids internes).
 
 ---
 
