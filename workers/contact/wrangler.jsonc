@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "labuse-contact",
+  "main": "src/index.js",
+  "compatibility_date": "2026-07-01",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "labuse.immo/api/contact*", "zone_name": "labuse.immo" }
+  ],
+  "send_email": [
+    { "name": "SEB" }
+  ],
+  "observability": { "enabled": true }
+}
