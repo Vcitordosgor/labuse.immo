@@ -1,8 +1,0 @@
-name = "labuse-immo"
-compatibility_date = "2024-11-01"
-compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = "./dist"
-
-[[send_email]]
-name = "SEB"
-destination_address = "contactlabuse@gmail.com"
