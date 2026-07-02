@@ -7,5 +7,5 @@
   "compatibility_flags": ["nodejs_compat"],
   "pages_build_output_dir": "./dist",
   // Binding Email Routing utilisé par src/pages/api/contact.ts (locals.runtime.env.SEB)
-  "send_email": [{ "name": "SEB", "destination_address": "labuse@gmail.com" }]
+  "send_email": [{ "name": "SEB", "destination_address": "contactlabuse@gmail.com" }]
 }

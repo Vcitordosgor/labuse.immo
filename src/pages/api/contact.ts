@@ -6,7 +6,7 @@ export const prerender = false;
 
 // ===== À PERSONNALISER PAR SITE =====
 const MARQUE: Marque = 'LABUSE'; // 'LABUSE' | 'TANIA' | '9site4'
-const NOTIFY_EMAIL = 'labuse@gmail.com'; // où tu reçois les leads
+const NOTIFY_EMAIL = 'contactlabuse@gmail.com'; // où tu reçois les leads (adresse vérifiée Email Routing)
 const SENDER_EMAIL = 'contact@labuse.immo'; // sender vérifié dans Email Routing (labuse.immo)
 const SITE_NAME = 'LABUSE';
 // ====================================
