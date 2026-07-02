@@ -3,53 +3,65 @@
 One-pager marketing de **LA BUSE**, plateforme B2B d'intelligence foncière pour
 promoteurs immobiliers à La Réunion.
 
-Stack : **Astro** (`output: 'hybrid'`, adapter **Cloudflare**) + **Tailwind CSS**
-(build-time, tokens dans `tailwind.config.js`) + **Preact** (îlot pour le formulaire).
-Zéro CDN, fonts auto-hébergées (Inter + JetBrains Mono). Pages prérendues (statiques),
-sauf l'endpoint SSR du formulaire (`/api/contact`).
+Stack : **Astro** (`output: 'static'`) + **Tailwind CSS** (build-time, tokens dans
+`tailwind.config.js`) + **Preact** (îlot pour le formulaire). Zéro CDN, fonts
+auto-hébergées (Inter + JetBrains Mono).
+
+Architecture (pattern éprouvé sur tania.re) : **site 100 % statique sur Cloudflare
+Pages** + **Worker séparé `labuse-contact`** (`workers/contact/`) routé sur
+`labuse.immo/api/contact*` pour le formulaire. Les routes Worker priment sur Pages :
+le front appelle `fetch('/api/contact')` en relatif, c'est le worker qui répond.
 
 ## Commandes
 
 ```bash
 npm install      # installer les dépendances
 npm run dev      # serveur de dev → http://localhost:4321
-npm run build    # build → dist/ (pages statiques + worker SSR)
-npm run preview  # prévisualiser via l'adapter Cloudflare
+npm run build    # build statique → dist/
+npm run preview  # prévisualiser le build
 ```
 
-Déploiement : **Cloudflare Pages** — build command `npm run build`, output `dist`.
-Le formulaire de contact nécessite des bindings Cloudflare (voir plus bas) ; le reste
-du site est statique.
+## Déploiement
 
-## Formulaire de contact (SSR Cloudflare)
+### 1. Le site — Cloudflare Pages
+Projet Pages connecté au repo, branche `main` : build command `npm run build`,
+output `dist`. Rien d'autre (pas de binding, pas de flag : le site est statique).
 
-Section `Contact.astro` → îlot Preact `ContactForm.tsx` (`client:load`) qui POST vers
-l'endpoint `src/pages/api/contact.ts`. Celui-ci :
+### 2. Le formulaire — Worker `labuse-contact` (Workers Builds)
+Projet **Workers Builds** connecté au même repo GitHub, branche `main` :
 
-1. valide (nom / téléphone / email) + **honeypot** + **time-trap** anti-spam
-   (la soumission trop rapide est différée, jamais perdue) ;
-2. envoie l'email interne via le binding Email Routing **`SEB`** (obligatoire) ;
-3. best-effort (ne bloque jamais le `200`) : création du lead dans la base Notion
-   « Deals » (`src/lib/notionLead.ts`) si `NOTION_TOKEN` est présent.
-   **Pas d'auto-réponse au visiteur** (choix produit + limite du binding :
-   destinataires vérifiés uniquement).
+| Réglage | Valeur |
+|---|---|
+| **Root directory (Path)** | `workers/contact` ⚠️ **critique** — sans lui, wrangler auto-génère une config « assets » et déploie tout le repo (`.git` compris) |
+| Build command | *(vide)* |
+| Deploy command | `npx wrangler deploy` |
 
-**À personnaliser** en haut de `src/pages/api/contact.ts` : `MARQUE`, `NOTIFY_EMAIL`,
-`SENDER_EMAIL`, `SITE_NAME`.
+Le binding **`SEB`** et la **route** `labuse.immo/api/contact*` viennent du
+`workers/contact/wrangler.jsonc` — rien à créer à la main. Seul le secret
+**`NOTION_TOKEN`** s'ajoute dans le dashboard du Worker après création
+(Settings → Variables and Secrets).
 
-### Config Cloudflare (obligatoire pour que le formulaire marche)
+Prérequis Email Routing (sinon `send_failed`) : Email Routing actif sur
+`labuse.immo`, destination `contactlabuse@gmail.com` **vérifiée**, sender
+`contact@labuse.immo` + **SPF/DKIM/DMARC** sur le domaine.
 
-- **Pages → Settings → Functions → Bindings** : ajouter un *Send Email binding* nommé
-  `SEB` (Production **et** Preview). Déclaré aussi dans `wrangler.jsonc` (`send_email`).
-- **Pages → Settings → Environment variables** : `NOTION_TOKEN = secret_xxx`
-  (Production + Preview). **Jamais** dans `wrangler.jsonc`.
-- Activer **Email Routing** sur le domaine **`labuse.immo`**, vérifier le sender
-  (`contact@labuse.immo`) et ajouter **SPF + DKIM + DMARC** sur `labuse.immo`
-  (sinon les mails partent en spam).
+## Formulaire de contact
 
-> En **dev local**, les bindings n'existent pas → l'API répond `binding_missing` (500).
-> C'est normal : le flux email/Notion ne fonctionne que sur Cloudflare (Preview/Prod).
-> `wrangler.jsonc` + `platformProxy` exposent ce qui est possible en local.
+Section `Contact.astro` → îlot Preact `ContactForm.tsx` (`client:visible`) qui POST
+en JSON vers `/api/contact` (le worker). Côté client : validation, honeypot
+`website`, time-trap. Côté worker (`workers/contact/src/index.js`) :
+
+1. honeypot + validation (nom / téléphone / email) ;
+2. email interne via le binding **`SEB`** (obligatoire, MIME construit main) ;
+3. best-effort (ne bloque jamais le `200`) : auto-réponse + lead dans la base
+   Notion « Deals » si `NOTION_TOKEN` est présent.
+
+**À personnaliser** en haut de `workers/contact/src/index.js` : `MARQUE`,
+`NOTIFY_EMAIL`, `SENDER_EMAIL`, `SITE_NAME`.
+
+> En **dev local**, il n'y a pas de worker → le POST `/api/contact` répond 404 et le
+> formulaire affiche l'erreur avec repli `mailto`. Le flux complet ne se teste que
+> déployé.
 
 ## Où éditer
 
