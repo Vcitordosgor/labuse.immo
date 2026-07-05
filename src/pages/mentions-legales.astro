@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { CONTACT_EMAIL } from '../consts';
+
+const updated = 'juillet 2026';
 ---
 
 <BaseLayout
@@ -16,19 +18,19 @@ import { CONTACT_EMAIL } from '../consts';
       <h1 class="mt-6 text-[32px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
         Mentions <span class="text-green">légales.</span>
       </h1>
+      <p class="mt-4 text-[14px] text-muted">Dernière mise à jour : {updated}.</p>
 
       <div class="mt-10 flex flex-col gap-8 text-[16px] leading-relaxed text-[#c3ceca]">
         <div>
           <h2 class="text-[20px] font-semibold text-ink">Éditeur du site</h2>
           <p class="mt-3">
-            LA BUSE<br />
-            <!-- TODO: compléter avant mise en ligne — forme juridique, capital social,
-                 SIREN/SIRET, adresse du siège social, nom du directeur de la publication. -->
-            [Forme juridique et capital — à compléter]<br />
-            [SIREN / SIRET — à compléter]<br />
-            [Adresse du siège social — à compléter], La Réunion<br />
-            Directeur de la publication : [à compléter]<br />
-            Contact : <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>
+            Victor Lagane — entrepreneur individuel (EI), exerçant sous le nom
+            « LA&nbsp;BUSE ».<br />
+            SIRET&nbsp;: 987&nbsp;641&nbsp;917&nbsp;00016<br />
+            <!-- ⚠️ [VIC : adresse postale complète de l'EI à confirmer — rue + code postal] -->
+            [Adresse postale — à confirmer], Saint-Paul, La Réunion<br />
+            Directeur de la publication&nbsp;: Victor Lagane<br />
+            Contact&nbsp;: <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>
           </p>
         </div>
 
@@ -54,7 +56,10 @@ import { CONTACT_EMAIL } from '../consts';
         <div>
           <h2 class="text-[20px] font-semibold text-ink">Données personnelles</h2>
           <p class="mt-3">
-            Les traitements de données réalisés via ce site sont décrits dans notre
+            Le site et la plateforme LA BUSE réalisent deux traitements de données
+            personnelles distincts&nbsp;: celui des visiteurs qui nous contactent, et celui
+            des propriétaires fonciers dont les données publiques sont analysées par le
+            produit. Les deux sont décrits dans notre
             <a href="/confidentialite" class="text-green underline decoration-green/40 underline-offset-2">politique de confidentialité</a>.
             Ce site n'utilise aucun cookie ni traceur.
           </p>

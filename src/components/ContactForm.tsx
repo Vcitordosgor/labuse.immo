@@ -193,8 +193,9 @@ export default function ContactForm() {
       </button>
 
       <p class="text-[13px] leading-relaxed text-muted">
-        Réponse sous 24&nbsp;h ouvrées. Vos informations restent confidentielles —
-        voir notre <a href="/confidentialite" class="underline decoration-green/40 underline-offset-2 hover:text-ink">politique de confidentialité</a>.
+        Les informations que vous nous transmettez servent uniquement à traiter votre
+        demande de contact. Réponse sous 24&nbsp;h ouvrées. Détails et vos droits dans
+        notre <a href="/confidentialite" class="underline decoration-green/40 underline-offset-2 hover:text-ink">politique de confidentialité</a>.
       </p>
     </form>
   );
