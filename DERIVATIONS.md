@@ -50,19 +50,18 @@ au sens de l'art. 22. La politique le mentionne explicitement pour lever l'ambig
 
 ## 6. Destinataires / sous-traitants identifiés dans le code
 - **Cloudflare, Inc.** (US) — hébergement du site + acheminement de l'email (Email Routing / binding `SEB`).
-- **OVHcloud** (France) — boîte de réception des notifications de leads (destination *vérifiée*
-  du binding `SEB` ; l'alias public `contact@labuse.immo` sert d'expéditeur, pas de destination).
-  Hébergement UE → **pas de transfert hors UE** pour ce flux.
+- **Google LLC** (US) — réception de la notification interne dans une boîte Gmail
+  (`contactlabuse@gmail.com`, destination *vérifiée* du binding `SEB`).
 - **Notion Labs, Inc.** (US) — CRM (base « Deals »), écriture best-effort du lead.
-Cloudflare et Notion sont hors UE → transferts encadrés par **clauses contractuelles types**.
-OVHcloud est en France. Mentions faites dans la politique.
-➜ **[VIC : signer les DPA]** (Data Processing Agreements) avec Cloudflare, Notion et OVHcloud —
+Tous situés aux États-Unis → transferts hors UE encadrés par des **clauses contractuelles types** ;
+**Google LLC** adhère en outre au **Data Privacy Framework UE–États-Unis**. Mentions faites dans la politique.
+➜ **[VIC : signer les DPA]** (Data Processing Agreements) avec Cloudflare, Google et Notion —
 pendant contractuel obligatoire, hors périmètre du code.
 
-> Historique : la réception passait initialement par une boîte Gmail (Google, US). Décision du
-> 5 juillet 2026 de basculer sur une boîte OVHcloud (France) pour maintenir ce flux dans l'UE.
-> Techniquement, le binding `send_email` doit pointer sur la **destination vérifiée** (la boîte
-> OVH), pas sur l'alias `contact@labuse.immo` (adresse d'entrée, rejetée en `send_failed`).
+> Historique : le passage à une boîte OVHcloud (France) a été envisagé le 5 juillet 2026 puis
+> **abandonné** — la réception reste sur la boîte Gmail existante (destination déjà vérifiée
+> dans Email Routing, rien à reconfigurer). OVHcloud n'est **pas** un sous-traitant de LA BUSE
+> (il l'est pour TANIA, comme hébergeur produit — hors périmètre de ce site).
 
 ## 7. Durées de conservation
 - Visiteurs : **3 ans** après dernier contact (aligné sur la recommandation CNIL pour la
@@ -85,8 +84,6 @@ point de collecte.
 - [x] ~~Adresse postale de l'EI~~ → renseignée (3 chemin de la Citerne, La Montagne, 97417
       Saint-Denis).
 - [x] ~~LIA / balancing test~~ → rédigé et archivé dans `docs/LIA.md`.
-- [ ] **Renseigner `NOTIFY_EMAIL`** dans `workers/contact/src/index.js` : remplacer le
-      placeholder `[BOITE_OVH]` par l'adresse OVHcloud réelle **avant le test preview**.
-- [ ] **DPA signés** avec Cloudflare, Notion et **OVHcloud**.
+- [ ] **DPA signés** avec Cloudflare, Google et Notion.
 - [ ] **Registre des traitements** (art. 30) tenu par l'éditeur.
 - [ ] Revue finale par un **avocat / DPO** avant lancement commercial.
