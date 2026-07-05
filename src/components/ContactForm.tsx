@@ -92,8 +92,8 @@ export default function ContactForm() {
           </svg>
         </span>
         <div>
-          <p class="text-[19px] font-semibold text-ink">Message bien reçu.</p>
-          <p class="mt-2 text-[15px] text-muted">Merci — nous revenons vers vous très vite.</p>
+          <p class="text-[19px] font-semibold text-ink">Votre demande a bien été envoyée.</p>
+          <p class="mt-2 text-[15px] text-muted">Merci — nous vous répondons sous 24&nbsp;h ouvrées.</p>
         </div>
       </div>
     );
