@@ -50,11 +50,19 @@ au sens de l'art. 22. La politique le mentionne explicitement pour lever l'ambig
 
 ## 6. Destinataires / sous-traitants identifiés dans le code
 - **Cloudflare, Inc.** (US) — hébergement du site + acheminement de l'email (Email Routing / binding `SEB`).
-- **Google / Gmail** (US) — la notification interne arrive dans `contactlabuse@gmail.com`.
+- **OVHcloud** (France) — boîte de réception des notifications de leads (destination *vérifiée*
+  du binding `SEB` ; l'alias public `contact@labuse.immo` sert d'expéditeur, pas de destination).
+  Hébergement UE → **pas de transfert hors UE** pour ce flux.
 - **Notion Labs, Inc.** (US) — CRM (base « Deals »), écriture best-effort du lead.
-Tous hors UE → transferts encadrés par **clauses contractuelles types**. Mention faite dans la politique.
-➜ **[VIC : signer les DPA]** (Data Processing Agreements) avec Cloudflare, Notion et Google
-Workspace — pendant contractuel obligatoire, hors périmètre du code.
+Cloudflare et Notion sont hors UE → transferts encadrés par **clauses contractuelles types**.
+OVHcloud est en France. Mentions faites dans la politique.
+➜ **[VIC : signer les DPA]** (Data Processing Agreements) avec Cloudflare, Notion et OVHcloud —
+pendant contractuel obligatoire, hors périmètre du code.
+
+> Historique : la réception passait initialement par une boîte Gmail (Google, US). Décision du
+> 5 juillet 2026 de basculer sur une boîte OVHcloud (France) pour maintenir ce flux dans l'UE.
+> Techniquement, le binding `send_email` doit pointer sur la **destination vérifiée** (la boîte
+> OVH), pas sur l'alias `contact@labuse.immo` (adresse d'entrée, rejetée en `send_failed`).
 
 ## 7. Durées de conservation
 - Visiteurs : **3 ans** après dernier contact (aligné sur la recommandation CNIL pour la
@@ -74,11 +82,11 @@ point de collecte.
 ---
 
 ## Points restant explicitement à la charge de l'éditeur (VIC)
-- [ ] **Adresse postale complète** de l'EI (rue + code postal) — placeholder dans
-      `mentions-legales.astro`.
-- [ ] **LIA / balancing test** écrit et archivé (justif. de l'intérêt légitime).
-- [ ] **DPA signés** avec Cloudflare, Notion, Google Workspace.
-- [ ] Confirmer le **canal de réception** : `contactlabuse@gmail.com` (Gmail perso ?) vs
-      boîte pro — impacte la liste des sous-traitants.
+- [x] ~~Adresse postale de l'EI~~ → renseignée (3 chemin de la Citerne, La Montagne, 97417
+      Saint-Denis).
+- [x] ~~LIA / balancing test~~ → rédigé et archivé dans `docs/LIA.md`.
+- [ ] **Renseigner `NOTIFY_EMAIL`** dans `workers/contact/src/index.js` : remplacer le
+      placeholder `[BOITE_OVH]` par l'adresse OVHcloud réelle **avant le test preview**.
+- [ ] **DPA signés** avec Cloudflare, Notion et **OVHcloud**.
 - [ ] **Registre des traitements** (art. 30) tenu par l'éditeur.
 - [ ] Revue finale par un **avocat / DPO** avant lancement commercial.

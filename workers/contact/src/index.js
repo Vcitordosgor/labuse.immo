@@ -7,8 +7,10 @@ import { EmailMessage } from 'cloudflare:email';
 
 // ===== À PERSONNALISER PAR SITE =====
 const MARQUE = 'LABUSE';                         // 'TANIA' | 'LABUSE' | '9site4'
-const NOTIFY_EMAIL = 'contactlabuse@gmail.com';  // destination VÉRIFIÉE dans Email Routing
-const SENDER_EMAIL = 'contact@labuse.immo';      // adresse d'envoi sur le domaine
+// ⚠️ [VIC] Remplacer par l'adresse réelle de la boîte OVHcloud (France),
+// vérifiée comme destination du binding SEB. C'est ICI que les leads sont reçus.
+const NOTIFY_EMAIL = '[BOITE_OVH]';              // destination VÉRIFIÉE dans Email Routing (OVHcloud, France)
+const SENDER_EMAIL = 'contact@labuse.immo';      // alias public / adresse d'envoi sur le domaine
 const SITE_NAME = 'LABUSE';
 // ====================================
 
