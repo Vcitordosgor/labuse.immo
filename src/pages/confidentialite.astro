@@ -3,11 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { CONTACT_EMAIL } from '../consts';
+
+const updated = '5 juillet 2026';
 ---
 
 <BaseLayout
   title="Politique de confidentialité — LA BUSE"
-  description="Comment LA BUSE collecte et protège vos données personnelles (formulaire de contact) sur labuse.immo."
+  description="Comment LA BUSE traite les données personnelles : visiteurs du site (formulaire de contact) et propriétaires fonciers dont les données publiques alimentent la plateforme. Droits d'accès, d'opposition et d'effacement."
 >
   <Header />
   <main id="contenu" class="pt-[76px]">
@@ -16,62 +18,227 @@ import { CONTACT_EMAIL } from '../consts';
       <h1 class="mt-6 text-[32px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
         Politique de <span class="text-green">confidentialité.</span>
       </h1>
+      <p class="mt-4 text-[14px] text-muted">Dernière mise à jour : {updated}.</p>
 
-      <div class="mt-10 flex flex-col gap-8 text-[16px] leading-relaxed text-[#c3ceca]">
+      <div class="mt-10 flex flex-col gap-9 text-[16px] leading-relaxed text-[#c3ceca]">
+        <div>
+          <p>
+            LA BUSE réalise <strong class="text-ink">deux traitements de données personnelles
+            distincts</strong>, régis par des règles différentes :
+          </p>
+          <ul class="mt-4 flex flex-col gap-2.5">
+            <li class="flex items-start gap-3">
+              <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
+              <span><a href="#visiteurs" class="text-green underline decoration-green/40 underline-offset-2">Traitement n°1 — Visiteurs du site</a> qui nous contactent volontairement (formulaire).</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
+              <span><a href="#proprietaires" class="text-green underline decoration-green/40 underline-offset-2">Traitement n°2 — Propriétaires fonciers</a> dont les données publiques sont analysées par la plateforme, <strong class="text-ink">sans qu'ils en soient utilisateurs</strong>.</span>
+            </li>
+          </ul>
+        </div>
+
         <div>
           <h2 class="text-[20px] font-semibold text-ink">Responsable de traitement</h2>
           <p class="mt-3">
-            LA BUSE — contact : <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>
+            Victor Lagane — entrepreneur individuel (LA BUSE)<br />
+            SIRET&nbsp;: 987&nbsp;641&nbsp;917&nbsp;00016<br />
+            3 chemin de la Citerne, La Montagne, 97417 Saint-Denis, La Réunion<br />
+            Contact&nbsp;: <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>
+          </p>
+        </div>
+
+        <!-- ══════════════════ TRAITEMENT 1 ══════════════════ -->
+        <div id="visiteurs" class="scroll-mt-24 rounded-2xl border border-white/[.07] bg-surface/40 p-6 sm:p-7">
+          <p class="eyebrow">Traitement n°1</p>
+          <h2 class="mt-4 text-[22px] font-semibold text-ink">Visiteurs du site & formulaire de contact</h2>
+
+          <div class="mt-5 flex flex-col gap-5">
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Données collectées</h3>
+              <p class="mt-2">
+                Uniquement celles que vous saisissez dans le formulaire de contact&nbsp;: nom,
+                entreprise (facultatif), téléphone, adresse email et message. Le site
+                <strong class="text-ink"> n'utilise aucun cookie ni traceur</strong>, et aucun
+                outil de mesure d'audience tiers.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Finalité et base légale</h3>
+              <p class="mt-2">
+                Répondre à votre demande de contact ou de démonstration. Base légale&nbsp;:
+                l'exécution de mesures précontractuelles prises à votre demande
+                (article 6-1-b du RGPD).
+              </p>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Destinataires</h3>
+              <p class="mt-2">
+                Votre demande est transmise à l'équipe LA BUSE par email — acheminement via
+                Cloudflare, Inc. (Email Routing), réception dans une boîte Google (Gmail) — et
+                enregistrée dans notre outil de suivi commercial (Notion Labs, Inc.). Ces
+                prestataires (Cloudflare, Inc., Google LLC et Notion Labs, Inc.) sont situés aux
+                États-Unis. Ces transferts hors Union européenne sont encadrés par des clauses
+                contractuelles types de la Commission européenne&nbsp;; Google LLC adhère en
+                outre au Data Privacy Framework UE–États-Unis. Vos données ne sont ni vendues,
+                ni cédées à des tiers.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Durée de conservation</h3>
+              <p class="mt-2">
+                3 ans à compter de votre dernier contact, puis suppression.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════ TRAITEMENT 2 (cœur) ══════════════════ -->
+        <div id="proprietaires" class="scroll-mt-24 rounded-2xl border border-green/25 bg-green/[.04] p-6 sm:p-7">
+          <p class="eyebrow">Traitement n°2</p>
+          <h2 class="mt-4 text-[22px] font-semibold text-ink">Propriétaires fonciers</h2>
+          <p class="mt-3">
+            Pour aider les professionnels de l'immobilier à identifier le foncier
+            constructible, LA BUSE analyse des données relatives aux propriétaires de
+            parcelles à La Réunion — <strong class="text-ink">y compris des personnes
+            physiques</strong> — à partir de sources publiques. Si vous êtes propriétaire,
+            vos données peuvent apparaître dans la plateforme sans que vous en soyez
+            utilisateur. Cette section vous concerne directement.
+          </p>
+
+          <div class="mt-5 flex flex-col gap-5">
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Données traitées</h3>
+              <p class="mt-2">
+                Identité du ou des propriétaires (nom et prénom pour les personnes physiques,
+                dénomination pour les personnes morales), qualité de propriétaire, références
+                cadastrales des parcelles détenues et leurs caractéristiques (surface, zonage,
+                constructibilité), valeurs et historiques de mutations foncières, et le cas
+                échéant informations publiques relatives aux personnes morales. Aucune donnée
+                sensible au sens de l'article 9 du RGPD n'est traitée.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Sources</h3>
+              <p class="mt-2">
+                Exclusivement des <strong class="text-ink">sources publiques</strong>&nbsp;:
+                le plan cadastral, les Demandes de valeurs foncières (DVF, open data de la
+                DGFiP), les données foncières publiées par la DGFiP, et le Bulletin officiel
+                des annonces civiles et commerciales (BODACC). LA BUSE ne collecte aucune
+                donnée directement auprès des propriétaires.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Finalité et base légale</h3>
+              <p class="mt-2">
+                Fournir à nos clients professionnels une aide à la détection d'opportunités
+                foncières et à l'identification des propriétaires en vue d'une prise de contact.
+                Base légale&nbsp;: l'<strong class="text-ink">intérêt légitime</strong> de LA
+                BUSE et de ses clients (article 6-1-f du RGPD). Nous avons procédé à une mise en
+                balance entre cet intérêt et vos droits&nbsp;: les données proviennent de sources
+                publiques, ne comportent aucune donnée sensible, portent sur votre patrimoine
+                foncier dans un cadre professionnel, et vous pouvez vous opposer à tout moment
+                (voir plus bas). Le <strong class="text-ink">score d'opportunité</strong> produit
+                par la plateforme est une aide à la décision destinée à des professionnels&nbsp;;
+                il ne constitue pas une décision automatisée produisant des effets juridiques à
+                votre égard au sens de l'article 22 du RGPD.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Information des personnes (article 14 du RGPD)</h3>
+              <p class="mt-2">
+                Ces données n'étant pas recueillies auprès de vous, nous sommes en principe tenus
+                de vous informer individuellement. Compte tenu du nombre de propriétaires
+                concernés sur les communes couvertes, une information individuelle exigerait un
+                <strong class="text-ink"> effort disproportionné</strong> au sens de l'article
+                14-5-b du RGPD. Nous ne cherchons pas à éluder cette obligation&nbsp;: en
+                application de cette disposition, nous rendons cette information
+                <strong class="text-ink"> publiquement accessible</strong> via la présente
+                politique, et nous mettons en place des mesures concrètes pour protéger vos
+                droits — au premier rang desquelles un droit d'opposition et d'effacement
+                simples à exercer, décrits ci-dessous.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-[16px] font-semibold text-ink">Durée de conservation</h3>
+              <p class="mt-2">
+                Les données sont conservées le temps de leur pertinence pour l'analyse foncière
+                et rafraîchies depuis les sources publiques. Elles sont supprimées ou anonymisées
+                lorsqu'elles ne sont plus nécessaires, et sans délai en cas d'opposition ou de
+                demande d'effacement recevable.
+              </p>
+            </div>
+
+            <div class="rounded-xl border border-green/30 bg-bg/40 p-5">
+              <h3 class="text-[18px] font-semibold text-green-soft">
+                Vous êtes propriétaire et vos données apparaissent dans LA BUSE&nbsp;?
+              </h3>
+              <p class="mt-3">
+                Vous disposez, sur les données vous concernant, des droits suivants&nbsp;:
+              </p>
+              <ul class="mt-3 flex flex-col gap-2.5">
+                <li class="flex items-start gap-3">
+                  <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
+                  <span><strong class="text-ink">Droit d'accès</strong> — savoir quelles données vous concernant sont traitées et en obtenir copie.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
+                  <span><strong class="text-ink">Droit d'opposition</strong> (article 21 du RGPD) — vous opposer, pour des raisons tenant à votre situation particulière, à ce que vos données soient traitées. En cas d'opposition, nous cessons le traitement, sauf motif légitime impérieux que nous devrions démontrer.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
+                  <span><strong class="text-ink">Droit d'effacement et de rectification</strong> — faire supprimer vos données de la plateforme ou les corriger.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
+                  <span><strong class="text-ink">Droit à la limitation</strong> du traitement.</span>
+                </li>
+              </ul>
+              <p class="mt-4">
+                Pour exercer ces droits, écrivez à
+                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Exercice de droits — propriétaire foncier')}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>.
+                Pour nous permettre d'identifier vos parcelles, précisez si possible votre
+                identité et les références cadastrales concernées. Nous répondons dans un délai
+                d'un mois. Cette démarche est gratuite.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════ COMMUN ══════════════════ -->
+        <div>
+          <h2 class="text-[20px] font-semibold text-ink">Sécurité</h2>
+          <p class="mt-3">
+            Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour
+            protéger les données contre tout accès, altération ou divulgation non autorisés
+            (accès restreint, chiffrement des échanges, hébergement chez des prestataires
+            reconnus).
           </p>
         </div>
 
         <div>
-          <h2 class="text-[20px] font-semibold text-ink">Données collectées</h2>
+          <h2 class="text-[20px] font-semibold text-ink">Réclamation</h2>
           <p class="mt-3">
-            Le formulaire de contact collecte : nom, entreprise (facultatif), numéro de
-            téléphone, adresse email et message. Aucune autre donnée n'est collectée :
-            ce site n'utilise <strong class="text-ink">aucun cookie ni traceur</strong>,
-            et aucun outil de mesure d'audience tiers.
+            Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une
+            réclamation à la CNIL —
+            <a href="https://www.cnil.fr" rel="noopener" class="text-green underline decoration-green/40 underline-offset-2">www.cnil.fr</a>.
           </p>
         </div>
 
         <div>
-          <h2 class="text-[20px] font-semibold text-ink">Finalité et base légale</h2>
+          <h2 class="text-[20px] font-semibold text-ink">Modifications</h2>
           <p class="mt-3">
-            Ces données servent uniquement à répondre à votre demande de contact ou de
-            démonstration (mesures précontractuelles, article 6.1.b du RGPD).
-            Elles ne sont ni vendues, ni utilisées à d'autres fins.
+            Cette politique peut évoluer avec le produit. La date de dernière mise à jour figure
+            en haut de page&nbsp;; les évolutions substantielles concernant les propriétaires
+            resteront publiées ici, conformément à notre obligation d'information.
           </p>
         </div>
 
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Destinataires et sous-traitants</h2>
-          <p class="mt-3">
-            Votre demande est transmise à l'équipe LA BUSE par email (acheminement :
-            Cloudflare, Inc.) et enregistrée dans notre outil de suivi commercial
-            (Notion Labs, Inc., États-Unis — transferts encadrés par des clauses
-            contractuelles types).
-          </p>
-        </div>
-
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Durée de conservation</h2>
-          <p class="mt-3">
-            Les données de prospection sont conservées au maximum 3 ans après le dernier
-            contact de votre part, puis supprimées.
-          </p>
-        </div>
-
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Vos droits</h2>
-          <p class="mt-3">
-            Vous disposez d'un droit d'accès, de rectification, d'effacement, d'opposition
-            et de portabilité sur vos données. Pour l'exercer, écrivez à
-            <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>.
-            Vous pouvez également adresser une réclamation à la CNIL
-            (<a href="https://www.cnil.fr" rel="noopener" class="text-green underline decoration-green/40 underline-offset-2">www.cnil.fr</a>).
-          </p>
-        </div>
+        <p class="rounded-xl border border-white/[.07] bg-surface/40 p-4 text-[14px] text-muted">
+          Ce document décrit fidèlement nos traitements. Il ne se substitue pas à un conseil
+          juridique&nbsp;: une revue par un professionnel (avocat / DPO) est recommandée avant
+          exploitation commerciale.
+        </p>
       </div>
 
       <a href="/" class="mt-12 inline-flex items-center gap-2.5 text-[16px] font-medium text-ink transition-opacity hover:opacity-80">

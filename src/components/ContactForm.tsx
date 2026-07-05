@@ -92,8 +92,8 @@ export default function ContactForm() {
           </svg>
         </span>
         <div>
-          <p class="text-[19px] font-semibold text-ink">Message bien reçu.</p>
-          <p class="mt-2 text-[15px] text-muted">Merci — nous revenons vers vous très vite.</p>
+          <p class="text-[19px] font-semibold text-ink">Votre demande a bien été envoyée.</p>
+          <p class="mt-2 text-[15px] text-muted">Merci — nous vous répondons sous 24&nbsp;h ouvrées.</p>
         </div>
       </div>
     );
@@ -193,8 +193,9 @@ export default function ContactForm() {
       </button>
 
       <p class="text-[13px] leading-relaxed text-muted">
-        Réponse sous 24&nbsp;h ouvrées. Vos informations restent confidentielles —
-        voir notre <a href="/confidentialite" class="underline decoration-green/40 underline-offset-2 hover:text-ink">politique de confidentialité</a>.
+        Les informations que vous nous transmettez servent uniquement à traiter votre
+        demande de contact. Réponse sous 24&nbsp;h ouvrées. Détails et vos droits dans
+        notre <a href="/confidentialite" class="underline decoration-green/40 underline-offset-2 hover:text-ink">politique de confidentialité</a>.
       </p>
     </form>
   );
