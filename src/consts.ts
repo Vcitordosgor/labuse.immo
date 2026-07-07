@@ -14,5 +14,5 @@ export const NAV = [
   { href: '/#produit', label: 'Le produit' },
   { href: '/#reunion', label: 'La Réunion' },
   { href: '/#donnees', label: 'Données' },
-  { href: '/tarifs', label: 'Tarifs' },
+  { href: '/#tarifs', label: 'Tarifs' },
 ] as const;
