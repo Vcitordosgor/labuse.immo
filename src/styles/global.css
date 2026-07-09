@@ -63,6 +63,12 @@ body::before {
   border-radius: 4px;
 }
 
+/* Sélection de texte dans la DA (plutôt que le bleu système par défaut) */
+::selection {
+  background: rgba(47, 224, 160, 0.28);
+  color: var(--text);
+}
+
 /* ───────────────────────────────────────────────────────────────────────────
    SYSTÈME — classes réutilisables (cohérence des sections)
    ─────────────────────────────────────────────────────────────────────────── */

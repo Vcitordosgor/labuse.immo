@@ -46,8 +46,14 @@ import Logo from './Logo.astro';
       aria-expanded="false"
       aria-controls="menu-mobile"
     >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <!-- Icône hamburger (menu fermé) -->
+      <svg data-icon-open width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+      <!-- Icône croix (menu ouvert) — classe `hidden` (l'attribut hidden ne masque
+           pas un <svg> : le preflight Tailwind force svg{display:block}) -->
+      <svg data-icon-close class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18"></path>
       </svg>
     </button>
   </div>
@@ -57,7 +63,7 @@ import Logo from './Logo.astro';
     id="menu-mobile"
     data-menu-panel
     hidden
-    class="border-t border-white/5 bg-bg/95 px-5 pb-6 pt-2 backdrop-blur-md lg:hidden"
+    class="border-t border-white/5 bg-bg px-5 pb-6 pt-2 lg:hidden"
   >
     <nav class="flex flex-col" aria-label="Navigation mobile">
       {
@@ -87,15 +93,23 @@ import Logo from './Logo.astro';
     const btn = document.querySelector('[data-menu-btn]');
     const panel = document.querySelector('[data-menu-panel]');
     if (!btn || !panel) return;
+    const iconOpen = btn.querySelector('[data-icon-open]');
+    const iconClose = btn.querySelector('[data-icon-close]');
     const close = () => {
       panel.hidden = true;
       btn.setAttribute('aria-expanded', 'false');
       btn.setAttribute('aria-label', 'Ouvrir le menu');
+      if (iconOpen) iconOpen.classList.remove('hidden');
+      if (iconClose) iconClose.classList.add('hidden');
+      document.body.style.overflow = '';
     };
     const open = () => {
       panel.hidden = false;
       btn.setAttribute('aria-expanded', 'true');
       btn.setAttribute('aria-label', 'Fermer le menu');
+      if (iconOpen) iconOpen.classList.add('hidden');
+      if (iconClose) iconClose.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
     };
     btn.addEventListener('click', () => {
       panel.hidden ? open() : close();
@@ -112,6 +126,11 @@ import Logo from './Logo.astro';
     });
     document.addEventListener('click', (e) => {
       if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) close();
+    });
+    // Repli vers le desktop (≥ lg) avec le menu ouvert : on referme pour ne pas
+    // laisser le scroll verrouillé sur un panneau devenu invisible.
+    window.addEventListener('resize', () => {
+      if (!panel.hidden && window.innerWidth >= 1024) close();
     });
   })();
 </script>
