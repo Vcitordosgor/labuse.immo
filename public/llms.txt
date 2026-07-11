@@ -1,0 +1,22 @@
+# LA BUSE
+
+LA BUSE est une plateforme d'intelligence foncière à La Réunion : 431 000+ parcelles
+scorées sur les 24 communes de l'île, en croisant cadastre, PLU, PPR, faisabilité,
+prix et propriétaires — un go/no-go sourcé pour les professionnels de l'immobilier
+(promoteurs, bailleurs sociaux, marchands de biens, investisseurs), pas 60 filtres.
+
+## Pages
+
+- [Accueil — Terrain constructible à La Réunion, scoré](https://labuse.immo/): produit,
+  méthode en trois étapes (choisir une commune, lire la carte de scores, passer à
+  l'action), 22 couches de données croisées, tarifs mensuels affichés (Indé 290 €/mois,
+  Pro 490 €/mois, Organisation sur devis) et formulaire de démonstration.
+- [Mentions légales](https://labuse.immo/mentions-legales/): éditeur et hébergement du site.
+- [Politique de confidentialité](https://labuse.immo/confidentialite/): traitement des
+  données des visiteurs (formulaire de contact) et des propriétaires fonciers (sources
+  publiques), droits RGPD.
+
+## Contact
+
+- Email : contact@labuse.immo
+- Démonstration sur votre commune cible : https://labuse.immo/#contact
