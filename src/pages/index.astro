@@ -14,9 +14,45 @@ import FinalCTA from '../components/FinalCTA.astro';
 import Contact from '../components/Contact.astro';
 import TrustBar from '../components/TrustBar.astro';
 import Footer from '../components/Footer.astro';
+import { plans } from '../data/plans';
+
+// JSON-LD SoftwareApplication — les Offer reprennent la grille AFFICHÉE
+// (src/data/plans.ts, partagé avec Pricing.astro). Les offres sur devis
+// n'ont pas de prix public : elles ne produisent pas d'Offer.
+const site = 'https://labuse.immo';
+const priced = plans.filter((p) => p.price);
+const softwareLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'LA BUSE',
+  url: site,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description:
+    'Plateforme d’intelligence foncière : cadastre, PLU, PPR, prix et propriétaires croisés sur les 24 communes de La Réunion.',
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'EUR',
+    lowPrice: Math.min(...priced.map((p) => Number(p.price))).toString(),
+    highPrice: Math.max(...priced.map((p) => Number(p.price))).toString(),
+    offerCount: priced.length,
+    offers: priced.map((p) => ({
+      '@type': 'Offer',
+      name: p.name,
+      price: p.price,
+      priceCurrency: 'EUR',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: p.price,
+        priceCurrency: 'EUR',
+        unitText: 'mois',
+      },
+    })),
+  },
+};
 ---
 
-<BaseLayout>
+<BaseLayout schemas={[softwareLd]}>
   <Header />
   <main id="contenu">
     <Hero />

@@ -5,11 +5,21 @@ import Footer from '../components/Footer.astro';
 import { CONTACT_EMAIL } from '../consts';
 
 const updated = '5 juillet 2026';
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://labuse.immo/' },
+    { '@type': 'ListItem', position: 2, name: 'Politique de confidentialité', item: 'https://labuse.immo/confidentialite/' },
+  ],
+};
 ---
 
 <BaseLayout
+  schemas={[breadcrumbLd]}
   title="Politique de confidentialité — LA BUSE"
-  description="Comment LA BUSE traite les données personnelles : visiteurs du site (formulaire de contact) et propriétaires fonciers dont les données publiques alimentent la plateforme. Droits d'accès, d'opposition et d'effacement."
+  description="Comment LA BUSE traite vos données : formulaire de contact et données publiques des propriétaires fonciers. Droits d’accès, d’opposition et d’effacement."
 >
   <Header />
   <main id="contenu" class="pt-[76px]">

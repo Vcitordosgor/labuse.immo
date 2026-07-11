@@ -11,18 +11,36 @@ import '../styles/global.css';
 export interface Props {
   title?: string;
   description?: string;
+  /** Pages à exclure de l'index (404…) */
+  noindex?: boolean;
+  /** Schémas JSON-LD additionnels propres à la page (SoftwareApplication, BreadcrumbList…) */
+  schemas?: Record<string, unknown>[];
 }
 
 const {
-  title = 'LA BUSE — Intelligence foncière pour promoteurs à La Réunion',
-  description = 'LA BUSE note et cartographie tout le foncier constructible des 24 communes de La Réunion. Cadastre, PLU, PPR, faisabilité, prix et propriétaires croisés : identifiez les parcelles à bâtir — et leurs propriétaires — avant tout le monde.',
+  // Title < 60 car. (mot-clé + bénéfice + marque) ; description < 155 car.
+  title = 'Terrain constructible à La Réunion, scoré — LA BUSE',
+  description = 'LA BUSE croise cadastre, PLU, PPR, prix et propriétaires sur les 24 communes de La Réunion. Repérez les terrains constructibles avant les autres.',
+  noindex = false,
+  schemas = [],
 } = Astro.props;
 
 const site = 'https://labuse.immo';
 const canonical = new URL(Astro.url.pathname, site).href;
 const ogImage = `${site}/og.png`;
 
-// JSON-LD Organization
+// JSON-LD — présents sur toutes les pages : Organization + WebSite.
+// Les schémas propres à une page (SoftwareApplication, BreadcrumbList…)
+// arrivent via le prop `schemas`.
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'LA BUSE',
+  url: site,
+  inLanguage: 'fr',
+  publisher: { '@type': 'Organization', name: 'LA BUSE', url: site },
+};
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -78,6 +96,7 @@ const jsonLd = {
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
 
     <!-- Open Graph -->
@@ -99,6 +118,8 @@ const jsonLd = {
     <meta name="twitter:image" content={ogImage} />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
   </head>
   <body>
     <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-green focus:px-4 focus:py-2 focus:font-semibold focus:text-[#04140f]">

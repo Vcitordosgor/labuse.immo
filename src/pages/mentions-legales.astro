@@ -5,9 +5,19 @@ import Footer from '../components/Footer.astro';
 import { CONTACT_EMAIL } from '../consts';
 
 const updated = '5 juillet 2026';
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://labuse.immo/' },
+    { '@type': 'ListItem', position: 2, name: 'Mentions légales', item: 'https://labuse.immo/mentions-legales/' },
+  ],
+};
 ---
 
 <BaseLayout
+  schemas={[breadcrumbLd]}
   title="Mentions légales — LA BUSE"
   description="Mentions légales du site labuse.immo, plateforme d'intelligence foncière à La Réunion."
 >
