@@ -33,3 +33,17 @@ par un recensement, puis par une contre-vérification adversariale (workflow du 
    encaisse 79 € tout compris. Afficher « HT » laisse croire qu'une TVA s'ajoute.
 3. App : l'outil Successions affiche l'âge exact du dirigeant (« dirigeant 74 ans ») alors que le
    filtre promet « jamais l'âge exact ».
+
+## Ajouts v3 (07/10/2026)
+
+| Affiché | Valeur exacte | Source (repo app) | Réserve |
+|---|---|---|---|
+| 99 sources de données | 99 (tuile « sources ») | `DASHBOARD-AUDIT-1/RAPPORT.md:21` | Choix de Vic ; mesuré sur la base locale, à relire en prod. |
+| 2,6 M+ données publiques intégrées | 2 678 205 enregistrements (somme des `count(*)`, dérivés et doublons de bâtiments retirés) | `docs/audit-2026-10/CHASSE-1/COUVERTURE.csv`, `ECARTS.csv:6` | Base locale du 04/10 ; recompter sur le VPS. |
+| 50 805 permis et autorisations d'urbanisme | 50 805 (SITADEL) | `docs/audit-2026-10/PARITE-AUDIT-1.md:177` | Mesuré en prod le 07/10. |
+| 78 308 ventes immobilières depuis 2014 | 29 566 (2021-2025) + 48 742 (2014-2020) | `PARITE-AUDIT-1.md:169`, `docs/M124_DVF_PROFONDEUR.md:12` | 2021-2025 identique prod/local. |
+
+Onglets « Aujourd'hui » : portails publics réels, chacun intégré par LABUSE (`seed_sources.py`) :
+cadastre.gouv.fr, Géoportail Urbanisme, georisques.gouv.fr, DEAL Réunion, explore.data.gouv.fr (DVF),
+Sitadel · data.gouv.fr, Annuaire Entreprises, bodacc.fr, cartes.gouv.fr (remplace le Géoportail,
+fermeture annoncée au 30/09/2026), annonces immobilières (générique, pas de marque privée).

@@ -3,228 +3,235 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap">
 <style>
-/* Concept v2 : une page qui vend. La douleur (dix sites) → le soulagement (un seul outil, à jour, 100 % Réunion).
-   DA = celle de l'app (tokens, rayons 4/6/pilule, zéro halo) + son survol signature : aplat dégradé vert,
-   contenu inversé en encre sombre, flèche qui glisse de 3 px, 100 ms. Mauve réservé au Copilote. */
+/* Concept v3 : hero en deux temps (texte | radar sur l'île), puis l'app dans un ordinateur.
+   DA = celle de l'app : tokens, rayons 4/6/pilule, survol signature (dégradé vert, encre sombre,
+   flèche +3 px, 100 ms), mauve réservé au Copilote. Le radar est la seule animation continue. */
 :root{
   color-scheme:dark;
   --bg-0:#0A0C0B; --bg-1:#0C0F0D; --bg-2:#111614; --bg-3:#161C19; --bg-stat:#141A17;
-  --line:#1A211D; --line-2:#212A25; --line-card:#1E2622; --line-btn:#263029; --line-3:#2C3630;
+  --line:#1A211D; --line-2:#212A25; --line-btn:#263029; --line-3:#2C3630;
   --txt-hi:#E8EFEA; --txt:#B8C4BC; --txt-dim:#8A968F; --lab:#7C8A82; --txt-off:#5E6B64;
   --mint:#4ADE80; --mint-bg:#12291D; --mint-on:#06301A; --mint-sub:#0B4526;
   --fill-mint:linear-gradient(135deg,#52E68C 0%,#2FBE66 100%); --ink:#071009;
-  /* mauve = Copilote uniquement ; mêmes valeurs que --violet / --fill-mauve / --mauve-ink de l'app */
   --ia:#B497F0; --fill-ia:linear-gradient(135deg,#B79CFC 0%,#8B6CF2 100%); --ia-ink:#140e22;
-  --amber:#E0A94F; --amber-bg:#2A2113; --coral:#E2726A;
+  --amber:#E0A94F; --amber-bg:#2A2113;
+  --commune:#0E7A43;
   --f-display:'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
   --f-body:'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --f-mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  --r-s:4px; --r:6px;
-  --t:.1s;
+  --r-s:4px; --r:6px; --t:.1s;
 }
 *{box-sizing:border-box}
-html{scroll-padding-top:calc(80px + env(safe-area-inset-top,0px))}
-@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{margin:0;background:var(--bg-0);color:var(--txt);font:400 16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 p{margin:0}
 .wrap{max-width:1200px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
-:focus:not(:focus-visible){outline:none}
 .num{font-variant-numeric:tabular-nums}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:var(--r-s)}
 
-/* ── Survol signature de l'app (index.css : .hover-fill / .acc-entry) ; le focus clavier prend le même rendu, sans anneau (charte §1) ── */
+/* ── Survol signature de l'app ── */
 .hf{transition:background var(--t),border-color var(--t),color var(--t)}
-.hf .arr{display:inline-block;transition:transform var(--t),color var(--t)}
+.hf .arr{display:inline-block;transition:transform var(--t)}
 .hf .tile{transition:background var(--t),border-color var(--t),color var(--t)}
-.hf .d{transition:color var(--t)}
-.hf:focus-visible{outline:2px solid transparent;outline-offset:2px;background:var(--fill-mint);border-color:#2FBE66;color:var(--ink)}
-.hf:focus-visible *{color:var(--ink)!important}
-.hf:focus-visible .d{color:rgba(7,16,9,.72)!important}
-.hf:focus-visible .tile{background:transparent!important;border-color:rgba(7,16,9,.30)!important}
-.hf:focus-visible .arr{transform:translateX(3px)}
-.hf.ia:focus-visible{background:var(--fill-ia);border-color:#8B6CF2;color:var(--ia-ink)}
-.hf.ia:focus-visible *{color:var(--ia-ink)!important}
-.hf.ia:focus-visible .d{color:rgba(20,14,34,.72)!important}
-.hf.ia:focus-visible .tile{border-color:rgba(20,14,34,.34)!important}
 @media (hover:hover) and (pointer:fine){
   .hf:hover{background:var(--fill-mint);border-color:#2FBE66;color:var(--ink)}
   .hf:hover *{color:var(--ink)!important}
-  .hf:hover .d{color:rgba(7,16,9,.72)!important}
   .hf:hover .tile{background:transparent!important;border-color:rgba(7,16,9,.30)!important}
-  .hf:hover .arr,.hf:hover .btn svg{transform:translateX(3px)}
-  .hf:hover .btn{background:var(--ink)!important;border-color:var(--ink)!important}
-  .hf:hover .btn,.hf:hover .btn *{color:var(--mint)!important}
+  .hf:hover .arr{transform:translateX(3px)}
   .hf.ia:hover{background:var(--fill-ia);border-color:#8B6CF2;color:var(--ia-ink)}
   .hf.ia:hover *{color:var(--ia-ink)!important}
-  .hf.ia:hover .d{color:rgba(20,14,34,.72)!important}
   .hf.ia:hover .tile{border-color:rgba(20,14,34,.34)!important}
 }
-
-/* Équivalent tactile du survol (écrans sans survol ; iOS : écouteur touchstart dans le script) */
-@media (hover:none){
-  a.hf:active,summary.hf:active{background:var(--fill-mint);border-color:#2FBE66;color:var(--ink)}
-  a.hf:active *,summary.hf:active *{color:var(--ink)!important}
-  a.hf:active .tile{background:transparent!important;border-color:rgba(7,16,9,.30)!important}
-  a.hf.ia:active{background:var(--fill-ia);border-color:#8B6CF2;color:var(--ia-ink)}
-  a.hf.ia:active *{color:var(--ia-ink)!important}
-  a.hf.ia:active .tile{border-color:rgba(20,14,34,.34)!important}
-  .job.hf:active,.btn-s:active{background:var(--mint);border-color:var(--mint);color:var(--mint-on)}
-}
+.hf:active{background:var(--fill-mint);color:var(--ink)}
 
 /* ── Typo ── */
 h1,h2,h3{font-family:var(--f-display);color:var(--txt-hi);margin:0;text-wrap:balance}
-h1{font-weight:700;font-size:clamp(40px,6.2vw,76px);line-height:1;letter-spacing:-.03em}
-h1 .m{display:block;color:var(--mint)}
+h1{font-weight:700;font-size:clamp(40px,5.4vw,68px);line-height:1.02;letter-spacing:-.03em}
 h2{font-weight:700;font-size:clamp(30px,3.8vw,46px);line-height:1.06;letter-spacing:-.025em}
-h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
+h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
+.m{color:var(--mint)}
+.blk{display:block}
 .cap{font:500 11px/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lab)}
-.lead{font-size:clamp(17px,1.7vw,20px);line-height:1.55;color:var(--txt)}
+.lead{font-size:clamp(17px,1.6vw,19px);line-height:1.55;color:var(--txt)}
 
-/* ── Boutons (survol plein comme l'app) ── */
+/* ── Boutons ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:46px;padding:0 20px;border-radius:var(--r);font:500 15px/1 var(--f-body);cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:background var(--t),border-color var(--t),color var(--t)}
 .btn svg{width:16px;height:16px;flex:none;transition:transform var(--t)}
 .btn-p{background:var(--mint);color:var(--mint-on)}
-.btn-s{border-color:var(--mint);color:var(--mint)}
+.btn-s{border-color:var(--line-btn);color:var(--txt-hi)}
 @media (hover:hover) and (pointer:fine){
-  .btn-s:hover{background:var(--mint);border-color:var(--mint);color:var(--mint-on)}
+  .btn-p:hover,.btn-s:hover{background:var(--fill-mint);border-color:#2FBE66;color:var(--ink)}
   .btn:hover svg{transform:translateX(3px)}
 }
-/* Focus clavier sans anneau (charte) ; le contour transparent reste visible en couleurs forcées */
-.btn:focus-visible{outline:2px solid transparent;outline-offset:2px}
-.btn:focus-visible svg{transform:translateX(3px)}
-.btn-s:focus-visible{background:var(--mint);border-color:var(--mint);color:var(--mint-on)}
-/* Le primaire de l'app n'a pas de focus visible : on l'inverse, comme un bouton dans une carte survolée */
-.btn-p:focus-visible{background:var(--ink);border-color:var(--mint);color:var(--mint)}
-.btn-sm{height:32px;padding:0 14px;font-size:13px}
-@media (max-width:400px){.ctas .btn,.offer .btn{height:auto;min-height:46px;padding-block:10px;white-space:normal;text-align:center;line-height:1.25}}
+.btn-sm{height:36px;padding:0 14px;font-size:13.5px}
 
 /* ── En-tête ── */
 .mq{background:var(--amber-bg);color:var(--amber);font:500 11px/1.4 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:7px 16px}
 .hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg-0);border-bottom:1px solid var(--line)}
-.hdr .wrap{display:flex;align-items:center;gap:24px;height:64px}
-.logo{display:inline-flex;align-items:center;gap:11px;flex:none;min-height:44px;padding-inline:6px;margin-inline:-7px;border:1px solid transparent;border-radius:var(--r)}
-.logo:focus-visible{outline:2px solid transparent;border-color:var(--mint)}
+.hdr .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.logo{display:inline-flex;align-items:center;gap:11px;flex:none}
 .logo svg{width:30px;height:auto;color:var(--mint)}
 .wm{font:700 21px/1 var(--f-display);letter-spacing:.04em;color:var(--txt-hi)}
 .wm b{color:var(--mint)}
 .nav{display:flex;gap:4px;margin-left:auto}
-.nav a{padding:8px 12px;border-radius:var(--r);color:var(--txt-dim);font-size:14px;border:1px solid transparent}
+.nav a{padding:8px 12px;border-radius:var(--r);color:var(--txt-dim);font-size:14.5px;border:1px solid transparent}
 .hdr-cta{display:flex;gap:8px}
-@media (max-width:980px){.nav{display:none}.hdr-cta{margin-left:auto}}
+@media (max-width:900px){.nav{display:none}.hdr-cta{margin-left:auto}}
 @media (max-width:520px){.hdr-cta .btn-s{display:none}}
-@media (max-width:374px){.hdr .wrap{gap:12px}.wm{font-size:19px}.hdr-cta .btn-sm{padding:0 10px}}
+@media (max-width:380px){.wm{font-size:17px}.logo svg{width:24px}.logo{gap:8px}.hdr .wrap{gap:10px}.hdr-cta .btn-p{padding:0 10px;font-size:13px}}
 
-/* ── Hero ── */
-.hero{padding-block:clamp(56px,7vw,96px) 0;text-align:center}
+/* ── Hero : texte | radar ── */
+.hero{padding-block:clamp(48px,6vw,88px) clamp(40px,5vw,64px)}
+.hero-grid{display:grid;gap:clamp(36px,5vw,64px);grid-template-columns:minmax(0,1fr);align-items:center}
+@media (min-width:1000px){.hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 .hero .cap{color:var(--mint)}
 .hero h1{margin-top:20px}
-.hero .lead{margin:24px auto 0;max-width:46ch}
-.ctas{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:32px}
-.desk{margin-top:16px;font-size:13px;color:var(--txt-dim)}
+.hero .lead{margin-top:24px;max-width:40ch}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
 
-/* ordinateur portable (illustration — seule forme hors charte des rayons) */
-.laptop{max-width:1186px;margin:clamp(44px,5vw,64px) auto 0}
-@media (min-width:1000px){.laptop{margin-inline:-33px}}
-.lid{position:relative;background:var(--bg-2);border:1px solid var(--line-3);border-bottom:0;border-radius:14px 14px 0 0;padding:1.93% 1.93% 1.4%;margin-inline:6.14%}
-.lid::before{content:'';position:absolute;top:.85%;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--line-btn)}
+/* radar (élément signature de l'ancien site, porté dans la DA de l'app) */
+.radar-wrap{position:relative;width:100%;max-width:560px;margin-inline:auto;aspect-ratio:1/1}
+.radar{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(74,222,128,.18);overflow:hidden;
+  background:
+    radial-gradient(circle,transparent 0 24%,rgba(74,222,128,.08) 24.2% 24.4%,transparent 24.6% 49%,rgba(74,222,128,.08) 49.2% 49.4%,transparent 49.6% 74%,rgba(74,222,128,.09) 74.2% 74.4%,transparent 74.6%),
+    linear-gradient(90deg,transparent calc(50% - .5px),rgba(74,222,128,.16) 50%,transparent calc(50% + .5px)),
+    linear-gradient(0deg,transparent calc(50% - .5px),rgba(74,222,128,.16) 50%,transparent calc(50% + .5px));}
+.radar .ticks{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg,rgba(74,222,128,.10) 0deg .7deg,transparent .7deg 15deg);opacity:.5}
+.radar .sweep{position:absolute;inset:-2px;border-radius:50%;z-index:5;mix-blend-mode:screen;
+  background:conic-gradient(from 0deg,rgba(74,222,128,.55) 0deg,rgba(82,230,140,.35) 8deg,rgba(74,222,128,.10) 24deg,transparent 46deg,transparent 360deg);
+  animation:sweep 6s linear infinite}
+.island{position:absolute;inset:0;display:grid;place-items:center;z-index:3}
+.island svg{width:84%;height:auto}
+.coast{fill:rgba(74,222,128,.10);stroke:var(--mint);stroke-width:2.2;stroke-linejoin:round}
+.pdot{fill:var(--mint);animation:blink 2.8s infinite}
+.pring{fill:none;stroke:rgba(74,222,128,.45);stroke-width:1.2;animation:pulse 2.8s infinite;transform-origin:center;transform-box:fill-box}
+.phot{fill:#E8EFEA}
+.phot-ring{fill:none;stroke:rgba(74,222,128,.75);stroke-width:1.4;animation:pulse 2.4s infinite;transform-origin:center;transform-box:fill-box}
+.radar-paused .sweep,.radar-paused .pdot,.radar-paused .pring,.radar-paused .phot-ring{animation-play-state:paused}
+@keyframes sweep{to{transform:rotate(360deg)}}
+@keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes pulse{0%{transform:scale(.5);opacity:.9}70%{transform:scale(1.5);opacity:0}100%{opacity:0}}
+/* carte de repérage flottante (élément flottant : seule ombre autorisée) */
+.spot{position:absolute;z-index:10;left:0;bottom:6%;width:min(232px,62%);background:var(--bg-3);border:1px solid var(--line-3);border-radius:var(--r);padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.spot .t{display:flex;align-items:center;gap:8px;font:500 13px/1.3 var(--f-body);color:var(--txt-hi)}
+.spot .t i{width:8px;height:8px;border-radius:50%;background:var(--mint);flex:none}
+.spot ul{list-style:none;margin:10px 0 0;padding:10px 0 0;border-top:1px solid var(--line-3);display:grid;gap:6px}
+.spot li{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--txt-dim)}
+.spot li b{color:var(--mint);font-weight:500}
+@media (min-width:1000px){.spot{left:-6%}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+  .sweep,.pdot,.pring,.phot-ring{animation:none!important}
+  .sweep{opacity:.6}
+}
+
+/* ── Ordinateur + vidéo ── */
+.laptop{max-width:1040px;margin-inline:auto;padding-inline:5%}
+.lid{position:relative;background:#121615;border:1px solid var(--line-3);border-bottom:0;border-radius:14px 14px 0 0;padding:2.2% 2.2% 1.6%}
+.lid::before{content:'';position:absolute;top:.8%;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#26302B}
 .screen{position:relative;border-radius:3px;overflow:hidden;background:var(--bg-1);aspect-ratio:1200/750}
-.screen img{width:100%;height:100%;object-fit:cover}
-.vid{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;min-height:28px;background:rgba(22,28,25,.92);border:1px solid var(--line-3);border-radius:9999px;padding:6px 12px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--txt)}
+.screen video{display:block;width:100%;height:100%;object-fit:cover}
+.vid{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;background:rgba(22,28,25,.92);border:1px solid var(--line-3);border-radius:9999px;padding:6px 12px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--txt)}
 .vid i{width:7px;height:7px;border-radius:50%;background:var(--amber)}
-.base{position:relative;height:16px;background:linear-gradient(var(--line-btn),var(--bg-3));border-radius:0 0 12px 12px}
-.base::before{content:'';position:absolute;top:0;left:50%;width:16%;height:6px;transform:translateX(-50%);background:var(--bg-1);border-radius:0 0 8px 8px}
-@media (max-width:640px){.vid{left:8px;bottom:8px;padding:5px 10px;min-height:26px}}
+.base{position:relative;height:16px;margin:0 -5%;background:linear-gradient(#262D2A,#151A18);border-radius:0 0 12px 12px;box-shadow:0 22px 40px rgba(0,0,0,.55)}
+.base::before{content:'';position:absolute;top:0;left:50%;width:16%;height:6px;transform:translateX(-50%);background:#0E1211;border-radius:0 0 8px 8px}
 
-/* chiffres */
-.figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line-2);border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;margin-top:clamp(48px,6vw,72px);text-align:left}
-@media (min-width:760px){.figs{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (min-width:1100px){.figs{grid-template-columns:repeat(6,minmax(0,1fr))}}
-.fig{background:var(--bg-stat);padding:22px 20px;min-width:0;cursor:default}
-.fig .v{font:700 clamp(28px,2.6vw,36px)/1 var(--f-display);color:var(--txt-hi);letter-spacing:-.02em;white-space:nowrap}
-.fig .l{margin-top:9px;font-size:13.5px;line-height:1.4;color:var(--txt-dim)}
+/* ── Chiffres : 2 lignes de 4 ── */
+.figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line-2);border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;margin-top:clamp(48px,6vw,72px)}
+@media (min-width:900px){.figs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.fig{background:var(--bg-stat);padding:24px 22px;min-width:0}
+.fig .v{font:700 clamp(30px,3.2vw,42px)/1 var(--f-display);color:var(--txt-hi);letter-spacing:-.02em;white-space:nowrap}
+.fig .l{margin-top:10px;font-size:14px;line-height:1.4;color:var(--txt-dim)}
 
 /* ── Sections ── */
-.sec{padding-block:clamp(72px,9vw,120px)}
-.sec + .sec{border-top:1px solid var(--line)}
+.sec{padding-block:clamp(72px,9vw,120px);border-top:1px solid var(--line)}
 .alt{background:var(--bg-1)}
-.head{display:grid;gap:16px;max-width:760px;margin-bottom:clamp(36px,4.5vw,56px)}
-.head.c{margin-inline:auto;text-align:center;justify-items:center}
+.head{display:grid;gap:16px;max-width:780px;margin-bottom:clamp(36px,4.5vw,56px)}
 
-/* ── Douleur → soulagement ── */
-.punch h2{font-size:clamp(32px,4.4vw,56px);max-width:20ch}
+/* ── Avant / après ── */
+.punch h2{font-size:clamp(34px,4.8vw,60px);max-width:16ch}
 .ba{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);margin-top:clamp(36px,4.5vw,52px)}
-@media (min-width:900px){.ba{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+@media (min-width:900px){.ba{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}}
 .ba > div{border:1px solid var(--line-2);border-radius:var(--r);padding:clamp(20px,3vw,30px);min-width:0;display:grid;gap:18px;align-content:start}
 .before{background:var(--bg-1)}
-.ba > .after{background:var(--mint-bg);border-color:var(--mint-sub)}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
-.tab{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;border-radius:var(--r) var(--r) 0 0;border:1px solid var(--line-3);border-bottom-color:transparent;background:var(--bg-2);font-size:13px;color:var(--txt-dim);white-space:nowrap}
-.tab::after{content:'×';content:'×' / '';color:var(--txt-off);margin-left:2px}
-.before p,.after p{font-size:15.5px}
-.before p{color:var(--txt-dim)}
-.after .one{display:inline-flex;align-items:center;gap:9px;height:36px;padding:0 14px;border-radius:var(--r) var(--r) 0 0;background:var(--mint);color:var(--mint-on);font:500 14px/1 var(--f-body);justify-self:start}
+.after{background:var(--mint-bg);border-color:var(--mint-sub)!important}
+.tabs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.tab{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;border-radius:var(--r) var(--r) 0 0;border:1px solid var(--line-3);border-bottom-color:transparent;background:var(--bg-2);font:400 12.5px/1 var(--f-mono);color:var(--txt-dim);white-space:nowrap}
+.tab::after{content:'×' / '';color:var(--txt-off)}
+.before p{color:var(--txt-dim);font-size:16px}
+.after .one{display:inline-flex;align-items:center;gap:9px;height:36px;padding:0 14px;border-radius:var(--r) var(--r) 0 0;background:var(--mint);color:var(--mint-on);font:500 13px/1 var(--f-mono);justify-self:start}
 .after .one svg{width:18px;height:auto}
-.after p{color:var(--txt-hi)}
+.after p{color:var(--txt-hi);font-size:17px}
 .after p b{color:var(--mint);font-weight:500}
 
-/* ── Avantages ── */
+/* ── Avantages (5 fiches, même gabarit) ── */
 .adv{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
 @media (min-width:640px){.adv{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (min-width:1100px){.adv{grid-template-columns:repeat(5,minmax(0,1fr))}}
-.adv > div{background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r);padding:22px 20px;display:grid;gap:12px;align-content:start;min-width:0;cursor:default}
-.tile{width:34px;height:34px;flex:none;border-radius:var(--r);display:grid;place-items:center;border:1px solid rgba(74,222,128,.38);background:rgba(74,222,128,.14);color:var(--mint)}
-.tile svg{width:17px;height:17px}
+.adv > div{background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r);padding:22px 20px;display:grid;grid-template-rows:auto auto 1fr;gap:12px;min-width:0}
+.adv h3{min-height:2.5em}
 .adv p{font-size:14.5px;color:var(--txt-dim)}
+.tile{width:34px;height:34px;border-radius:var(--r);display:grid;place-items:center;border:1px solid rgba(74,222,128,.38);background:rgba(74,222,128,.14);color:var(--mint)}
+.tile svg{width:17px;height:17px}
 
-/* ── Modules (entrées façon accueil de l'app) ── */
+/* ── L'outil : 8 catégories façon accueil de l'app ── */
 .mods{display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
 @media (min-width:820px){.mods{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .mod{display:flex;align-items:center;gap:14px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r);padding:14px 16px;min-width:0}
 .mod .txt{flex:1;min-width:0}
-.mod b{display:block;font:500 17px/1.25 var(--f-body);color:var(--txt-hi)}
-.mod span.d{display:block;margin-top:3px;font-size:14px;color:var(--txt-dim)}
+.mod b{display:block;font:500 16px/1.25 var(--f-body);color:var(--txt-hi)}
+.mod .d{display:block;margin-top:2px;font-size:14px;color:var(--txt-dim)}
 .mod .arr{color:var(--mint);font-size:16px}
 .mod.ia .tile{border-color:rgba(180,151,240,.42);background:rgba(180,151,240,.16);color:var(--ia)}
 .mod.ia .arr{color:var(--ia)}
 
-/* ── 100 % Réunion ── */
+/* ── La Réunion ── */
 .run{display:grid;gap:clamp(36px,5vw,64px);grid-template-columns:minmax(0,1fr);align-items:center}
 @media (min-width:960px){.run{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 .run h2{font-size:clamp(34px,4.6vw,58px)}
-.run h2 .m{display:block;color:var(--mint)}
 .run .lead{margin-top:22px;max-width:44ch}
-.pts{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:0;border-top:1px solid var(--line-2)}
-.pts li{display:flex;gap:12px;align-items:center;padding:12px 4px;border-bottom:1px solid var(--line);font-size:15.5px;color:var(--txt-hi);border-radius:var(--r-s)}
-.pts li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--mint);flex:none}
-.island{position:relative}
-.island svg{width:100%;height:auto;overflow:visible}
-.island .coast{fill:rgba(74,222,128,.07);stroke:var(--mint);stroke-width:2;stroke-linejoin:round}
-.island .pt{fill:var(--mint)}
-.coord{display:flex;justify-content:space-between;margin-top:12px;font:400 11.5px/1 var(--f-mono);letter-spacing:.06em;color:var(--lab)}
+.pts{list-style:none;padding:0;margin:28px 0 0;border-top:1px solid var(--line-2)}
+.pts li{display:flex;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--txt-hi)}
+.pts li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--mint);flex:none;transform:translateY(-2px)}
+.coms{display:flex;flex-wrap:wrap;gap:8px;align-content:center}
+.com{display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:9999px;background:var(--commune);border:1px solid #000;color:#fff;font:500 13px/1 var(--f-body)}
+.coms-note{margin-top:14px;font:400 12px/1.4 var(--f-mono);letter-spacing:.04em;color:var(--lab)}
 
 /* ── Métiers ── */
 .jobs{display:flex;flex-wrap:wrap;gap:8px}
-.job{display:inline-flex;align-items:center;min-height:32px;padding:4px 12px;border:1px solid var(--line-2);border-radius:9999px;background:var(--bg-3);font:500 13px/1.25 var(--f-body);color:var(--txt);cursor:pointer}
-.job.hf:focus-visible{background:var(--mint);border-color:var(--mint);color:var(--mint-on)}
-@media (hover:hover) and (pointer:fine){.job.hf:hover{background:var(--mint);border-color:var(--mint);color:var(--mint-on)}}
+.job{display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1px solid var(--line-3);border-radius:9999px;background:var(--bg-2);font-size:14.5px;color:var(--txt-hi)}
 
-/* ── Offres ── */
-.offers{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+/* ── Tarifs : deux cartes au même gabarit ── */
+.offers{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
 @media (min-width:900px){.offers{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.offer{position:relative;border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);padding:clamp(24px,3vw,32px);display:grid;gap:16px;align-content:start;min-width:0}
-.offer.main{border-left:2px solid var(--mint);border-top-left-radius:0;border-bottom-left-radius:0}
-.offer .nm{font:500 15px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mint)}
-.offer .price{font:700 46px/1 var(--f-display);color:var(--txt-hi);letter-spacing:-.02em}
-.offer .price.t{font-size:28px;line-height:1.15}
-.offer > p{font-size:15.5px;color:var(--txt)}
-.offer .go{justify-self:start}
-.offer .go::after{content:'';position:absolute;inset:0;border-radius:var(--r)}
-.incl{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.offer{border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);display:grid;grid-template-rows:auto 1fr;min-width:0;overflow:hidden}
+.offer-vis{height:150px;border-bottom:1px solid var(--line-2);background:var(--bg-1);display:grid;place-items:center;position:relative;overflow:hidden}
+.offer-body{padding:clamp(22px,3vw,30px);display:grid;grid-template-rows:auto auto auto 1fr auto;gap:16px}
+.offer .nm{font:500 12px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mint)}
+.offer h3{font-size:26px;letter-spacing:-.02em}
+.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.price b{font:700 34px/1 var(--f-display);color:var(--txt-hi);letter-spacing:-.02em}
+.price span{font-size:14px;color:var(--txt-dim)}
+.incl{list-style:none;margin:0;padding:0;display:grid;gap:10px;align-content:start}
 .incl li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:10px;font-size:15px;color:var(--txt)}
 .incl svg{width:14px;height:14px;color:var(--mint);margin-top:5px}
+.offer .btn{width:100%}
+/* visuel Flash : un rapport PDF */
+.pdf{width:104px;height:124px;transform:rotate(-4deg);background:#E8EFEA;border-radius:3px;box-shadow:0 8px 24px rgba(0,0,0,.45);padding:12px 11px;display:grid;gap:6px;align-content:start}
+.pdf + .pdf{position:absolute;transform:rotate(5deg) translate(40px,6px);opacity:.55}
+.pdf i{display:block;height:5px;border-radius:2px;background:#C8D2CC}
+.pdf i.h{height:9px;width:62%;background:#1E9E58}
+.pdf i.s{width:70%}
+.pdf i.k{height:26px;background:#D7E0DA}
+/* visuel Intégral : les catégories de l'app */
+.rail{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:0 16px}
+.rail .tile{width:40px;height:40px}
+.rail .tile svg{width:19px;height:19px}
+.rail .tile.ia{border-color:rgba(180,151,240,.42);background:rgba(180,151,240,.16);color:var(--ia)}
 .legal{margin-top:22px;font-size:13px;color:var(--txt-dim);max-width:80ch}
 
 /* ── FAQ ── */
@@ -232,51 +239,36 @@ h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
 .faq details{border-bottom:1px solid var(--line)}
 .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 14px;margin-inline:-14px;border-radius:var(--r);border:1px solid transparent;font:500 17px/1.35 var(--f-body);color:var(--txt-hi)}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary .chev{display:inline-flex;align-items:center;justify-content:center;flex:none;width:20px;height:20px;border-radius:var(--r-s);color:var(--txt-dim);transition:background var(--t),color var(--t)}
-.faq summary .chev svg{width:12px;height:12px;transition:transform var(--t)}
-.faq details[open] summary .chev{background:var(--mint);color:var(--mint-on)}
-.faq details[open] summary .chev svg{transform:rotate(-90deg)}
-.faq summary.hf:focus-visible{outline-offset:-2px}
-.faq summary.hf:focus-visible .chev{background:transparent}
-@media (hover:hover) and (pointer:fine){.faq summary.hf:hover .chev{background:transparent}}
+.faq summary .arr{font:400 20px/1 var(--f-mono);color:var(--lab)}
+.faq details[open] summary .arr{transform:rotate(45deg)}
 .faq details p{padding:4px 0 20px;color:var(--txt-dim);font-size:15.5px;max-width:68ch}
-
-/* ── Contact : titre en deux temps (repris du CTA final supprimé) ── */
-.ct h2 .m{display:block;color:var(--mint)}
 
 /* ── Contact ── */
 .ct{display:grid;gap:clamp(32px,4vw,56px);grid-template-columns:minmax(0,1fr)}
-@media (min-width:1000px){.ct{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:start}}
-.bul{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:11px}
-.bul li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:10px;color:var(--txt);font-size:15.5px}
-.bul svg{width:14px;height:14px;color:var(--mint);margin-top:5px}
+@media (min-width:1000px){.ct{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:start}}
+.mail{margin-top:26px;display:grid;gap:4px}
+.mail span{font:500 15px/1.3 var(--f-body);color:var(--txt-hi)}
 .form{display:grid;gap:14px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);padding:clamp(18px,3vw,28px);min-width:0}
-.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:4px;background:var(--bg-0);border:1px solid var(--line-2);border-radius:var(--r)}
-.seg label{position:relative}
-.seg input{position:absolute;opacity:0;inset:0}
-.seg span{display:flex;align-items:center;justify-content:center;text-align:center;min-height:40px;padding:6px 10px;border-radius:var(--r);font:500 13.5px/1.25 var(--f-body);color:var(--txt-dim);cursor:pointer;transition:background var(--t),color var(--t)}
-.seg input:checked + span{background:var(--mint);color:var(--mint-on)}
-.seg{transition:border-color var(--t)}
-.seg:has(input:focus-visible){border-color:var(--mint);outline:2px solid transparent}
 .fgrid{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
 @media (min-width:620px){.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .fld{display:grid;gap:6px;min-width:0}
 .fld label{font:500 11px/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--lab)}
-.fld input,.fld textarea{width:100%;background:var(--bg-0);border:1px solid var(--txt-off);border-radius:var(--r);color:var(--txt-hi);font:400 15px/1.4 var(--f-body);padding:10px 12px;transition:border-color var(--t)}
+.fld input,.fld textarea{width:100%;background:var(--bg-0);border:1px solid var(--line-3);border-radius:var(--r);color:var(--txt-hi);font:400 15px/1.4 var(--f-body);padding:10px 12px;transition:border-color var(--t)}
 .fld input{height:44px}
-.fld textarea{min-height:110px;resize:vertical}
-.fld input::placeholder,.fld textarea::placeholder{color:var(--lab)}
-.fld input:focus,.fld textarea:focus{outline:2px solid transparent;outline-offset:-1px;border-color:var(--mint)}
+.fld textarea{min-height:130px;resize:vertical}
+.fld input::placeholder,.fld textarea::placeholder{color:var(--txt-off)}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--mint)}
 .fine{font-size:12.5px;color:var(--txt-dim)}
-.status{font-size:13.5px;color:var(--amber)}
+.fine a{text-decoration:underline;text-underline-offset:2px}
+.status{font-size:14px;color:var(--amber)}
 
 /* ── Pied de page ── */
-.ftr{padding-block:48px 36px}
+.ftr{padding-block:48px 36px;border-top:1px solid var(--line)}
 .ftr-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px;align-items:flex-start}
 .ftr .tag{margin-top:14px;font:500 17px/1.4 var(--f-display);color:var(--txt-hi);max-width:30ch}
 .ftr ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:4px 6px}
 .ftr ul a,.ftr ul span{display:inline-block;padding:7px 10px;border-radius:var(--r);font-size:14px;color:var(--txt);border:1px solid transparent}
-.ftr-bot{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:12.5px;color:var(--txt-dim)}
+.ftr-bot{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:12.5px;color:var(--lab)}
 
 /* ── Notes de maquette ── */
 .notes{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;max-width:min(400px,calc(100vw - 32px))}
@@ -286,7 +278,7 @@ h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
 .notes ol{clear:both;margin:0;padding:16px 18px 16px 34px;background:var(--bg-3);border:1px solid var(--line-3);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.45);display:grid;gap:8px;font-size:13px;color:var(--txt);max-height:60vh;overflow:auto}
 </style>
 
-<div class="mq">Maquette v2 · labuse.immo · 07/10/2026 · vidéo et capture provisoires</div>
+<div class="mq">Maquette v3 · labuse.immo · 07/10/2026 · vidéo provisoire</div>
 
 <header class="hdr">
   <div class="wrap">
@@ -295,15 +287,13 @@ h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
       <span class="wm">LA<b>BUSE</b></span>
     </a>
     <nav class="nav" aria-label="Navigation principale">
-      <a class="hf" href="#avantages">Avantages</a>
       <a class="hf" href="#outil">L’outil</a>
-      <a class="hf" href="#reunion">La Réunion</a>
-      <a class="hf" href="#metiers">Pour qui</a>
-      <a class="hf" href="#offres">Offres</a>
+      <a class="hf" href="#tarifs">Tarifs</a>
+      <a class="hf" href="#contact">Contact</a>
     </nav>
     <div class="hdr-cta">
       <a class="btn btn-s btn-sm" href="https://app.labuse.immo/login">Se connecter</a>
-      <a class="btn btn-p btn-sm" href="#contact" data-offre="demo">Demander une démo</a>
+      <a class="btn btn-p btn-sm" href="#contact" data-pre="demo">Demander une démo</a>
     </div>
   </div>
 </header>
@@ -312,70 +302,135 @@ h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
   <!-- HERO -->
   <section class="hero">
     <div class="wrap">
-      <p class="cap">100 % La Réunion · les 24 communes</p>
-      <h1>Tout le foncier de La Réunion. <span class="m">Au même endroit.</span></h1>
-      <p class="lead">Règles, risques, marché, permis : l’essentiel d’un terrain, en un clic. Les données bougent, LABUSE suit. Créé pour La Réunion, uniquement pour elle.</p>
-      <div class="ctas">
-        <a class="btn btn-p" href="#contact" data-offre="demo">Demander une démo
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn btn-s" href="#contact" data-offre="flash">Commander un Flash · 79 € HT</a>
+      <div class="hero-grid">
+        <div>
+          <p class="cap">100 % La Réunion · 24 communes</p>
+          <h1>Tout le foncier de La Réunion. <span class="m blk">Au même endroit.</span></h1>
+          <p class="lead">Urbanisme, risques, ventes, permis : tout ce qu’il faut savoir sur un terrain, en un clic. Rien que pour La Réunion.</p>
+          <div class="ctas">
+            <a class="btn btn-p" href="#contact" data-pre="demo">Demander une démo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn-s" href="#contact" data-pre="flash">Commander un Flash</a>
+          </div>
+        </div>
+        <div class="radar-wrap" id="radar">
+          <div class="radar" role="img" aria-label="Radar animé sur l’île de La Réunion : les terrains sont repérés au fil du balayage.">
+            <div class="ticks" aria-hidden="true"></div>
+            <div class="sweep" aria-hidden="true"></div>
+            <div class="island" aria-hidden="true">
+              <svg viewBox="0 0 500 440" xmlns="http://www.w3.org/2000/svg">
+                <path class="coast" d="M47.8 204.6 L30.6 190.6 L23.1 180.5 L23.8 166.4 L26.9 162.8 L25.5 163.6 L23.4 160.1 L20.0 151.2 L33.8 136.4 L42.1 137.9 L49.6 135.2 L64.4 123.9 L69.1 106.9 L65.1 89.7 L67.3 85.2 L68.1 76.4 L69.9 76.8 L68.8 82.6 L70.0 77.5 L71.7 79.0 L72.3 74.7 L73.9 75.0 L72.8 74.3 L74.2 73.3 L71.8 73.0 L73.0 71.7 L71.2 71.6 L71.6 75.5 L69.4 75.2 L69.6 68.9 L72.3 66.6 L85.0 70.6 L95.4 69.9 L96.2 72.1 L92.6 73.5 L100.2 75.2 L100.4 70.9 L98.8 70.6 L97.9 68.5 L99.5 70.1 L104.4 69.7 L114.8 65.4 L120.4 57.4 L126.3 54.8 L133.4 48.0 L152.3 35.5 L171.7 30.0 L186.0 31.6 L194.0 28.0 L207.7 37.2 L222.5 38.3 L232.4 35.8 L257.5 42.6 L256.5 43.6 L261.1 45.0 L267.8 45.5 L273.9 42.6 L284.9 44.2 L290.9 47.1 L298.8 45.9 L319.7 56.9 L325.9 56.8 L339.8 60.5 L353.4 68.6 L366.2 81.8 L376.3 97.8 L379.1 107.3 L380.7 136.5 L384.4 143.9 L392.2 147.1 L398.3 156.8 L402.6 160.2 L401.9 167.7 L407.4 176.2 L420.0 189.2 L425.1 197.8 L431.6 202.5 L438.0 213.6 L442.4 216.4 L446.6 215.4 L452.9 217.6 L460.1 225.0 L472.0 229.7 L473.6 236.3 L478.8 242.2 L477.4 250.3 L480.0 259.2 L476.5 261.5 L472.0 261.2 L471.2 273.9 L463.3 282.1 L459.1 292.0 L458.8 300.3 L454.0 315.8 L455.6 330.0 L459.0 336.3 L455.7 353.0 L457.4 365.2 L459.7 368.6 L458.2 373.0 L450.5 383.3 L434.5 394.4 L420.5 392.5 L416.1 396.0 L398.7 397.6 L385.1 402.6 L364.9 401.2 L357.0 407.9 L348.3 407.2 L339.1 412.0 L335.5 408.4 L329.2 407.0 L311.3 410.4 L303.0 404.1 L296.7 402.3 L294.5 398.9 L283.6 402.1 L271.4 398.6 L268.1 401.0 L266.9 398.1 L258.8 393.2 L247.7 391.1 L231.0 383.3 L221.4 383.0 L218.4 384.6 L214.4 378.1 L207.9 378.8 L200.2 376.3 L196.2 371.5 L196.7 369.2 L192.3 366.8 L178.3 365.3 L170.6 361.7 L164.6 356.5 L160.7 349.7 L149.1 339.9 L131.5 334.3 L112.1 332.1 L108.0 329.2 L105.7 325.7 L107.5 323.5 L104.5 315.1 L96.7 310.6 L97.5 308.0 L89.8 301.3 L76.6 293.6 L70.8 276.9 L67.4 273.4 L72.4 258.9 L72.1 242.5 L67.9 236.9 L61.5 234.7 L59.7 229.7 L60.3 220.9 L47.1 207.7 L47.8 204.6 Z"/>
+                <circle class="phot-ring" cx="108.2" cy="250.0" r="26"/>
+                <circle class="phot-ring" cx="108.2" cy="250.0" r="16" style="animation-delay:.7s"/>
+                <circle class="phot" cx="108.2" cy="250.0" r="7"/>
+                <circle class="pdot" cx="250" cy="215" r="4.4" style="animation-delay:1.93s"/>
+                <circle class="pdot" cx="171.8" cy="91.5" r="4.9" style="animation-delay:1.92s"/>
+                <circle class="pdot" cx="265.9" cy="170.6" r="3.4" style="animation-delay:1.21s"/>
+                <circle class="pdot" cx="216.5" cy="340.3" r="4.4" style="animation-delay:2.34s"/>
+                <circle class="pring" cx="216.5" cy="340.3" r="10.9" style="animation-delay:2.34s"/>
+                <circle class="pdot" cx="83.0" cy="118.2" r="4.2" style="animation-delay:0.64s"/>
+                <circle class="pdot" cx="306.6" cy="384.8" r="4.3" style="animation-delay:0.03s"/>
+                <circle class="pring" cx="306.6" cy="384.8" r="10.8" style="animation-delay:0.03s"/>
+                <circle class="pdot" cx="165.0" cy="336.3" r="3.8" style="animation-delay:2.38s"/>
+                <circle class="pdot" cx="311.7" cy="173.0" r="3.7" style="animation-delay:2.07s"/>
+                <circle class="pring" cx="311.7" cy="173.0" r="10.2" style="animation-delay:2.07s"/>
+                <circle class="pdot" cx="271.2" cy="59.1" r="4.4" style="animation-delay:0.33s"/>
+                <circle class="pring" cx="271.2" cy="59.1" r="10.9" style="animation-delay:0.33s"/>
+                <circle class="pdot" cx="330.1" cy="193.4" r="4.8" style="animation-delay:0.54s"/>
+                <circle class="pring" cx="330.1" cy="193.4" r="11.3" style="animation-delay:0.54s"/>
+                <circle class="pdot" cx="167.5" cy="251.5" r="5.0" style="animation-delay:2.27s"/>
+                <circle class="pring" cx="167.5" cy="251.5" r="11.5" style="animation-delay:2.27s"/>
+                <circle class="pdot" cx="229.2" cy="146.3" r="4.9" style="animation-delay:1.4s"/>
+                <circle class="pdot" cx="380.7" cy="293.2" r="3.7" style="animation-delay:2.45s"/>
+                <circle class="pdot" cx="136.4" cy="247.4" r="4.9" style="animation-delay:2.32s"/>
+                <circle class="pring" cx="136.4" cy="247.4" r="11.4" style="animation-delay:2.32s"/>
+                <circle class="pdot" cx="261.2" cy="358.1" r="4.0" style="animation-delay:0.43s"/>
+                <circle class="pring" cx="261.2" cy="358.1" r="10.5" style="animation-delay:0.43s"/>
+              </svg>
+            </div>
+          </div>
+          <div class="spot" aria-hidden="true">
+            <p class="t"><i></i>Terrain repéré · Saint-Paul</p>
+            <ul>
+              <li>Urbanisme <b>✓</b></li>
+              <li>Risques <b>✓</b></li>
+              <li>Ventes autour <b>✓</b></li>
+              <li>Permis autour <b>✓</b></li>
+            </ul>
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
 
+  <!-- L'APP DANS L'ORDINATEUR -->
+  <section aria-label="L’app LABUSE en vidéo" style="padding-bottom:clamp(64px,8vw,104px)">
+    <div class="wrap">
       <div class="laptop">
         <div class="lid">
           <div class="screen">
-            <img src="assets/app-carte.jpg" width="1200" height="750" alt="L’app LABUSE ouverte sur la carte de La Réunion et ses 24 communes.">
-            <span class="vid"><i aria-hidden="true"></i>Vidéo 12 s · à venir</span>
+            <video muted playsinline loop preload="none" poster="assets/app-carte.jpg" aria-label="Vidéo : l’app LABUSE, de la carte de l’île à la fiche d’un terrain."></video>
+            <span class="vid"><i aria-hidden="true"></i>Vidéo à venir</span>
           </div>
         </div>
         <div class="base" aria-hidden="true"></div>
       </div>
 
-      <div class="figs">
-        <div class="fig hf"><div class="v num">+ de 90</div><div class="l">sources de données</div></div>
-        <div class="fig hf"><div class="v num">59</div><div class="l">couches cartographiques</div></div>
-        <div class="fig hf"><div class="v num">24/24</div><div class="l">communes de La Réunion</div></div>
-        <div class="fig hf"><div class="v num">89</div><div class="l">informations sur la fiche terrain</div></div>
+      <div class="figs" id="chiffres">
         <div class="fig hf"><div class="v num">431&nbsp;663</div><div class="l">parcelles analysées</div></div>
+        <div class="fig hf"><div class="v num">99</div><div class="l">sources de données</div></div>
+        <div class="fig hf"><div class="v num">59</div><div class="l">couches cartographiques</div></div>
+        <div class="fig hf"><div class="v num">24</div><div class="l">communes</div></div>
         <div class="fig hf"><div class="v num">16</div><div class="l">outils fonciers</div></div>
+        <div class="fig hf"><div class="v num">2,6&nbsp;M+</div><div class="l">données publiques intégrées</div></div>
+        <div class="fig hf"><div class="v num">50&nbsp;805</div><div class="l">permis et autorisations d’urbanisme</div></div>
+        <div class="fig hf"><div class="v num">78&nbsp;308</div><div class="l">ventes immobilières depuis 2014</div></div>
       </div>
     </div>
   </section>
 
-  <!-- DOULEUR → SOULAGEMENT -->
+  <!-- AVANT / APRÈS -->
   <section class="sec punch">
     <div class="wrap">
-      <h2>Arrêtez de chercher les informations d’un terrain sur dix sites différents.</h2>
+      <h2>Dix sites pour un seul terrain&nbsp;? <span class="m">C’est fini.</span></h2>
       <div class="ba">
         <div class="before">
-          <p class="cap">Avant</p>
-          <ul class="tabs" aria-label="Les dix sites à consulter sans LABUSE">
-            <li class="tab">Cadastre</li><li class="tab">Géoportail de l’urbanisme</li><li class="tab">PLU.pdf</li><li class="tab">Géorisques</li><li class="tab">Plan de prévention.pdf</li><li class="tab">Ventes DVF</li><li class="tab">Permis de construire</li><li class="tab">BODACC</li><li class="tab">Annonces</li><li class="tab">Vue aérienne</li>
+          <p class="cap">Aujourd’hui</p>
+          <ul class="tabs" aria-label="Les sites à consulter pour un seul terrain">
+            <li class="tab">cadastre.gouv.fr</li>
+            <li class="tab">Géoportail Urbanisme</li>
+            <li class="tab">georisques.gouv.fr</li>
+            <li class="tab">DEAL Réunion</li>
+            <li class="tab">explore.data.gouv.fr</li>
+            <li class="tab">Sitadel · data.gouv.fr</li>
+            <li class="tab">Annuaire Entreprises</li>
+            <li class="tab">bodacc.fr</li>
+            <li class="tab">cartes.gouv.fr</li>
+            <li class="tab">Annonces immobilières</li>
           </ul>
-          <p>Des onglets partout, des PDF, des heures à tout recouper.</p>
+          <p>Dix onglets, des PDF, des heures à tout recouper. Pour un seul terrain.</p>
         </div>
         <div class="after">
           <p class="cap" style="color:var(--mint)">Avec LABUSE</p>
-          <span class="one"><svg viewBox="0 0 240 82" fill="currentColor" aria-hidden="true"><path d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></svg>LABUSE</span>
-          <p>Un terrain, une fiche, tout au même endroit.<br><b>Vous ne cherchez plus. Vous décidez.</b></p>
+          <span class="one"><svg viewBox="0 0 240 82" fill="currentColor" aria-hidden="true"><path d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></svg>app.labuse.immo</span>
+          <p>Un onglet. Un clic sur le terrain.<br><b>Tout est déjà là.</b></p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- AVANTAGES -->
-  <section class="sec alt" id="avantages">
+  <section class="sec alt">
     <div class="wrap">
       <div class="head">
-        <p class="cap">Pourquoi LABUSE</p>
-        <h2>Moins de recherches. Plus de décisions.</h2>
+        <h2>Vous passiez des heures à chercher. <span class="m blk">Maintenant, vous décidez.</span></h2>
       </div>
       <div class="adv">
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6.2 6.2 0 0 0-11.4-2.3M4 12a6.2 6.2 0 0 0 11.4 2.3"/><path d="M4.4 2.8v3.1h3.1M15.6 17.2v-3.1h-3.1"/></svg></span><h3>Les données bougent, LABUSE suit</h3><p>Permis, ventes, procédures collectives : les nouvelles publications officielles arrivent dans LABUSE toutes seules. Vous n’avez plus à les chercher.</p></div>
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10.5" r="6.5"/><path d="M10 6.5v4l2.6 1.6M8 2.5h4"/></svg></span><h3>Des heures gagnées</h3><p>Fini les recherches à rallonge. Cliquez sur un terrain : l’essentiel est déjà là.</p></div>
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6.5 L8 4.5 L12 6.5 L16.5 4.5 V13.5 L12 15.5 L8 13.5 L3.5 15.5 Z"/><path d="M8 4.5v9M12 6.5v9" stroke-width="1.2" opacity=".6"/></svg></span><h3>Tout au même endroit</h3><p>Carte, règles, risques, marché, documents : un seul onglet au lieu de dix.</p></div>
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M12.6 7.4 L11 11 L7.4 12.6 L9 9 Z" stroke-width="1.4" stroke-linejoin="round"/></svg></span><h3>Un outil complet</h3><p>Repérer, vérifier, chiffrer, suivre, transmettre : du premier clic au dossier, sans changer d’outil.</p></div>
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 17.5s-5.5-5-5.5-9a5.5 5.5 0 0 1 11 0c0 4-5.5 9-5.5 9Z"/><circle cx="10" cy="8.5" r="2"/></svg></span><h3>100 % La Réunion</h3><p>Créé pour l’île, uniquement pour elle : ses 24 communes, ses Hauts, ses ravines, son marché.</p></div>
+        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6.2 6.2 0 0 0-11.4-2.3M4 12a6.2 6.2 0 0 0 11.4 2.3"/><path d="M4.4 2.8v3.1h3.1M15.6 17.2v-3.1h-3.1"/></svg></span><h3>Des données qui suivent</h3><p>Permis, ventes, procédures : les nouvelles publications arrivent toutes seules.</p></div>
+        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10.5" r="6.5"/><path d="M10 6.5v4l2.6 1.6M8 2.5h4"/></svg></span><h3>Des heures gagnées</h3><p>Plus de recherches à rallonge : l’essentiel d’un terrain s’affiche en un clic.</p></div>
+        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6.5 L8 4.5 L12 6.5 L16.5 4.5 V13.5 L12 15.5 L8 13.5 L3.5 15.5 Z"/><path d="M8 4.5v9M12 6.5v9" stroke-width="1.2" opacity=".6"/></svg></span><h3>Tout au même endroit</h3><p>Urbanisme, risques, marché, documents : un seul onglet au lieu de dix.</p></div>
+        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M12.6 7.4 L11 11 L7.4 12.6 L9 9 Z" stroke-width="1.4" stroke-linejoin="round"/></svg></span><h3>Un outil complet</h3><p>Repérer, vérifier, chiffrer, suivre : du premier clic au dossier final.</p></div>
+        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 17.5s-5.5-5-5.5-9a5.5 5.5 0 0 1 11 0c0 4-5.5 9-5.5 9Z"/><circle cx="10" cy="8.5" r="2"/></svg></span><h3>100 % Réunion</h3><p>Ses 24 communes, ses Hauts, ses ravines, son littoral et son marché.</p></div>
       </div>
     </div>
   </section>
@@ -384,88 +439,109 @@ h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
   <section class="sec" id="outil">
     <div class="wrap">
       <div class="head">
-        <p class="cap">L’outil</p>
-        <h2>Du repérage à la signature.</h2>
+        <h2>Du repérage à la signature. <span class="m blk">Dans un seul outil.</span></h2>
       </div>
       <div class="mods">
-        <a class="mod hf" href="#contact" data-offre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6.5 L8 4.5 L12 6.5 L16.5 4.5 V13.5 L12 15.5 L8 13.5 L3.5 15.5 Z"/><path d="M8 4.5v9M12 6.5v9" stroke-width="1.2" opacity=".6"/></svg></span><span class="txt"><b>Carte</b><span class="d">Toute l’île. Un clic, une fiche.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="mod hf" href="#contact" data-offre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M12.6 7.4 L11 11 L7.4 12.6 L9 9 Z" stroke-width="1.4" stroke-linejoin="round"/></svg></span><span class="txt"><b>Outils</b><span class="d">16 outils fonciers.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="mod hf" href="#contact" data-offre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 3.5 H11.5 L15 7 V16.5 H5.5 Z"/><path d="M11.5 3.5 V7 H15" stroke-width="1.3"/><path d="M7.8 10.5 H12.2 M7.8 13 H12.2" stroke-width="1.3" stroke-linecap="round"/></svg></span><span class="txt"><b>Docs</b><span class="d">Des dossiers prêts à transmettre.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="mod hf ia" href="#contact" data-offre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5 L11.6 8.4 L16.5 10 L11.6 11.6 L10 16.5 L8.4 11.6 L3.5 10 L8.4 8.4 Z"/></svg></span><span class="txt"><b>Copilote</b><span class="d">Des réponses sourcées. 100 % Réunion.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="mod hf" href="#contact" data-offre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.8" stroke-width="1.3"/><circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/><path d="M10 2.5v2.4M17.5 10h-2.4"/></svg></span><span class="txt"><b>Radar</b><span class="d">Des annonces relevées, le marché de chaque commune.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="mod hf" href="#contact" data-offre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6 H8.2 L9.6 7.6 H16.5 V15 A0.8 0.8 0 0 1 15.7 15.8 H4.3 A0.8 0.8 0 0 1 3.5 15 Z"/><path d="M10 9 L10.7 10.7 L12.5 10.9 L11.2 12.1 L11.6 13.9 L10 13 L8.4 13.9 L8.8 12.1 L7.5 10.9 L9.3 10.7 Z" fill="currentColor" stroke="none"/></svg></span><span class="txt"><b>Projets</b><span class="d">Vos terrains, rangés par projet.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="mod hf" href="#contact" data-offre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="7.5" rx="0.8"/><rect x="8.2" y="5" width="3.6" height="11.5" rx="0.8"/><rect x="12.9" y="11.5" width="3.6" height="5" rx="0.8"/></svg></span><span class="txt"><b>CRM</b><span class="d">Chaque affaire suivie, étape par étape.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
-        <a class="mod hf" href="#contact" data-offre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><ellipse cx="10" cy="5.5" rx="5.5" ry="2.2"/><path d="M4.5 5.5 V10 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V5.5"/><path d="M4.5 10 v4.5 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V10"/></svg></span><span class="txt"><b>Sources</b><span class="d">Chaque information a sa source.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="mod hf" href="#contact" data-pre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6.5 L8 4.5 L12 6.5 L16.5 4.5 V13.5 L12 15.5 L8 13.5 L3.5 15.5 Z"/><path d="M8 4.5v9M12 6.5v9" stroke-width="1.2" opacity=".6"/></svg></span><span class="txt"><b>Carte</b><span class="d">Toute l’île. Un clic, une fiche.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="mod hf" href="#contact" data-pre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M12.6 7.4 L11 11 L7.4 12.6 L9 9 Z" stroke-width="1.4" stroke-linejoin="round"/></svg></span><span class="txt"><b>Outils</b><span class="d">16 outils fonciers, prêts à l’emploi.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="mod hf" href="#contact" data-pre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5.5 3.5 H11.5 L15 7 V16.5 H5.5 Z"/><path d="M11.5 3.5 V7 H15" stroke-width="1.3"/><path d="M7.8 10.5 H12.2 M7.8 13 H12.2" stroke-width="1.3"/></svg></span><span class="txt"><b>Docs</b><span class="d">Des documents prêts à transmettre.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="mod hf ia" href="#contact" data-pre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5 L11.6 8.4 L16.5 10 L11.6 11.6 L10 16.5 L8.4 11.6 L3.5 10 L8.4 8.4 Z"/></svg></span><span class="txt"><b>Copilote</b><span class="d">Vos questions, des réponses sourcées.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="mod hf" href="#contact" data-pre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.8" stroke-width="1.3"/><circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/><path d="M10 2.5v2.4M17.5 10h-2.4"/></svg></span><span class="txt"><b>Radar</b><span class="d">Les annonces et le marché, commune par commune.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="mod hf" href="#contact" data-pre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6 H8.2 L9.6 7.6 H16.5 V15 A0.8 0.8 0 0 1 15.7 15.8 H4.3 A0.8 0.8 0 0 1 3.5 15 Z"/><path d="M10 9 L10.7 10.7 L12.5 10.9 L11.2 12.1 L11.6 13.9 L10 13 L8.4 13.9 L8.8 12.1 L7.5 10.9 L9.3 10.7 Z" fill="currentColor" stroke="none"/></svg></span><span class="txt"><b>Projets</b><span class="d">Vos terrains, rangés par projet.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="mod hf" href="#contact" data-pre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="7.5" rx="0.8"/><rect x="8.2" y="5" width="3.6" height="11.5" rx="0.8"/><rect x="12.9" y="11.5" width="3.6" height="5" rx="0.8"/></svg></span><span class="txt"><b>CRM</b><span class="d">Chaque affaire suivie, étape par étape.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
+        <a class="mod hf" href="#contact" data-pre="demo"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><ellipse cx="10" cy="5.5" rx="5.5" ry="2.2"/><path d="M4.5 5.5 V10 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V5.5"/><path d="M4.5 10 v4.5 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V10"/></svg></span><span class="txt"><b>Sources</b><span class="d">Chaque information dit d’où elle vient.</span></span><span class="sr-only"> : demander une démo</span><span class="arr" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
 
-  <!-- 100 % RÉUNION -->
-  <section class="sec alt" id="reunion">
+  <!-- LA RÉUNION -->
+  <section class="sec alt">
     <div class="wrap">
       <div class="run">
         <div>
-          <p class="cap">100 % La Réunion</p>
-          <h2 style="margin-top:16px">Créé pour La Réunion. <span class="m">Uniquement pour La Réunion.</span></h2>
-          <p class="lead">LABUSE n’est pas un outil national adapté à l’île. Ici, La Réunion n’est pas une note de bas de page : c’est tout le sujet, et la carte s’arrête à ses côtes.</p>
+          <h2>Créé pour La Réunion. <span class="m blk">Uniquement pour La Réunion.</span></h2>
+          <p class="lead">Pas un outil national adapté à l’île : ici, La Réunion n’est pas une note de bas de page, c’est tout le sujet. La carte s’arrête à ses côtes.</p>
           <ul class="pts">
-            <li>Les 24 communes, de Saint-Denis à Saint-Philippe</li>
-            <li>Les Hauts, les ravines, le littoral, les 50 pas géométriques</li>
-            <li>Les risques naturels cartographiés à La Réunion</li>
-            <li>Le marché réunionnais, commune par commune</li>
-            <li>Un Copilote qui ne parle que de La Réunion</li>
+            <li>Toute l’île, de Saint-Denis à Saint-Philippe</li>
+            <li>Des Hauts jusqu’aux 50 pas géométriques</li>
+            <li>Les risques de l’île, de la ravine au littoral</li>
+            <li>Les prix et les ventes de chaque commune</li>
+            <li>Un Copilote qui ne connaît qu’un territoire : le vôtre</li>
           </ul>
         </div>
-        <div class="island">
-          <svg viewBox="0 0 500 440" role="img" aria-label="Silhouette de l’île de La Réunion">
-            <path class="coast" d="M47.8 204.6 L30.6 190.6 L23.1 180.5 L23.8 166.4 L26.9 162.8 L25.5 163.6 L23.4 160.1 L20.0 151.2 L33.8 136.4 L42.1 137.9 L49.6 135.2 L64.4 123.9 L69.1 106.9 L65.1 89.7 L67.3 85.2 L68.1 76.4 L69.9 76.8 L68.8 82.6 L70.0 77.5 L71.7 79.0 L72.3 74.7 L73.9 75.0 L72.8 74.3 L74.2 73.3 L71.8 73.0 L73.0 71.7 L71.2 71.6 L71.6 75.5 L69.4 75.2 L69.6 68.9 L72.3 66.6 L85.0 70.6 L95.4 69.9 L96.2 72.1 L92.6 73.5 L100.2 75.2 L100.4 70.9 L98.8 70.6 L97.9 68.5 L99.5 70.1 L104.4 69.7 L114.8 65.4 L120.4 57.4 L126.3 54.8 L133.4 48.0 L152.3 35.5 L171.7 30.0 L186.0 31.6 L194.0 28.0 L207.7 37.2 L222.5 38.3 L232.4 35.8 L257.5 42.6 L256.5 43.6 L261.1 45.0 L267.8 45.5 L273.9 42.6 L284.9 44.2 L290.9 47.1 L298.8 45.9 L319.7 56.9 L325.9 56.8 L339.8 60.5 L353.4 68.6 L366.2 81.8 L376.3 97.8 L379.1 107.3 L380.7 136.5 L384.4 143.9 L392.2 147.1 L398.3 156.8 L402.6 160.2 L401.9 167.7 L407.4 176.2 L420.0 189.2 L425.1 197.8 L431.6 202.5 L438.0 213.6 L442.4 216.4 L446.6 215.4 L452.9 217.6 L460.1 225.0 L472.0 229.7 L473.6 236.3 L478.8 242.2 L477.4 250.3 L480.0 259.2 L476.5 261.5 L472.0 261.2 L471.2 273.9 L463.3 282.1 L459.1 292.0 L458.8 300.3 L454.0 315.8 L455.6 330.0 L459.0 336.3 L455.7 353.0 L457.4 365.2 L459.7 368.6 L458.2 373.0 L450.5 383.3 L434.5 394.4 L420.5 392.5 L416.1 396.0 L398.7 397.6 L385.1 402.6 L364.9 401.2 L357.0 407.9 L348.3 407.2 L339.1 412.0 L335.5 408.4 L329.2 407.0 L311.3 410.4 L303.0 404.1 L296.7 402.3 L294.5 398.9 L283.6 402.1 L271.4 398.6 L268.1 401.0 L266.9 398.1 L258.8 393.2 L247.7 391.1 L231.0 383.3 L221.4 383.0 L218.4 384.6 L214.4 378.1 L207.9 378.8 L200.2 376.3 L196.2 371.5 L196.7 369.2 L192.3 366.8 L178.3 365.3 L170.6 361.7 L164.6 356.5 L160.7 349.7 L149.1 339.9 L131.5 334.3 L112.1 332.1 L108.0 329.2 L105.7 325.7 L107.5 323.5 L104.5 315.1 L96.7 310.6 L97.5 308.0 L89.8 301.3 L76.6 293.6 L70.8 276.9 L67.4 273.4 L72.4 258.9 L72.1 242.5 L67.9 236.9 L61.5 234.7 L59.7 229.7 L60.3 220.9 L47.1 207.7 L47.8 204.6 Z"/>
-          </svg>
-          <div class="coord"><span>21°06′ S · 55°32′ E</span><span>≈ 2 500 km²</span></div>
+        <div>
+          <div class="coms" aria-label="Les 24 communes analysées">
+            <span class="com">Les Avirons</span><span class="com">Bras-Panon</span><span class="com">Cilaos</span><span class="com">Entre-Deux</span><span class="com">L’Étang-Salé</span><span class="com">Petite-Île</span><span class="com">La Plaine-des-Palmistes</span><span class="com">Le Port</span><span class="com">La Possession</span><span class="com">Saint-André</span><span class="com">Saint-Benoît</span><span class="com">Saint-Denis</span><span class="com">Saint-Joseph</span><span class="com">Saint-Leu</span><span class="com">Saint-Louis</span><span class="com">Saint-Paul</span><span class="com">Saint-Philippe</span><span class="com">Saint-Pierre</span><span class="com">Sainte-Marie</span><span class="com">Sainte-Rose</span><span class="com">Sainte-Suzanne</span><span class="com">Salazie</span><span class="com">Le Tampon</span><span class="com">Les Trois-Bassins</span>
+          </div>
+          <p class="coms-note">24 communes · 431 663 parcelles · 21°06′ S · 55°32′ E</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- MÉTIERS -->
-  <section class="sec" id="metiers">
+  <section class="sec">
     <div class="wrap">
       <div class="head">
-        <p class="cap">Pour qui</p>
-        <h2>Votre métier passe par un terrain à La Réunion ?</h2>
-        <p class="lead">Choisissez-le : on vous montre LABUSE sur votre commune.</p>
+        <h2>Vous travaillez le foncier réunionnais ? <span class="m blk">LABUSE travaille pour vous.</span></h2>
+        <p class="lead">Promoteur, notaire, géomètre, banquier ou élu : dès qu’un terrain compte dans votre décision, LABUSE vous fait gagner du temps.</p>
       </div>
       <div class="jobs">
-        <a class="job hf" href="#contact">Promoteurs immobiliers</a><a class="job hf" href="#contact">Marchands de biens</a><a class="job hf" href="#contact">Lotisseurs</a><a class="job hf" href="#contact">Aménageurs, SEM et SPL</a><a class="job hf" href="#contact">Bailleurs sociaux</a><a class="job hf" href="#contact">Constructeurs de maisons</a><a class="job hf" href="#contact">Agents immobiliers</a><a class="job hf" href="#contact">Chasseurs immobiliers</a><a class="job hf" href="#contact">Apporteurs d’affaires</a><a class="job hf" href="#contact">Notaires</a><a class="job hf" href="#contact">Avocats en immobilier</a><a class="job hf" href="#contact">Géomètres-experts</a><a class="job hf" href="#contact">Architectes et maîtres d’œuvre</a><a class="job hf" href="#contact">Bureaux d’études</a><a class="job hf" href="#contact">Diagnostiqueurs</a><a class="job hf" href="#contact">Experts immobiliers</a><a class="job hf" href="#contact">Banques et financeurs</a><a class="job hf" href="#contact">Investisseurs</a><a class="job hf" href="#contact">Foncières et family offices</a><a class="job hf" href="#contact">Gestionnaires de patrimoine</a><a class="job hf" href="#contact">Collectivités</a><a class="job hf" href="#contact">Installateurs solaires</a><a class="job hf" href="#contact">Piscinistes</a><a class="job hf" href="#contact">Commerces, restaurants, hôtels</a><a class="job hf" href="#contact">Professions libérales</a><a class="job hf" href="#contact">Entreprises qui s’implantent</a>
+        <span class="job hf">Promoteurs immobiliers</span><span class="job hf">Lotisseurs</span><span class="job hf">Aménageurs</span><span class="job hf">Marchands de biens</span><span class="job hf">Bailleurs sociaux</span><span class="job hf">SEM et SPL</span><span class="job hf">Établissements publics fonciers</span><span class="job hf">Constructeurs de maisons individuelles</span><span class="job hf">Agents immobiliers</span><span class="job hf">Apporteurs d’affaires</span><span class="job hf">Notaires</span><span class="job hf">Géomètres-experts</span><span class="job hf">Architectes</span><span class="job hf">Maîtres d’œuvre</span><span class="job hf">Bureaux d’études</span><span class="job hf">Experts fonciers et immobiliers</span><span class="job hf">Avocats en droit immobilier</span><span class="job hf">Investisseurs immobiliers</span><span class="job hf">Foncières</span><span class="job hf">Gestionnaires de patrimoine</span><span class="job hf">Banques et financeurs</span><span class="job hf">Collectivités et services d’urbanisme</span><span class="job hf">Développeurs d’énergies renouvelables</span>
       </div>
     </div>
   </section>
 
-  <!-- OFFRES -->
-  <section class="sec alt" id="offres">
+  <!-- TARIFS -->
+  <section class="sec alt" id="tarifs">
     <div class="wrap">
       <div class="head">
-        <p class="cap">Offres</p>
-        <h2>Un terrain, ou toute l’île.</h2>
+        <h2>Un terrain, <span class="m">ou toute l’île.</span></h2>
       </div>
       <div class="offers">
-        <article class="offer hf">
-          <h3 class="nm">Flash</h3>
-          <p class="price num">79 € HT</p>
-          <p>Une adresse, un rapport PDF : règles, risques, marché, alentours. Sans compte, sans abonnement.</p>
-          <a class="btn btn-s go" href="#contact" data-offre="flash">Commander un Flash</a>
+        <article class="offer">
+          <div class="offer-vis" aria-hidden="true">
+            <div class="pdf"><i class="h"></i><i></i><i class="s"></i><i class="k"></i><i></i><i class="s"></i></div>
+            <div class="pdf"><i class="h"></i><i></i><i class="s"></i><i class="k"></i></div>
+          </div>
+          <div class="offer-body">
+            <p class="nm">Flash</p>
+            <h3>Le rapport d’un terrain</h3>
+            <p class="price"><b class="num">79 € HT</b><span>paiement unique</span></p>
+            <ul class="incl">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Une adresse suffit</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Urbanisme, risques, marché et alentours</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Un PDF daté, sources citées</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sans compte ni abonnement</li>
+            </ul>
+            <a class="btn btn-p" href="#contact" data-pre="flash">Commander un Flash</a>
+          </div>
         </article>
-        <article class="offer main hf">
-          <h3 class="nm">Intégral</h3>
-          <p class="price t">Toute La Réunion, tous les outils.</p>
-          <p>Mensuel, sans engagement.</p>
-          <ul class="incl">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>La carte et les fiches terrain des 24 communes</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Alertes dans LABUSE : vente ou nouveau permis sur vos terrains suivis</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Les 16 outils fonciers et le Copilote</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Radar, Projets, CRM et documents</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Accès sur invitation</li>
-          </ul>
-          <a class="btn btn-p go" href="#contact" data-offre="demo">Demander une démo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <article class="offer">
+          <div class="offer-vis" aria-hidden="true">
+            <div class="rail">
+              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3.5 6.5 L8 4.5 L12 6.5 L16.5 4.5 V13.5 L12 15.5 L8 13.5 L3.5 15.5 Z"/><path d="M8 4.5v9M12 6.5v9" stroke-width="1.2" opacity=".6"/></svg></span>
+              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="6.5"/><path d="M12.6 7.4 L11 11 L7.4 12.6 L9 9 Z" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M5.5 3.5 H11.5 L15 7 V16.5 H5.5 Z"/><path d="M11.5 3.5 V7 H15" stroke-width="1.3"/><path d="M7.8 10.5 H12.2 M7.8 13 H12.2" stroke-width="1.3"/></svg></span>
+              <span class="tile ia"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M10 3.5 L11.6 8.4 L16.5 10 L11.6 11.6 L10 16.5 L8.4 11.6 L3.5 10 L8.4 8.4 Z"/></svg></span>
+              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.8" stroke-width="1.3"/><circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/><path d="M10 2.5v2.4M17.5 10h-2.4"/></svg></span>
+              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3.5 6 H8.2 L9.6 7.6 H16.5 V15 A0.8 0.8 0 0 1 15.7 15.8 H4.3 A0.8 0.8 0 0 1 3.5 15 Z"/><path d="M10 9 L10.7 10.7 L12.5 10.9 L11.2 12.1 L11.6 13.9 L10 13 L8.4 13.9 L8.8 12.1 L7.5 10.9 L9.3 10.7 Z" fill="currentColor" stroke="none"/></svg></span>
+              <span class="tile"><svg viewBox="0 0 20 20" fill="currentColor"><rect x="3.5" y="9" width="3.6" height="7.5" rx="0.8"/><rect x="8.2" y="5" width="3.6" height="11.5" rx="0.8"/><rect x="12.9" y="11.5" width="3.6" height="5" rx="0.8"/></svg></span>
+              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><ellipse cx="10" cy="5.5" rx="5.5" ry="2.2"/><path d="M4.5 5.5 V10 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V5.5"/><path d="M4.5 10 v4.5 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V10"/></svg></span>
+            </div>
+          </div>
+          <div class="offer-body">
+            <p class="nm">Intégral</p>
+            <h3>L’outil complet</h3>
+            <p class="price"><b>Abonnement</b><span>mensuel, sans engagement</span></p>
+            <ul class="incl">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Toute l’île, ses 24 communes</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Carte, 16 outils, Copilote et Radar</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Projets, CRM et documents</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Démo : 48 h d’accès complet</li>
+            </ul>
+            <a class="btn btn-p" href="#contact" data-pre="demo">Demander une démo</a>
+          </div>
         </article>
       </div>
       <p class="legal">Prix hors taxes. LABUSE est une pré-analyse : elle ne garantit pas la constructibilité et ne remplace pas un certificat d’urbanisme.</p>
@@ -476,56 +552,45 @@ h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
   <section class="sec">
     <div class="wrap">
       <div class="head">
-        <p class="cap">Questions fréquentes</p>
         <h2>Vous vous demandez peut-être…</h2>
       </div>
       <div class="faq">
-        <details><summary class="hf">Les données sont-elles à jour ?<span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><polyline points="7.5,2.75 4,6 7.5,9.25" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary><p>Les données bougent, LABUSE suit. Permis, ventes, procédures collectives : les nouvelles publications officielles sont intégrées automatiquement, au rythme où leurs producteurs les publient. Chaque information cite sa source, et sa date quand elle est connue.</p></details>
-        <details><summary class="hf">LABUSE dit-il si un terrain est constructible ?<span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><polyline points="7.5,2.75 4,6 7.5,9.25" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary><p>Non : c’est une pré-analyse, pas un certificat d’urbanisme. Règles, risques, contraintes connues : vous savez vite si le terrain mérite d’aller plus loin.</p></details>
-        <details><summary class="hf">Voit-on qui possède un terrain ?<span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><polyline points="7.5,2.75 4,6 7.5,9.25" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary><p>Oui, quand le propriétaire est une personne morale (société, collectivité, association…) : sa dénomination et son SIREN, d’après le fichier public de la DGFiP. Un particulier n’est jamais nommé.</p></details>
-        <details><summary class="hf">Puis-je utiliser LABUSE sur mon téléphone ?<span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12"><polyline points="7.5,2.75 4,6 7.5,9.25" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary><p>L’app s’utilise sur ordinateur : la carte a besoin de place. Le rapport Flash, lui, est un PDF qui se lit partout.</p></details>
+        <details><summary class="hf">Comment se passe la démo ?<span class="arr" aria-hidden="true">+</span></summary><p>Vous avez accès à tout LABUSE pendant 48 h : la carte, les outils, le Copilote, les documents. Sans engagement.</p></details>
+        <details><summary class="hf">Les données sont-elles à jour ?<span class="arr" aria-hidden="true">+</span></summary><p>Les données bougent, LABUSE suit. Permis, ventes, procédures collectives : les nouvelles publications officielles sont intégrées automatiquement. Chaque information cite sa source.</p></details>
+        <details><summary class="hf">LABUSE dit-il si un terrain est constructible ?<span class="arr" aria-hidden="true">+</span></summary><p>Non : c’est une pré-analyse, pas un certificat d’urbanisme. Règles, risques, contraintes connues : vous savez vite si le terrain mérite d’aller plus loin.</p></details>
+        <details><summary class="hf">Voit-on qui possède un terrain ?<span class="arr" aria-hidden="true">+</span></summary><p>Oui, quand le propriétaire est une personne morale (société, collectivité, association…). Un particulier n’est jamais nommé.</p></details>
+        <details><summary class="hf">Puis-je utiliser LABUSE sur mon téléphone ?<span class="arr" aria-hidden="true">+</span></summary><p>L’app s’utilise sur ordinateur : la carte a besoin de place. Le rapport Flash, lui, est un PDF qui se lit partout.</p></details>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section class="sec" id="contact">
+  <section class="sec alt" id="contact">
     <div class="wrap">
       <div class="ct">
         <div>
-          <p class="cap">Contact</p>
-          <h2 style="margin-top:16px">Arrêtez de chercher. <span class="m">Commencez à trouver.</span></h2>
-          <p class="lead" style="margin-top:18px">Dites-nous quelle commune vous intéresse : on vous montre LABUSE dessus. Ou commandez un Flash sur un terrain précis.</p>
-          <ul class="bul">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Une démo sur la commune de votre choix</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sans engagement</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Pour un Flash : indiquez l’adresse du terrain</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Réponse sous 24 h ouvrées</li>
-          </ul>
+          <h2>Une question ? <span class="m blk">Écrivez-nous.</span></h2>
+          <p class="lead" style="margin-top:18px">Démo, Flash ou simple question : nous vous répondons sous 24 h ouvrées.</p>
+          <div class="mail"><p class="cap">Par e-mail</p><span>contact@labuse.immo</span></div>
         </div>
         <form class="form" id="cf" novalidate>
-          <div class="seg" role="radiogroup" aria-label="Votre demande">
-            <label><input type="radio" name="objet" id="o-demo" value="demo" checked><span>Une démo de LABUSE</span></label>
-            <label><input type="radio" name="objet" id="o-flash" value="flash"><span>Un Flash · 79 € HT</span></label>
-          </div>
-          <p class="fine">Les champs marqués * sont obligatoires.</p>
           <div class="fgrid">
-            <div class="fld"><label for="f-nom">Nom *</label><input id="f-nom" name="nom" autocomplete="name" placeholder="Votre nom" required></div>
-            <div class="fld"><label for="f-ent">Entreprise</label><input id="f-ent" name="entreprise" autocomplete="organization" placeholder="Société (facultatif)"></div>
-            <div class="fld"><label for="f-tel">Téléphone *</label><input id="f-tel" name="telephone" type="tel" autocomplete="tel" placeholder="0692 12 34 56" required></div>
-            <div class="fld"><label for="f-mail">Email *</label><input id="f-mail" name="email" type="email" autocomplete="email" placeholder="vous@societe.re" required></div>
+            <div class="fld"><label for="f-nom">Nom *</label><input id="f-nom" name="nom" autocomplete="name" required placeholder="Votre nom"></div>
+            <div class="fld"><label for="f-ent">Entreprise</label><input id="f-ent" name="entreprise" autocomplete="organization" placeholder="Facultatif"></div>
+            <div class="fld"><label for="f-tel">Téléphone *</label><input id="f-tel" name="telephone" type="tel" autocomplete="tel" required placeholder="0692 12 34 56"></div>
+            <div class="fld"><label for="f-mail">E-mail *</label><input id="f-mail" name="email" type="email" autocomplete="email" required placeholder="vous@societe.re"></div>
           </div>
-          <div class="fld"><label for="f-msg" id="f-msg-l">Message</label><textarea id="f-msg" name="message" placeholder="Votre métier, la commune qui vous intéresse…"></textarea></div>
-          <button class="btn btn-p" type="submit">Envoyer ma demande</button>
-          <p class="status" id="cf-status" role="status"></p>
-          <p class="fine">Vos informations servent uniquement à traiter votre demande. Détails dans la <a href="/confidentialite" style="text-decoration:underline">politique de confidentialité</a>.</p>
+          <div class="fld"><label for="f-msg">Message *</label><textarea id="f-msg" name="message" required placeholder="Votre message"></textarea></div>
+          <button class="btn btn-p" type="submit">Envoyer</button>
+          <p class="status" id="cf-status" role="status" aria-live="polite"></p>
+          <p class="fine">* Champs obligatoires. Vos informations servent uniquement à vous répondre. <a href="https://labuse.immo/confidentialite">Politique de confidentialité</a>.</p>
         </form>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="ftr" style="border-top:1px solid var(--line)">
+<footer class="ftr">
   <div class="wrap">
     <div class="ftr-top">
       <div>
@@ -536,7 +601,7 @@ h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
         <p class="tag">Créé pour La Réunion, et uniquement pour elle.</p>
       </div>
       <ul>
-        <li><a class="hf" href="#outil">L’outil</a></li><li><a class="hf" href="#offres">Offres</a></li><li><a class="hf" href="https://app.labuse.immo/login">Se connecter</a></li><li><a class="hf" href="/mentions-legales">Mentions légales</a></li><li><a class="hf" href="/confidentialite">Confidentialité</a></li><li><a class="hf" href="mailto:contact@labuse.immo">contact@labuse.immo</a></li>
+        <li><a class="hf" href="#outil">L’outil</a></li><li><a class="hf" href="#tarifs">Tarifs</a></li><li><a class="hf" href="#contact">Contact</a></li><li><a class="hf" href="https://app.labuse.immo/login">Se connecter</a></li><li><a class="hf" href="https://labuse.immo/mentions-legales">Mentions légales</a></li><li><a class="hf" href="https://labuse.immo/confidentialite">Confidentialité</a></li>
       </ul>
     </div>
     <div class="ftr-bot"><span>© 2026 LABUSE · Fait à La Réunion</span><span>Prix hors taxes · pré-analyse, ne remplace pas un certificat d’urbanisme</span></div>
@@ -546,48 +611,35 @@ h3{font-weight:700;font-size:19px;line-height:1.25;letter-spacing:-.01em}
 <details class="notes">
   <summary>Notes de maquette · 7</summary>
   <ol>
-    <li><b>Chiffres</b> : tous vérifiés dans le code de l’app. « + de 90 sources » passera à 99 si la page Sources de l’app en prod l’affiche. 59 couches et 16 outils : à recompter une fois dans l’app en prod.</li>
-    <li><b>Survol</b> : comme dans l’app, sur tout ce qui se clique. Il est aussi posé sur les chiffres et les avantages, à ta demande, même s’ils ne mènent nulle part : à retirer si ça gêne.</li>
-    <li><b>Fraîcheur</b> : formulations vérifiées. On évite « chaque jour » et « toujours à jour » tant que les tâches automatiques ne sont pas toutes en place sur le serveur.</li>
-    <li><b>Ordinateur</b> : vraie capture de l’app ; la vidéo de 12 s viendra dans cet écran.</li>
-    <li><b>Flash</b> : le bouton ouvre le formulaire avec « Un Flash » pré-sélectionné, en attendant le paiement en ligne. Prix affiché en HT, comme décidé.</li>
-    <li><b>Métiers</b> : un clic pré-remplit le formulaire avec le métier. La liste mêle métiers déjà servis par l’app et métiers visés.</li>
-    <li><b>Polices</b> : chargées depuis Google pour la maquette seulement ; sur le site, elles seront hébergées chez nous (RGPD).</li>
+    <li><b>Vidéo</b> : elle prendra place dans l’ordinateur. Il me faut l’accès à l’app (ou tes captures) pour la tourner.</li>
+    <li><b>Chiffres</b> : tous trouvés dans l’app. 99 sources, 2,6 M+ données et 78 308 ventes viennent de ta base locale : à recompter une fois sur le serveur avant la mise en ligne. 50 805 permis est mesuré en prod.</li>
+    <li><b>2,6 M+</b> : somme exacte de 2 678 205 enregistrements de sources publiques, doublons retirés. Écrit à la baisse, jamais arrondi au-dessus.</li>
+    <li><b>Onglets « Aujourd’hui »</b> : vrais portails publics, tous intégrés par LABUSE. Géoportail remplacé par cartes.gouv.fr (fermeture annoncée), DVF par explore.data.gouv.fr (explorateur officiel actuel).</li>
+    <li><b>Radar</b> : l’animation de l’ancien site, recolorée dans la DA de l’app ; elle se met en pause hors écran et se fige si l’utilisateur réduit les animations.</li>
+    <li><b>Démo</b> : présentée comme 48 h d’accès complet à l’outil. Les boutons Démo et Flash amorcent simplement le message du formulaire.</li>
+    <li><b>Polices</b> : chargées depuis Google pour la maquette seulement ; sur le site, hébergées chez nous (RGPD).</li>
   </ol>
 </details>
 
 <script>
 (() => {
+  // Radar : animations en pause hors écran
+  const r = document.getElementById('radar');
+  if (r && 'IntersectionObserver' in window) {
+    new IntersectionObserver((es) => es.forEach((e) => r.classList.toggle('radar-paused', !e.isIntersecting))).observe(r);
+  }
+  // Boutons Démo / Flash : amorce du message, sans choix d'offre dans le formulaire
   const msg = document.getElementById('f-msg');
-  const lbl = document.getElementById('f-msg-l');
-  const status = document.getElementById('cf-status');
-  const setObjet = (v) => {
-    const r = document.getElementById(v === 'flash' ? 'o-flash' : 'o-demo');
-    if (r) r.checked = true;
-    lbl.textContent = v === 'flash' ? 'Adresse du terrain *' : 'Message';
-    msg.required = v === 'flash';
-    msg.placeholder = v === 'flash' ? 'Adresse ou référence cadastrale du terrain' : 'Votre métier, la commune qui vous intéresse…';
+  const PRE = {
+    demo: 'Bonjour, je souhaite une démo de LABUSE (48 h d’accès).',
+    flash: 'Bonjour, je souhaite commander un Flash pour le terrain situé : ',
   };
-  document.querySelectorAll('[data-offre]').forEach((a) => a.addEventListener('click', () => setObjet(a.dataset.offre)));
-  document.querySelectorAll('input[name="objet"]').forEach((r) => r.addEventListener('change', () => setObjet(r.value)));
-  document.querySelectorAll('.job').forEach((a) => a.addEventListener('click', () => {
-    setObjet('demo');
-    if (!msg.value.trim()) msg.value = 'Métier : ' + a.textContent.trim() + '\nCommune qui m’intéresse : ';
+  document.querySelectorAll('[data-pre]').forEach((a) => a.addEventListener('click', () => {
+    if (!msg.value.trim() || Object.values(PRE).includes(msg.value)) msg.value = PRE[a.dataset.pre] || '';
   }));
   document.getElementById('cf').addEventListener('submit', (e) => {
     e.preventDefault();
-    status.textContent = 'Maquette : l’envoi est désactivé ici. Sur le site, le formulaire actuel est conservé.';
+    document.getElementById('cf-status').textContent = 'Maquette : l’envoi est désactivé ici. Sur le site, le formulaire actuel est conservé.';
   });
-  document.addEventListener('touchstart', () => {}, { passive: true });
-  const vid = document.getElementById('demo');
-  const tg = document.getElementById('demo-toggle');
-  if (vid && tg) {
-    const sync = () => { tg.textContent = vid.paused ? 'Lire la vidéo' : 'Mettre en pause'; };
-    vid.addEventListener('play', sync);
-    vid.addEventListener('pause', sync);
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) vid.play().catch(sync);
-    sync();
-    tg.addEventListener('click', () => (vid.paused ? vid.play() : vid.pause()));
-  }
 })();
 </script>
