@@ -278,7 +278,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .notes ol{clear:both;margin:0;padding:16px 18px 16px 34px;background:var(--bg-3);border:1px solid var(--line-3);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.45);display:grid;gap:8px;font-size:13px;color:var(--txt);max-height:60vh;overflow:auto}
 </style>
 
-<div class="mq">Maquette v3 · labuse.immo · 07/10/2026 · vidéo provisoire</div>
+<div class="mq">Maquette v3 · labuse.immo · 08/10/2026</div>
 
 <header class="hdr">
   <div class="wrap">
@@ -369,8 +369,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
       <div class="laptop">
         <div class="lid">
           <div class="screen">
-            <video muted playsinline loop preload="none" poster="assets/app-carte.jpg" aria-label="Vidéo : l’app LABUSE, de la carte de l’île à la fiche d’un terrain."></video>
-            <span class="vid"><i aria-hidden="true"></i>Vidéo à venir</span>
+            <video id="promo" autoplay muted loop playsinline preload="auto" poster="assets/poster.jpg" aria-label="Vidéo : le logo LABUSE prend son envol, l’app s’ouvre, on zoome sur un terrain, sa fiche s’ouvre et défile, puis on active une couche des risques."><source src="assets/labuse-promo.mp4" type="video/mp4"></video>
           </div>
         </div>
         <div class="base" aria-hidden="true"></div>
@@ -611,7 +610,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 <details class="notes">
   <summary>Notes de maquette · 7</summary>
   <ol>
-    <li><b>Vidéo</b> : elle prendra place dans l’ordinateur. Il me faut l’accès à l’app (ou tes captures) pour la tourner.</li>
+    <li><b>Vidéo</b> : tournée dans l’app en prod avec le compte client, image par image en Retina (10 s, 1,9 Mo, en boucle). Terrain : 97415000EY0054, Saint-Paul.</li>
     <li><b>Chiffres</b> : tous trouvés dans l’app. 99 sources, 2,6 M+ données et 78 308 ventes viennent de ta base locale : à recompter une fois sur le serveur avant la mise en ligne. 50 805 permis est mesuré en prod.</li>
     <li><b>2,6 M+</b> : somme exacte de 2 678 205 enregistrements de sources publiques, doublons retirés. Écrit à la baisse, jamais arrondi au-dessus.</li>
     <li><b>Onglets « Aujourd’hui »</b> : vrais portails publics, tous intégrés par LABUSE. Géoportail remplacé par cartes.gouv.fr (fermeture annoncée), DVF par explore.data.gouv.fr (explorateur officiel actuel).</li>
@@ -628,6 +627,9 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   if (r && 'IntersectionObserver' in window) {
     new IntersectionObserver((es) => es.forEach((e) => r.classList.toggle('radar-paused', !e.isIntersecting))).observe(r);
   }
+  // Vidéo : figée si l'utilisateur réduit les animations
+  const v = document.getElementById('promo');
+  if (v && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
   // Boutons Démo / Flash : amorce du message, sans choix d'offre dans le formulaire
   const msg = document.getElementById('f-msg');
   const PRE = {
