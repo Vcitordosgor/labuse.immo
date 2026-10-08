@@ -162,24 +162,9 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .after p b{color:var(--mint);font-weight:500}
 
 /* ── Avantages (5 fiches, même gabarit) ── */
-.fr{display:grid;gap:clamp(32px,4vw,56px);grid-template-columns:minmax(0,1fr);align-items:start}
-@media (min-width:1000px){.fr{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}}
-.fr .head{margin-bottom:0}
-@media (max-width:999px){.fr > div:first-child{display:contents}.fr .head{order:1}.fr-board{order:2}.fr-pts{order:3;margin-top:0}}
-.fr h2{font-size:clamp(30px,3.5vw,44px)}
-.fr-pts{display:grid;gap:22px;margin-top:clamp(28px,3vw,40px)}
-@media (min-width:640px) and (max-width:999px){.fr-pts{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.fr-pts h3{font-size:17px}
-.fr-pts p{margin-top:6px;font-size:14.5px;line-height:1.55;color:var(--txt-dim)}
-.fr-board{border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);overflow:hidden}
-.fr-cap{display:flex;justify-content:space-between;gap:16px;padding:13px 20px;border-bottom:1px solid var(--line-2);font:500 11px/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lab)}
-.fr-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 20px;align-items:center;padding:20px;border-bottom:1px solid var(--line)}
-.fr-row:last-child{border-bottom:0}
-.fr-row b{display:block;font:600 16.5px/1.3 var(--f-display);color:var(--txt-hi)}
-.fr-row .d{display:block;margin-top:5px;font-size:14px;line-height:1.5;color:var(--txt-dim)}
-.fr-pill{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:9999px;background:var(--mint-bg);border:1px solid rgba(74,222,128,.35);font:500 13px/1 var(--f-body);color:var(--mint);white-space:nowrap}
-.fr-pill i{width:7px;height:7px;border-radius:50%;background:var(--mint)}
-@media (max-width:560px){.fr-row{grid-template-columns:minmax(0,1fr)}.fr-row [role=cell]:last-child{justify-self:start}}
+.fr{max-width:920px}
+.fr h2{font-size:clamp(32px,4.4vw,56px);line-height:1.05}
+.fr .lead{margin-top:22px;max-width:52ch}
 .tile{width:34px;height:34px;border-radius:var(--r);display:grid;place-items:center;border:1px solid rgba(74,222,128,.38);background:rgba(74,222,128,.14);color:var(--mint)}
 .tile svg{width:17px;height:17px}
 
@@ -273,7 +258,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .notes ol{clear:both;margin:0;padding:16px 18px 16px 34px;background:var(--bg-3);border:1px solid var(--line-3);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.45);display:grid;gap:8px;font-size:13px;color:var(--txt);max-height:60vh;overflow:auto}
 </style>
 
-<div class="mq">Maquette v6 · labuse.immo · 08/10/2026</div>
+<div class="mq">Maquette v7 · labuse.immo · 08/10/2026</div>
 
 <header class="hdr">
   <div class="wrap">
@@ -404,22 +389,8 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   <section class="sec alt" id="fraicheur">
     <div class="wrap">
       <div class="fr">
-        <div>
-          <div class="head">
-            <h2>La fraîcheur ne se promet pas. <span class="m blk">Pour les données clés, elle se vérifie chaque semaine.</span></h2>
-            <p class="lead">Les données du tableau se mettent à jour toutes seules&nbsp;: LABUSE guette leurs producteurs officiels et reprend chaque nouvelle publication, à leur rythme.</p>
-          </div>
-          <div class="fr-pts">
-            <div><h3>Retiré à la source, retiré chez nous</h3><p>Quand l’ADEME retire un DPE, il disparaît aussi de LABUSE dans la semaine. Pas de diagnostic fantôme.</p></div>
-            <div><h3>Vérifiable par vous aussi</h3><p>Sur la fiche, les données affichent leur source et leur millésime. Pour le zonage, c’est la date d’approbation du PLU.</p></div>
-          </div>
-        </div>
-        <div class="fr-board" role="table" aria-label="Rythme de mise à jour automatique des données">
-          <div class="fr-cap" role="row"><span role="columnheader">Mise à jour automatique</span><span role="columnheader">Rythme</span></div>
-          <div class="fr-row" role="row"><div role="cell"><b>Permis de construire</b><span class="d">Publiés une fois par mois par l’État, repris par LABUSE dès leur sortie.</span></div><div role="cell"><span class="fr-pill"><i aria-hidden="true"></i>Vérifiés chaque jour</span></div></div>
-          <div class="fr-row" role="row"><div role="cell"><b>Procédures collectives</b><span class="d">Les annonces du BODACC qui visent les sociétés propriétaires de parcelles sur l’île.</span></div><div role="cell"><span class="fr-pill"><i aria-hidden="true"></i>Mises à jour chaque jour</span></div></div>
-          <div class="fr-row" role="row"><div role="cell"><b>Diagnostics énergétiques (DPE)</b><span class="d">Logements existants, logements neufs et bâtiments tertiaires&nbsp;: les trois bases de l’ADEME, relues en entier pour La Réunion.</span></div><div role="cell"><span class="fr-pill"><i aria-hidden="true"></i>Mis à jour chaque semaine</span></div></div>
-        </div>
+        <h2>Chez LABUSE, vous êtes sûr d’avoir <span class="m">la dernière donnée en date.</span></h2>
+        <p class="lead">C’est notre engagement&nbsp;: nous suivons les sources officielles de près, pour que rien ne vous échappe.</p>
       </div>
     </div>
   </section>
@@ -518,7 +489,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
       </div>
       <div class="faq">
         <details><summary class="hf">Comment se passe la démo ?<span class="arr" aria-hidden="true">+</span></summary><p>Vous avez accès à tout LABUSE pendant 48 h : la carte, les outils, le Copilote, les documents. Sans engagement.</p></details>
-        <details><summary class="hf">Les données sont-elles à jour ?<span class="arr" aria-hidden="true">+</span></summary><p>Celles qui changent le plus souvent (permis de construire, procédures collectives, DPE) se mettent à jour toutes seules, à leur rythme détaillé plus haut. Sur la fiche, les données affichent leur source.</p></details>
+        <details><summary class="hf">Les données sont-elles à jour ?<span class="arr" aria-hidden="true">+</span></summary><p>Oui, c’est notre engagement&nbsp;: vous travaillez sur la dernière donnée en date. Sur la fiche, les données affichent leur source.</p></details>
         <details><summary class="hf">LABUSE dit-il si un terrain est constructible ?<span class="arr" aria-hidden="true">+</span></summary><p>Il vous dit ce que permet la zone du PLU (constructible, à urbaniser, agricole ou naturelle), avec les risques et les contraintes connues : vous savez vite si le terrain mérite d’aller plus loin. Pour une réponse qui engage, c’est le certificat d’urbanisme de la mairie.</p></details>
         <details><summary class="hf">Voit-on qui possède un terrain ?<span class="arr" aria-hidden="true">+</span></summary><p>Oui, quand le propriétaire est une personne morale (société, collectivité, association…). Un particulier n’est jamais nommé.</p></details>
         <details><summary class="hf">Puis-je utiliser LABUSE sur mon téléphone ?<span class="arr" aria-hidden="true">+</span></summary><p>L’app s’utilise sur ordinateur : la carte a besoin de place. Le rapport Flash, lui, est un PDF qui se lit partout.</p></details>
@@ -574,15 +545,13 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 </footer>
 
 <details class="notes">
-  <summary>Notes de maquette · 11</summary>
+  <summary>Notes de maquette · 9</summary>
   <ol>
-    <li><b>Vidéo v4</b> : ralentie de moitié (32 s, 4,2 Mo). Après PPR multirisque, on la retire, on coche « Zonage PLU par parcelle » et on zoome sur Plateau Caillou (Saint-Paul) pour voir les zones parcelle par parcelle.</li>
-    <li><b>Fraîcheur : ce qui est vrai aujourd’hui</b> : en prod, les permis sont vérifiés chaque jour, les procédures collectives (BODACC) mises à jour chaque jour, les DPE chaque semaine. C’est tout ce que la section affirme.</li>
-    <li><b>Fraîcheur : ce qui ne l’est pas encore</b> : les ventes (DVF) sont contrôlées chaque semaine mais leur rechargement échoue (bug de refresh_dvf). Le rechargement des adresses du 05/10 n’a pas abouti. Zonage PLU et risques (PPR) : aucun contrôle automatique. La sonde quotidienne des sources n’est pas planifiée (crontab du registre non déployé). Une fois ces points corrigés dans l’app, on peut écrire « toutes les données clés vérifiées chaque semaine ».</li>
-    <li><b>Attention au déploiement</b> : le crontab du registre (deploy.sh) passerait permis et DPE à un rythme mensuel et ne reprend pas les ventes ni les adresses : à aligner avant, sinon la section deviendrait fausse.</li>
-    <li><b>FAQ « à jour ? »</b> : corrigée : elle promettait l’intégration automatique des ventes, ce qui est faux aujourd’hui.</li>
+    <li><b>Vidéo v6</b> : 33 s, 3,4 Mo, toujours ralentie de moitié. Fiche parcelle plus lente (courte pause en haut, défilement plus doux). Saut corrigé : le zoom d’ouverture se termine exactement sur l’image du plan suivant, et la carte ne bouge plus au clic sur la parcelle. Les couleurs du zonage PLU apparaissent en fondu.</li>
+    <li><b>⚠ Fraîcheur</b> : la promesse « la dernière donnée en date » n’est pas encore vraie partout : aujourd’hui, seuls les permis, les procédures collectives (BODACC) et les DPE suivent leur source. Le rechargement des ventes (DVF) échoue, celui des adresses du 05/10 n’a pas abouti, le zonage PLU et les risques (PPR) n’ont aucun contrôle. À corriger dans l’app avant la mise en ligne (détail : docs/refonte/FRAICHEUR-SEO.md).</li>
+    <li><b>Attention au déploiement</b> : le planning de tâches prévu dans le code (deploy.sh) passerait permis et DPE à un rythme mensuel et ne reprend pas les ventes ni les adresses : à aligner avant.</li>
     <li><b>SEO</b> : un vrai chantier a été fait le 11/07 (balises, données structurées, plan du site, score SEO 100), mais sur une branche jamais fusionnée (feat/seo-fondations). En ligne : seulement la base du 01/07. Le correctif du 07/10 n’est pas déployé non plus. À reprendre à l’intégration Astro.</li>
-    <li><b>Pied de page</b> : texte de présentation, contact, 3 colonnes de liens réels, liens légaux avec la barre finale (évite une redirection). Ancres #reunion et #questions ajoutées.</li>
+    <li><b>Pied de page</b> : texte de présentation, contact, 3 colonnes de liens réels, liens légaux avec la barre finale. Ancres #reunion et #questions ajoutées.</li>
     <li><b>Parcelle montrée</b> : EY0109 est la maison d’un particulier (nom non affiché, ni vente ni permis). Son adresse se lit dans la fiche et dans le PDF de la vidéo : je peux la flouter si tu préfères.</li>
     <li><b>Marché</b> : « porteur » plutôt que « florissant » ; chaque chiffre garde sa source sous la tuile.</li>
     <li><b>Chiffres de l’app</b> : 99 sources et 59 couches (bandeau) bougent avec l’app ; 2,6 M+ (2 678 205 enregistrements comptés en local) : à recompter sur le serveur avant la mise en ligne.</li>
