@@ -1,7 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import { CONTACT_EMAIL } from '../consts';
 
 const updated = '5 juillet 2026';
@@ -11,7 +9,6 @@ const updated = '5 juillet 2026';
   title="Mentions légales — LA BUSE"
   description="Mentions légales du site labuse.immo, plateforme d'intelligence foncière à La Réunion."
 >
-  <Header />
   <main id="contenu" class="pt-[76px]">
     <section class="mx-auto max-w-[760px] px-5 py-16 sm:px-8 sm:py-20">
       <p class="eyebrow">Informations légales</p>
@@ -74,5 +71,4 @@ const updated = '5 juillet 2026';
       </a>
     </section>
   </main>
-  <Footer />
 </BaseLayout>

@@ -1,62 +1,48 @@
 ---
-// Fonts auto-hébergées (pas de CDN Google → RGPD + perf). display:swap intégré.
+// Polices auto-hébergées (pas de CDN Google → RGPD + perf).
 import '@fontsource-variable/inter';
-import '@fontsource/jetbrains-mono/600.css';
-import '@fontsource/jetbrains-mono/700.css';
-// URLs des 2 fichiers critiques pour le preload (mêmes assets hashés que le CSS).
-import interLatinUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
-import monoLatinUrl from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-600-normal.woff2?url';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+// Fichiers critiques préchargés (mêmes assets hashés que le CSS).
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import groteskUrl from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
 import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 export interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
+  schemas?: Record<string, unknown>[];
+  home?: boolean;
 }
 
 const {
-  title = 'LA BUSE — Intelligence foncière pour promoteurs à La Réunion',
-  description = 'LA BUSE analyse les 431 663 parcelles des 24 communes de La Réunion : cadastre, PLU, risques, marché. Une pré-analyse foncière sourcée, ligne à ligne.',
+  title = 'Tout le foncier de La Réunion au même endroit | LABUSE',
+  description = 'LABUSE réunit cadastre, PLU, risques, ventes et permis des 24 communes de La Réunion. Chaque information cite sa source.',
+  noindex = false,
+  schemas = [],
 } = Astro.props;
 
 const site = 'https://labuse.immo';
 const canonical = new URL(Astro.url.pathname, site).href;
-const ogImage = `${site}/og.png`;
+const ogImage = `${site}/og.jpg`;
 
-// JSON-LD Organization
-const jsonLd = {
+const organization = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'LA BUSE',
-  legalName: 'LA BUSE',
-  url: site,
-  logo: `${site}/favicon.svg`,
-  description,
-  slogan: 'Repérez les parcelles mutables avant les autres.',
-  areaServed: {
-    '@type': 'Place',
-    name: 'La Réunion',
-    address: {
-      '@type': 'PostalAddress',
-      addressRegion: 'La Réunion',
-      addressCountry: 'FR',
-    },
-  },
-  knowsAbout: [
-    'Intelligence foncière',
-    'Foncier constructible',
-    'Promotion immobilière',
-    'Cadastre',
-    'PLU',
-    'PPR',
-  ],
+  name: 'LABUSE',
+  alternateName: 'LA BUSE',
+  url: `${site}/`,
+  logo: `${site}/apple-touch-icon.png`,
   email: 'contact@labuse.immo',
-  contactPoint: {
-    '@type': 'ContactPoint',
-    contactType: 'sales',
-    email: 'contact@labuse.immo',
-    availableLanguage: 'French',
-  },
+  areaServed: { '@type': 'Place', name: 'La Réunion' },
+  contactPoint: { '@type': 'ContactPoint', contactType: 'sales', email: 'contact@labuse.immo', availableLanguage: 'French' },
 };
+const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'LABUSE', url: `${site}/`, inLanguage: 'fr-FR' };
+const ld = [organization, website, ...schemas];
 ---
 
 <!doctype html>
@@ -64,25 +50,17 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Active la révélation au scroll seulement si JS est présent (évite le FOUC) -->
-    <script is:inline>
-      document.documentElement.classList.add('js');
-    </script>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#060a08" />
-    <!-- Preload des 2 fonts critiques (h1 Inter + labels mono) : pas de FOUT sur le titre -->
-    <link rel="preload" href={interLatinUrl} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={monoLatinUrl} as="font" type="font/woff2" crossorigin />
-    <meta name="generator" content={Astro.generator} />
-
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0A0C0B" />
+    <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={groteskUrl} as="font" type="font/woff2" crossorigin />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="LA BUSE" />
+    <meta property="og:site_name" content="LABUSE" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -90,58 +68,18 @@ const jsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="LA BUSE — radar foncier de La Réunion" />
-
-    <!-- Twitter -->
+    <meta property="og:image:alt" content="LABUSE — tout le foncier de La Réunion au même endroit" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
   </head>
   <body>
-    <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-green focus:px-4 focus:py-2 focus:font-semibold focus:text-[#04140f]">
-      Aller au contenu
-    </a>
+    <a class="skip" href="#contenu">Aller au contenu</a>
+    <Header />
     <slot />
-
-    <!-- Header compact au scroll -->
-    <script is:inline>
-      (() => {
-        const headers = document.querySelectorAll('[data-header]');
-        if (!headers.length) return;
-        const onScroll = () => {
-          const scrolled = window.scrollY > 12;
-          headers.forEach((h) => h.toggleAttribute('data-scrolled', scrolled));
-        };
-        onScroll();
-        window.addEventListener('scroll', onScroll, { passive: true });
-      })();
-    </script>
-
-    <!-- Révélation douce au scroll (respecte prefers-reduced-motion) -->
-    <script is:inline>
-      (() => {
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const els = document.querySelectorAll('.reveal');
-        if (reduce || !('IntersectionObserver' in window)) {
-          els.forEach((el) => el.classList.add('is-visible'));
-          return;
-        }
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                io.unobserve(entry.target);
-              }
-            });
-          },
-          { rootMargin: '0px 0px -10% 0px', threshold: 0.08 }
-        );
-        els.forEach((el) => io.observe(el));
-      })();
-    </script>
+    <Footer />
   </body>
 </html>

@@ -16,6 +16,7 @@
     "@astrojs/preact": "^3.5.4",
     "@astrojs/tailwind": "^5.1.5",
     "@fontsource-variable/inter": "^5.1.1",
+    "@fontsource-variable/space-grotesk": "5.1.1",
     "@fontsource/jetbrains-mono": "^5.1.1",
     "astro": "^4.16.18",
     "preact": "^10.24.3",
