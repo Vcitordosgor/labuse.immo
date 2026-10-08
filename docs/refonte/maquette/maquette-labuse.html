@@ -162,12 +162,24 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .after p b{color:var(--mint);font-weight:500}
 
 /* ── Avantages (5 fiches, même gabarit) ── */
-.adv{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
-@media (min-width:640px){.adv{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (min-width:1100px){.adv{grid-template-columns:repeat(5,minmax(0,1fr))}}
-.adv > div{background:var(--bg-2);border:1px solid var(--line-2);border-radius:var(--r);padding:22px 20px;display:grid;grid-template-rows:auto auto 1fr;gap:12px;min-width:0}
-.adv h3{min-height:2.5em}
-.adv p{font-size:14.5px;color:var(--txt-dim)}
+.fr{display:grid;gap:clamp(32px,4vw,56px);grid-template-columns:minmax(0,1fr);align-items:start}
+@media (min-width:1000px){.fr{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}}
+.fr .head{margin-bottom:0}
+@media (max-width:999px){.fr > div:first-child{display:contents}.fr .head{order:1}.fr-board{order:2}.fr-pts{order:3;margin-top:0}}
+.fr h2{font-size:clamp(30px,3.5vw,44px)}
+.fr-pts{display:grid;gap:22px;margin-top:clamp(28px,3vw,40px)}
+@media (min-width:640px) and (max-width:999px){.fr-pts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fr-pts h3{font-size:17px}
+.fr-pts p{margin-top:6px;font-size:14.5px;line-height:1.55;color:var(--txt-dim)}
+.fr-board{border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);overflow:hidden}
+.fr-cap{display:flex;justify-content:space-between;gap:16px;padding:13px 20px;border-bottom:1px solid var(--line-2);font:500 11px/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lab)}
+.fr-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 20px;align-items:center;padding:20px;border-bottom:1px solid var(--line)}
+.fr-row:last-child{border-bottom:0}
+.fr-row b{display:block;font:600 16.5px/1.3 var(--f-display);color:var(--txt-hi)}
+.fr-row .d{display:block;margin-top:5px;font-size:14px;line-height:1.5;color:var(--txt-dim)}
+.fr-pill{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:9999px;background:var(--mint-bg);border:1px solid rgba(74,222,128,.35);font:500 13px/1 var(--f-body);color:var(--mint);white-space:nowrap}
+.fr-pill i{width:7px;height:7px;border-radius:50%;background:var(--mint)}
+@media (max-width:560px){.fr-row{grid-template-columns:minmax(0,1fr)}.fr-row [role=cell]:last-child{justify-self:start}}
 .tile{width:34px;height:34px;border-radius:var(--r);display:grid;place-items:center;border:1px solid rgba(74,222,128,.38);background:rgba(74,222,128,.14);color:var(--mint)}
 .tile svg{width:17px;height:17px}
 
@@ -230,77 +242,19 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .status{font-size:14px;color:var(--amber)}
 
 /* ── Pied de page ── */
-.ftr{padding-block:48px 36px;border-top:1px solid var(--line)}
-.ftr-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px;align-items:flex-start}
-.ftr .tag{margin-top:14px;font:500 17px/1.4 var(--f-display);color:var(--txt-hi);max-width:30ch}
-.ftr ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:4px 6px}
-.ftr ul a,.ftr ul span{display:inline-block;padding:7px 10px;border-radius:var(--r);font-size:14px;color:var(--txt);border:1px solid transparent}
+.ftr{padding-block:clamp(56px,7vw,80px) 32px;border-top:1px solid var(--line)}
+.ftr-top{display:grid;gap:40px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:960px){.ftr-top{grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr);gap:64px}}
+.ftr-pitch{margin-top:18px;font-size:15px;line-height:1.6;color:var(--txt-dim);max-width:46ch}
+.ftr-contact{margin-top:16px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;font-size:13px;color:var(--lab)}
+.ftr-contact a{padding:7px 10px;margin-left:-10px;border-radius:var(--r);border:1px solid transparent;font:500 15px/1 var(--f-body);color:var(--mint)}
+.ftr-cols{display:grid;gap:28px 20px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:640px){.ftr-cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ftr-h{font:500 11px/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lab);margin-bottom:8px}
+.ftr ul{list-style:none;padding:0;margin:0 0 0 -10px;display:grid;gap:2px}
+.ftr ul a{display:inline-block;padding:7px 10px;border-radius:var(--r);font-size:14.5px;color:var(--txt);border:1px solid transparent}
+.ftr-note{margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--lab);max-width:28ch}
 .ftr-bot{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:12.5px;color:var(--lab)}
-
-/* ── Zoom sur LABUSE : onglets en accordéon + écran ── */
-.zoom{display:grid;gap:clamp(20px,3vw,36px);grid-template-columns:minmax(0,1fr);align-items:start}
-@media (min-width:1000px){.zoom{grid-template-columns:minmax(0,370px) minmax(0,1fr)}}
-.z-list{display:grid;gap:6px;order:2}
-@media (min-width:1000px){.z-list{order:0}}
-.z-item{border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);overflow:hidden;transition:border-color var(--t),background var(--t)}
-.z-item.on{border-color:rgba(74,222,128,.42);background:var(--mint-bg)}
-.z-item.ia.on{border-color:rgba(180,151,240,.42);background:#1A1526}
-.z-tab{all:unset;box-sizing:border-box;position:relative;display:flex;align-items:center;gap:12px;width:100%;padding:10px 14px;cursor:pointer;transition:background var(--t),color var(--t)}
-.z-tab:focus-visible{outline:2px solid var(--mint);outline-offset:-2px;border-radius:var(--r)}
-.z-tab b{font:500 15.5px/1.25 var(--f-body);color:var(--txt-hi)}
-.z-tab .n{margin-left:auto;font:500 11px/1 var(--f-mono);letter-spacing:.08em;color:var(--txt-dim)}
-.z-tab .tile{width:30px;height:30px;flex:none}
-.z-tab .tile svg{width:15px;height:15px}
-.z-item.ia .tile{border-color:rgba(180,151,240,.42);background:rgba(180,151,240,.16);color:var(--ia)}
-.z-bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--mint)}
-.z-item.ia .z-bar{background:var(--ia)}
-.z-body{display:none;padding:2px 16px 16px 56px}
-.z-item.on .z-body{display:block}
-.z-body h3{font-size:19px}
-.z-body p{margin-top:8px;font-size:15px;line-height:1.55;color:var(--txt)}
-.z-body ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
-.z-body li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:9px;font-size:14px;line-height:1.45;color:var(--txt-dim)}
-.z-body li svg{width:14px;height:14px;margin-top:3px;color:var(--mint)}
-.z-item.ia li svg{color:var(--ia)}
-@media (hover:hover) and (pointer:fine){
-  .z-item:not(.on) .z-tab:hover{background:var(--fill-mint)}
-  .z-item:not(.on) .z-tab:hover *{color:var(--ink)!important}
-  .z-item:not(.on) .z-tab:hover .tile{background:transparent!important;border-color:rgba(7,16,9,.30)!important}
-  .z-item.ia:not(.on) .z-tab:hover{background:var(--fill-ia)}
-  .z-item.ia:not(.on) .z-tab:hover *{color:var(--ia-ink)!important}
-}
-.z-stage{min-width:0}
-@media (max-width:999px){.z-item .z-stage{padding:0 12px 14px}.z-body{padding-left:16px}}
-@media (min-width:1000px){.z-stage{position:sticky;top:100px}}
-.z-frame{border:1px solid var(--line-3);border-radius:10px;background:var(--bg-2);padding:6px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
-.z-top{display:flex;align-items:center;gap:10px;padding:4px 4px 10px}
-.z-url{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:9999px;background:var(--bg-3);border:1px solid var(--line-2);font:500 11.5px/1 var(--f-mono);color:var(--txt-dim)}
-.z-url svg{width:18px;height:auto;color:var(--mint)}
-.z-name{margin-left:auto;font:500 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lab)}
-.z-view{position:relative;aspect-ratio:16/10;border-radius:6px;overflow:hidden;background:var(--bg-0);touch-action:pan-y}
-.z-shot{position:absolute;inset:0;margin:0;opacity:0;transform:scale(1.015);transition:opacity .45s ease,transform .6s ease;pointer-events:none}
-.z-shot.on{opacity:1;transform:none}
-.z-in{position:absolute;inset:0;transform-origin:var(--fx) var(--fy);transition:transform 6s cubic-bezier(.2,.6,.2,1)}
-.z-shot.on .z-in{transform:scale(1.2)}
-.z-shot img{width:100%;height:100%;object-fit:cover}
-.pin{position:absolute;left:var(--x);top:var(--y);display:flex;align-items:center;gap:8px;transform:translate(-6px,-50%);opacity:0;transition:opacity .3s ease .35s}
-.pin.l{flex-direction:row-reverse;transform:translate(calc(-100% + 6px),-50%)}
-.pin.t{flex-direction:column-reverse;transform:translate(-50%,calc(-100% + 6px))}
-.pin.b{flex-direction:column;transform:translate(-50%,-6px)}
-.z-shot.on .pin{opacity:1}
-.pin i{position:relative;flex:none;width:12px;height:12px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 3px rgba(7,16,9,.75)}
-.pin i::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--mint);animation:pulse 2.4s infinite}
-.pin.ia i{background:var(--ia)} .pin.ia i::after{border-color:var(--ia)}
-.pin em{font:500 12.5px/1.25 var(--f-body);font-style:normal;color:var(--txt-hi);background:rgba(17,22,20,.94);border:1px solid var(--line-3);border-radius:var(--r-s);padding:6px 9px;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.45)}
-@media (max-width:700px){.pin em{display:none}}
-.z-foot{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:12px}
-.z-note{font-size:12.5px;color:var(--lab)}
-.z-ctl{margin-left:auto;display:flex;align-items:center;gap:8px}
-.z-pause[hidden]{display:none}
-.z-ctl button{display:grid;place-items:center;width:38px;height:38px;border-radius:var(--r);border:1px solid var(--line-btn);background:transparent;color:var(--txt-hi);font:500 16px/1 var(--f-body);cursor:pointer}
-.z-count{font:500 12px/1 var(--f-mono);color:var(--lab);min-width:56px;text-align:center}
-.z-count b{color:var(--txt-hi);font-weight:500}
-@media (prefers-reduced-motion:reduce){.z-shot{transition:none;transform:none}.z-in{transition:none}.z-shot.on .z-in{transform:none}.pin{transition:none}.pin i::after{animation:none}}
 
 /* ── Le marché réunionnais ── */
 .mk{display:grid;gap:1px;grid-template-columns:minmax(0,1fr);background:var(--line-2);border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
@@ -310,11 +264,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .mk-c .v{font:700 clamp(32px,3.4vw,46px)/1 var(--f-display);color:var(--mint);letter-spacing:-.02em;white-space:nowrap}
 .mk-c .l{font-size:15px;line-height:1.45;color:var(--txt)}
 .mk-c .s{font:500 11px/1.3 var(--f-mono);letter-spacing:.06em;color:var(--lab)}
-.mk-x{margin-top:clamp(28px,3.5vw,40px);display:grid;gap:14px}
-.mk-x p{font:600 clamp(18px,1.8vw,21px)/1.35 var(--f-display);color:var(--txt-hi)}
-.mk-tags{display:flex;flex-wrap:wrap;gap:8px}
-.mk-tags span{display:inline-flex;align-items:center;height:32px;padding:0 13px;border-radius:9999px;border:1px solid var(--line-3);background:var(--bg-2);font:500 13.5px/1 var(--f-body);color:var(--txt-hi)}
-.mk-src{margin-top:22px;font-size:12.5px;line-height:1.5;color:var(--lab);max-width:90ch}
 
 /* ── Notes de maquette ── */
 .notes{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;max-width:min(400px,calc(100vw - 32px))}
@@ -324,7 +273,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .notes ol{clear:both;margin:0;padding:16px 18px 16px 34px;background:var(--bg-3);border:1px solid var(--line-3);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.45);display:grid;gap:8px;font-size:13px;color:var(--txt);max-height:60vh;overflow:auto}
 </style>
 
-<div class="mq">Maquette v5 · labuse.immo · 08/10/2026</div>
+<div class="mq">Maquette v6 · labuse.immo · 08/10/2026</div>
 
 <header class="hdr">
   <div class="wrap">
@@ -400,12 +349,12 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   </section>
 
   <!-- L'APP DANS L'ORDINATEUR -->
-  <section aria-label="L’app LABUSE en vidéo" style="padding-bottom:clamp(64px,8vw,104px)">
+  <section id="outil" aria-label="L’app LABUSE en vidéo" style="padding-bottom:clamp(64px,8vw,104px)">
     <div class="wrap">
       <div class="laptop">
         <div class="lid">
           <div class="screen">
-            <video id="promo" autoplay muted loop playsinline preload="auto" poster="assets/poster.jpg" aria-label="Vidéo : le logo LABUSE prend son envol, on zoome sur la carte, on passe en vue aérienne, on ouvre la fiche d’un terrain puis son dossier PDF, et on affiche les risques sur toute l’île."><source src="assets/labuse-promo.mp4" type="video/mp4"></video>
+            <video id="promo" autoplay muted loop playsinline preload="auto" poster="assets/poster.jpg" aria-label="Vidéo : le logo LABUSE prend son envol, on zoome sur la carte, on passe en vue aérienne, on ouvre la fiche d’un terrain puis son dossier PDF, on affiche les risques sur toute l’île, puis le zonage du PLU parcelle par parcelle."><source src="assets/labuse-promo.mp4" type="video/mp4"></video>
           </div>
         </div>
         <div class="base" aria-hidden="true"></div>
@@ -451,96 +400,32 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
     </div>
   </section>
 
-  <!-- AVANTAGES -->
-  <section class="sec alt">
+  <!-- FRAÎCHEUR DES DONNÉES -->
+  <section class="sec alt" id="fraicheur">
     <div class="wrap">
-      <div class="head">
-        <h2>Ce que vous gagnez <span class="m">avec LABUSE.</span></h2>
-      </div>
-      <div class="adv">
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6.2 6.2 0 0 0-11.4-2.3M4 12a6.2 6.2 0 0 0 11.4 2.3"/><path d="M4.4 2.8v3.1h3.1M15.6 17.2v-3.1h-3.1"/></svg></span><h3>Des données qui suivent</h3><p>Permis, ventes, procédures collectives : les nouvelles publications arrivent toutes seules.</p></div>
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10.5" r="6.5"/><path d="M10 6.5v4l2.6 1.6M8 2.5h4"/></svg></span><h3>Des heures gagnées</h3><p>Plus de recherches à rallonge : l’essentiel d’un terrain s’affiche en un clic.</p></div>
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6.5 L8 4.5 L12 6.5 L16.5 4.5 V13.5 L12 15.5 L8 13.5 L3.5 15.5 Z"/><path d="M8 4.5v9M12 6.5v9" stroke-width="1.2" opacity=".6"/></svg></span><h3>Tout au même endroit</h3><p>Urbanisme, risques, marché, documents : un seul onglet au lieu de dix.</p></div>
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M12.6 7.4 L11 11 L7.4 12.6 L9 9 Z" stroke-width="1.4" stroke-linejoin="round"/></svg></span><h3>Un outil complet</h3><p>Repérer, vérifier, chiffrer, suivre : du premier clic au dossier final.</p></div>
-        <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 17.5s-5.5-5-5.5-9a5.5 5.5 0 0 1 11 0c0 4-5.5 9-5.5 9Z"/><circle cx="10" cy="8.5" r="2"/></svg></span><h3>100 % Réunion</h3><p>Ses 24 communes, ses Hauts, ses ravines, son littoral et son marché.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ZOOM SUR LABUSE -->
-  <section class="sec" id="outil">
-    <div class="wrap">
-      <div class="head">
-        <p class="cap"><span class="m">●</span>&nbsp; Zoom sur LABUSE</p>
-        <h2>La base foncière de l’île. <span class="m blk">Réunie, sourcée, tenue à jour.</span></h2>
-        <p class="lead">Ce qu’il fallait aller chercher sur dix sites différents, LABUSE l’a déjà réuni sur une seule carte. Et les permis, les ventes et les procédures se mettent à jour tout seuls.</p>
-      </div>
-      <div class="zoom" id="zoom">
-        <div class="z-list">
-        <div class="z-item on" data-name="Carte et couches">
-          <button class="z-tab" type="button" id="zt-carte" aria-controls="zb-carte" aria-expanded="true"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6.5 L8 4.5 L12 6.5 L16.5 4.5 V13.5 L12 15.5 L8 13.5 L3.5 15.5 Z"/><path d="M8 4.5v9M12 6.5v9" stroke-width="1.2" opacity=".6"/></svg></span><b>Carte et couches</b><span class="n num" aria-hidden="true">01</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-carte" role="region" aria-labelledby="zt-carte"><h3>Toute l’île, couche par couche.</h3><p>Urbanisme, risques, réseaux, foncier, environnement&nbsp;: une soixantaine de couches à superposer. Avec celles qui comptent ici&nbsp;: 50&nbsp;pas géométriques, ravines, Parc national.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Photo aérienne IGN 2025, plan IGN ou fond sombre</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Un «&nbsp;i&nbsp;» sur chaque couche&nbsp;: sa source et ce qu’elle montre</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Distance, surface, altitude&nbsp;: mesurez sur la carte</span></li></ul></div>
-        </div>
-        <div class="z-item" data-name="Fiche parcelle">
-          <button class="z-tab" type="button" id="zt-fiche" aria-controls="zb-fiche" aria-expanded="false"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M4 7 L10.5 3.5 L16.5 7.5 L14.5 16 L5.5 15.5 Z"/><circle cx="10.3" cy="9.8" r="1.6" fill="currentColor" stroke="none"/></svg></span><b>Fiche parcelle</b><span class="n num" aria-hidden="true">02</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-fiche" role="region" aria-labelledby="zt-fiche"><h3>Le terrain sous toutes ses coutures.</h3><p>Le bien, le droit du sol, le marché, le projet&nbsp;: toute la parcelle sur une seule fiche, sources à l’appui.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>L’essentiel en six indicateurs, dont ce qu’il reste à construire</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Dossier, bilan, fiche apporteur, pré-dossier de permis&nbsp;: tout part d’ici</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>La parcelle vue du ciel, des années 1950 à aujourd’hui</span></li></ul></div>
-        </div>
-        <div class="z-item" data-name="Outils">
-          <button class="z-tab" type="button" id="zt-outils" aria-controls="zb-outils" aria-expanded="false"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M12.6 7.4 L11 11 L7.4 12.6 L9 9 Z" stroke-width="1.4" stroke-linejoin="round"/></svg></span><b>Outils</b><span class="n num" aria-hidden="true">03</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-outils" role="region" aria-labelledby="zt-outils"><h3>16 outils fonciers, du repérage à l’action.</h3><p>PLU, faisabilité, gabarit, assemblage, taxe d’aménagement&nbsp;: jaugez un terrain sans quitter la carte.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Pièges et risques&nbsp;: ce qui peut bloquer le projet, avant d’acheter</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Successions probables, blocs fonciers, permis dormants&nbsp;: de nouvelles pistes à creuser</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Comparez jusqu’à 3 parcelles, critère par critère</span></li></ul></div>
-        </div>
-        <div class="z-item" data-name="Docs">
-          <button class="z-tab" type="button" id="zt-docs" aria-controls="zb-docs" aria-expanded="false"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M5.5 3.5 H11.5 L15 7 V16.5 H5.5 Z"/><path d="M11.5 3.5 V7 H15" stroke-width="1.3"/><path d="M7.8 10.5 H12.2 M7.8 13 H12.2" stroke-width="1.3"/></svg></span><b>Docs</b><span class="n num" aria-hidden="true">04</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-docs" role="region" aria-labelledby="zt-docs"><h3>Des documents prêts à présenter.</h3><p>Sept documents tirés des données de la fiche parcelle, sans ressaisir le terrain&nbsp;: dossier, bilan, fiche apporteur, pré-dossier de permis, gabarit, comparatif, étude de zone.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Bilan promoteur avec vos propres ratios, exportable en Excel</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Pré-dossier de permis&nbsp;: Cerfa pré-rempli pour la partie terrain, plan de situation et liste des pièces à joindre</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Dans «&nbsp;Mes documents&nbsp;», chaque document indique si nos sources ont changé depuis</span></li></ul></div>
-        </div>
-        <div class="z-item ia" data-name="Copilote">
-          <button class="z-tab" type="button" id="zt-copilote" aria-controls="zb-copilote" aria-expanded="false"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5 L11.6 8.4 L16.5 10 L11.6 11.6 L10 16.5 L8.4 11.6 L3.5 10 L8.4 8.4 Z"/></svg></span><b>Copilote</b><span class="n num" aria-hidden="true">05</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-copilote" role="region" aria-labelledby="zt-copilote"><h3>Une question, une réponse sourcée.</h3><p>Courte, datée, et rien que sur La Réunion. Ses chiffres sur l’île sortent des données LABUSE&nbsp;; ce qui vient du web est signalé, avec le site et la date.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Il compte parcelles et permis, explique les notions, cherche sur le web et prépare votre argumentaire</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Et quand il ne sait pas, il le dit</span></li></ul></div>
-        </div>
-        <div class="z-item" data-name="Radar">
-          <button class="z-tab" type="button" id="zt-radar" aria-controls="zb-radar" aria-expanded="false"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.8" stroke-width="1.3"/><circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/><path d="M10 2.5v2.4M17.5 10h-2.4"/></svg></span><b>Radar</b><span class="n num" aria-hidden="true">06</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-radar" role="region" aria-labelledby="zt-radar"><h3>Le marché en vente, à la loupe.</h3><p>Des terrains et maisons en vente sur toute l’île, avec les baisses de prix et les biens qui ne partent pas déjà repérés.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Prix demandé contre prix réellement payé&nbsp;: la marge de négociation probable</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Alertes nouveautés, baisses de prix et retraits, résumées par e-mail chaque matin ou chaque lundi, au choix</span></li></ul></div>
-        </div>
-        <div class="z-item" data-name="CRM">
-          <button class="z-tab" type="button" id="zt-crm" aria-controls="zb-crm" aria-expanded="false"><span class="tile"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><rect x="3.5" y="9" width="3.6" height="7.5" rx="0.8"/><rect x="8.2" y="5" width="3.6" height="11.5" rx="0.8"/><rect x="12.9" y="11.5" width="3.6" height="5" rx="0.8"/></svg></span><b>CRM</b><span class="n num" aria-hidden="true">07</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-crm" role="region" aria-labelledby="zt-crm"><h3>Chaque affaire suivie, sans rien laisser filer.</h3><p>Toute votre prospection foncière dans un seul tableau, de la parcelle repérée à l’opportunité chaude. Une parcelle y entre depuis sa fiche, directement à la bonne étape.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>8 étapes proposées, à adapter à votre façon</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Relances, prochaine action, contacts, notes&nbsp;: vous savez qui rappeler, et quand</span></li></ul></div>
-        </div>
-        <div class="z-item" data-name="Projets">
-          <button class="z-tab" type="button" id="zt-projets" aria-controls="zb-projets" aria-expanded="false"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6 H8.2 L9.6 7.6 H16.5 V15 A0.8 0.8 0 0 1 15.7 15.8 H4.3 A0.8 0.8 0 0 1 3.5 15 Z"/><path d="M10 9 L10.7 10.7 L12.5 10.9 L11.2 12.1 L11.6 13.9 L10 13 L8.4 13.9 L8.8 12.1 L7.5 10.9 L9.3 10.7 Z" fill="currentColor" stroke="none"/></svg></span><b>Projets</b><span class="n num" aria-hidden="true">08</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-projets" role="region" aria-labelledby="zt-projets"><h3>Vous cadrez, LABUSE trouve.</h3><p>Fixez votre périmètre et vos critères&nbsp;: LABUSE vous livre toutes les parcelles qui correspondent, les plus prometteuses en tête.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Retenue ou écartée&nbsp;: triez d’un geste, rien ne se perd</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Chaque parcelle retenue arrive directement dans votre CRM</span></li></ul></div>
-        </div>
-        <div class="z-item" data-name="Données">
-          <button class="z-tab" type="button" id="zt-sources" aria-controls="zb-sources" aria-expanded="false"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><ellipse cx="10" cy="5.5" rx="5.5" ry="2.2"/><path d="M4.5 5.5 V10 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V5.5"/><path d="M4.5 10 v4.5 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V10"/></svg></span><b>Données</b><span class="n num" aria-hidden="true">09</span><i class="z-bar" aria-hidden="true"></i></button>
-          <div class="z-body" id="zb-sources" role="region" aria-labelledby="zt-sources"><h3>Près de 100 sources. Pas de boîte noire.</h3><p>Chaque donnée affiche sa source et son producteur, le plus souvent avec un lien vers l’original.</p><ul><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Les 24 communes couvertes, sans exception</span></li><li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg><span>Permis, ventes, procédures&nbsp;: les nouvelles publications arrivent toutes seules</span></li></ul></div>
-        </div>
-        </div>
-        <div class="z-stage">
-          <div class="z-frame">
-            <div class="z-top"><span class="z-url"><svg viewBox="0 8 240 54" fill="currentColor" aria-hidden="true"><path d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></svg>app.labuse.immo</span><span class="z-name">Carte et couches</span></div>
-            <div class="z-view">
-            <figure class="z-shot on" aria-hidden="false"><div class="z-in" style="--fx:74%;--fy:62%"><img src="assets/zoom/carte.webp" alt="Carte LABUSE en vue aérienne avec la couche Zonage PLU activée et sa légende." width="1600" height="1000" decoding="async"><span class="pin l" style="--x:80.6%;--y:69%"><i></i><em>Zonage PLU, parcelle par parcelle</em></span></div></figure>
-            <figure class="z-shot" aria-hidden="true"><div class="z-in" style="--fx:58%;--fy:42%"><img src="assets/zoom/fiche.webp" alt="Fiche d’une parcelle de Saint-Paul, ouverte sur la vue aérienne." width="1600" height="1000" loading="lazy" decoding="async"><span class="pin r" style="--x:50.3%;--y:53.1%"><i></i><em>1 150 m², zone U3c</em></span></div></figure>
-            <figure class="z-shot" aria-hidden="true"><div class="z-in" style="--fx:30%;--fy:52%"><img src="assets/zoom/pieges.webp" alt="Outil Pièges et risques : trois servitudes listées avec leur source." width="1600" height="1000" loading="lazy" decoding="async"><span class="pin r" style="--x:27.6%;--y:54%"><i></i><em>Chaque servitude nommée et sourcée</em></span></div></figure>
-            <figure class="z-shot" aria-hidden="true"><div class="z-in" style="--fx:50%;--fy:30%"><img src="assets/zoom/docs.webp" alt="Page Documents de LABUSE : les sept documents disponibles." width="1600" height="1000" loading="lazy" decoding="async"><span class="pin b" style="--x:50%;--y:58.4%"><i></i><em>Choisissez le document, puis la parcelle&nbsp;: c’est prêt</em></span></div></figure>
-            <figure class="z-shot" aria-hidden="true"><div class="z-in" style="--fx:58%;--fy:42%"><img src="assets/zoom/copilote.webp" alt="Le Copilote résume une parcelle de Saint-Paul en une réponse." width="1600" height="1000" loading="lazy" decoding="async"><span class="pin l ia" style="--x:31.2%;--y:47%"><i></i><em>Toute la parcelle en une réponse, sources citées</em></span></div></figure>
-            <figure class="z-shot" aria-hidden="true"><div class="z-in" style="--fx:70%;--fy:45%"><img src="assets/zoom/radar.webp" alt="Radar LABUSE : biens en vente et chiffres du marché de toute l’île." width="1600" height="1000" loading="lazy" decoding="async"><span class="pin b" style="--x:73.5%;--y:80.5%"><i></i><em>Prix demandé, prix payé&nbsp;: l’écart par commune</em></span></div></figure>
-            <figure class="z-shot" aria-hidden="true"><div class="z-in" style="--fx:76%;--fy:72%"><img src="assets/zoom/crm.webp" alt="Fiche parcelle avec le menu « + CRM » ouvert sur les étapes de prospection." width="1600" height="1000" loading="lazy" decoding="async"><span class="pin l" style="--x:72.9%;--y:77.8%"><i></i><em>Ajout au CRM depuis la fiche, à la bonne étape</em></span></div></figure>
-            <figure class="z-shot" aria-hidden="true"><div class="z-in" style="--fx:40%;--fy:32%"><img src="assets/zoom/projets.webp" alt="Création d’un projet dans LABUSE : partir du vivier LABUSE ou d’un projet vide." width="1600" height="1000" loading="lazy" decoding="async"><span class="pin b" style="--x:38%;--y:34%"><i></i><em>Le vivier&nbsp;: toutes les parcelles qui collent à votre cadrage</em></span></div></figure>
-            <figure class="z-shot" aria-hidden="true"><div class="z-in" style="--fx:45%;--fy:35%"><img src="assets/zoom/sources.webp" alt="Page Sources de LABUSE : chaque source avec son producteur, les parcelles couvertes et les 24 communes." width="1600" height="1000" loading="lazy" decoding="async"><span class="pin t" style="--x:28%;--y:20.5%"><i></i><em>Producteur, rythme de publication, couverture</em></span></div></figure>
-            </div>
+      <div class="fr">
+        <div>
+          <div class="head">
+            <h2>La fraîcheur ne se promet pas. <span class="m blk">Pour les données clés, elle se vérifie chaque semaine.</span></h2>
+            <p class="lead">Les données du tableau se mettent à jour toutes seules&nbsp;: LABUSE guette leurs producteurs officiels et reprend chaque nouvelle publication, à leur rythme.</p>
           </div>
-          <p class="sr-only" id="z-live" aria-live="polite"></p>
-          <div class="z-foot">
-            <p class="z-note">Captures réelles de l’app, à Saint-Paul.</p>
-            <div class="z-ctl"><button class="z-pause hf" type="button" aria-pressed="false" aria-label="Mettre en pause le défilement automatique"><span aria-hidden="true">❚❚</span></button><button class="z-prev hf" type="button" aria-label="Écran précédent">←</button><span class="z-count num"><b>01</b> / 09</span><button class="z-next hf" type="button" aria-label="Écran suivant">→</button></div>
+          <div class="fr-pts">
+            <div><h3>Retiré à la source, retiré chez nous</h3><p>Quand l’ADEME retire un DPE, il disparaît aussi de LABUSE dans la semaine. Pas de diagnostic fantôme.</p></div>
+            <div><h3>Vérifiable par vous aussi</h3><p>Sur la fiche, les données affichent leur source et leur millésime. Pour le zonage, c’est la date d’approbation du PLU.</p></div>
           </div>
+        </div>
+        <div class="fr-board" role="table" aria-label="Rythme de mise à jour automatique des données">
+          <div class="fr-cap" role="row"><span role="columnheader">Mise à jour automatique</span><span role="columnheader">Rythme</span></div>
+          <div class="fr-row" role="row"><div role="cell"><b>Permis de construire</b><span class="d">Publiés une fois par mois par l’État, repris par LABUSE dès leur sortie.</span></div><div role="cell"><span class="fr-pill"><i aria-hidden="true"></i>Vérifiés chaque jour</span></div></div>
+          <div class="fr-row" role="row"><div role="cell"><b>Procédures collectives</b><span class="d">Les annonces du BODACC qui visent les sociétés propriétaires de parcelles sur l’île.</span></div><div role="cell"><span class="fr-pill"><i aria-hidden="true"></i>Mises à jour chaque jour</span></div></div>
+          <div class="fr-row" role="row"><div role="cell"><b>Diagnostics énergétiques (DPE)</b><span class="d">Logements existants, logements neufs et bâtiments tertiaires&nbsp;: les trois bases de l’ADEME, relues en entier pour La Réunion.</span></div><div role="cell"><span class="fr-pill"><i aria-hidden="true"></i>Mis à jour chaque semaine</span></div></div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- LA RÉUNION -->
-  <section class="sec alt">
+  <section class="sec" id="reunion">
     <div class="wrap">
       <div class="run">
         <div>
@@ -558,10 +443,9 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   </section>
 
   <!-- LE MARCHÉ RÉUNIONNAIS -->
-  <section class="sec" id="marche">
+  <section class="sec alt" id="marche">
     <div class="wrap">
       <div class="head">
-        <p class="cap"><span class="m">●</span>&nbsp; Le marché réunionnais</p>
         <h2>La Réunion, un marché porteur. <span class="m blk">Et un foncier qui se mérite.</span></h2>
         <p class="lead">Toujours plus d’habitants, toujours aussi peu de place&nbsp;: ici, chaque terrain compte. Pour trouver le bon avant les autres, il faut connaître l’île par cœur. C’est notre métier.</p>
       </div>
@@ -571,16 +455,11 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
         <div class="mk-c"><div class="v num">+0,6&nbsp;%</div><p class="l">de population en plus chaque année en moyenne, de 2018 à 2050, contre +0,1&nbsp;% en métropole</p><p class="s">Insee, projections 2022</p></div>
         <div class="mk-c"><div class="v num">42&nbsp;%</div><p class="l">de l’île classée dans le cœur du Parc national</p><p class="s">Parc national de La Réunion</p></div>
       </div>
-      <div class="mk-x">
-        <p>Les règles du jeu d’ici, <span class="m">LABUSE les décrypte pour vous.</span></p>
-        <div class="mk-tags"><span>50 pas géométriques</span><span>Ravines et reculs</span><span>Parc national</span><span>Risques naturels (PPR)</span><span>Érosion côtière</span><span>Zone franche (ZFANG)</span><span>Normes de construction DOM (RTAA)</span></div>
-      </div>
-      <p class="mk-src">Sources&nbsp;: Insee Analyses Réunion n°&nbsp;77 (novembre 2022)&nbsp;; Insee et DEAL Réunion, Insee Analyses Réunion n°&nbsp;93 (novembre 2024)&nbsp;; Parc national de La Réunion. Ces projections décrivent ce qui se passerait si les tendances récentes se prolongeaient.</p>
     </div>
   </section>
 
   <!-- MÉTIERS -->
-  <section class="sec alt">
+  <section class="sec">
     <div class="wrap">
       <div class="head">
         <h2>Vous travaillez le foncier réunionnais ? <span class="m blk">LABUSE travaille pour vous.</span></h2>
@@ -593,7 +472,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   </section>
 
   <!-- TARIFS -->
-  <section class="sec" id="tarifs">
+  <section class="sec alt" id="tarifs">
     <div class="wrap">
       <div class="head">
         <h2>Un terrain, <span class="m">ou toute l’île.</span></h2>
@@ -632,14 +511,14 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   </section>
 
   <!-- FAQ -->
-  <section class="sec alt">
+  <section class="sec" id="questions">
     <div class="wrap">
       <div class="head">
         <h2>Vous vous demandez peut-être…</h2>
       </div>
       <div class="faq">
         <details><summary class="hf">Comment se passe la démo ?<span class="arr" aria-hidden="true">+</span></summary><p>Vous avez accès à tout LABUSE pendant 48 h : la carte, les outils, le Copilote, les documents. Sans engagement.</p></details>
-        <details><summary class="hf">Les données sont-elles à jour ?<span class="arr" aria-hidden="true">+</span></summary><p>Les données bougent, LABUSE suit. Permis, ventes, procédures collectives : les nouvelles publications officielles sont intégrées automatiquement. Chaque information cite sa source.</p></details>
+        <details><summary class="hf">Les données sont-elles à jour ?<span class="arr" aria-hidden="true">+</span></summary><p>Celles qui changent le plus souvent (permis de construire, procédures collectives, DPE) se mettent à jour toutes seules, à leur rythme détaillé plus haut. Sur la fiche, les données affichent leur source.</p></details>
         <details><summary class="hf">LABUSE dit-il si un terrain est constructible ?<span class="arr" aria-hidden="true">+</span></summary><p>Il vous dit ce que permet la zone du PLU (constructible, à urbaniser, agricole ou naturelle), avec les risques et les contraintes connues : vous savez vite si le terrain mérite d’aller plus loin. Pour une réponse qui engage, c’est le certificat d’urbanisme de la mairie.</p></details>
         <details><summary class="hf">Voit-on qui possède un terrain ?<span class="arr" aria-hidden="true">+</span></summary><p>Oui, quand le propriétaire est une personne morale (société, collectivité, association…). Un particulier n’est jamais nommé.</p></details>
         <details><summary class="hf">Puis-je utiliser LABUSE sur mon téléphone ?<span class="arr" aria-hidden="true">+</span></summary><p>L’app s’utilise sur ordinateur : la carte a besoin de place. Le rapport Flash, lui, est un PDF qui se lit partout.</p></details>
@@ -648,7 +527,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   </section>
 
   <!-- CONTACT -->
-  <section class="sec" id="contact">
+  <section class="sec alt" id="contact">
     <div class="wrap">
       <div class="ct">
         <div>
@@ -676,33 +555,37 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 <footer class="ftr">
   <div class="wrap">
     <div class="ftr-top">
-      <div>
+      <div class="ftr-brand">
         <a class="logo" href="#top" aria-label="LABUSE — accueil">
           <svg viewBox="0 8 240 54" fill="currentColor" aria-hidden="true"><path d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></svg>
           <span class="wm">LA<b>BUSE</b></span>
         </a>
-        <p class="tag">Créé pour La Réunion, et uniquement pour elle.</p>
+        <p class="ftr-pitch">LABUSE réunit au même endroit ce qu’il faut savoir sur un terrain à La Réunion&nbsp;: cadastre, zonage du PLU, risques naturels, ventes et permis de construire, chaque information avec sa source. Les 24 communes de l’île, du littoral aux Hauts.</p>
+        <p class="ftr-contact"><a class="hf" href="mailto:contact@labuse.immo">contact@labuse.immo</a><span>Réponse sous 24 h ouvrées · La Réunion (974)</span></p>
       </div>
-      <ul>
-        <li><a class="hf" href="#outil">L’outil</a></li><li><a class="hf" href="#tarifs">Tarifs</a></li><li><a class="hf" href="#contact">Contact</a></li><li><a class="hf" href="https://app.labuse.immo/login">Se connecter</a></li><li><a class="hf" href="https://labuse.immo/mentions-legales">Mentions légales</a></li><li><a class="hf" href="https://labuse.immo/confidentialite">Confidentialité</a></li>
-      </ul>
+      <nav class="ftr-cols" aria-label="Pied de page">
+        <div><p class="ftr-h">Le site</p><ul><li><a class="hf" href="#outil">L’outil en vidéo</a></li><li><a class="hf" href="#fraicheur">Fraîcheur des données</a></li><li><a class="hf" href="#reunion">Les 24 communes</a></li><li><a class="hf" href="#questions">Questions fréquentes</a></li><li><a class="hf" href="#contact">Contact</a></li></ul></div>
+        <div><p class="ftr-h">Offres</p><ul><li><a class="hf" href="#contact" data-pre="flash">Commander un rapport Flash</a></li><li><a class="hf" href="#contact" data-pre="demo">Demander une démo</a></li><li><a class="hf" href="#tarifs">Tarifs</a></li><li><a class="hf" href="https://app.labuse.immo/login">Se connecter</a></li></ul><p class="ftr-note">L’app s’utilise sur ordinateur&nbsp;; le rapport Flash se lit partout.</p></div>
+        <div><p class="ftr-h">Informations</p><ul><li><a class="hf" href="https://labuse.immo/mentions-legales/">Mentions légales</a></li><li><a class="hf" href="https://labuse.immo/confidentialite/">Politique de confidentialité</a></li><li><a class="hf" href="mailto:contact@labuse.immo">Nous écrire</a></li></ul></div>
+      </nav>
     </div>
-    <div class="ftr-bot"><span>© 2026 LABUSE · Fait à La Réunion</span></div>
+    <div class="ftr-bot"><span>© 2026 LABUSE · Fait à La Réunion</span><span>Créé pour La Réunion, et uniquement pour elle.</span></div>
   </div>
 </footer>
 
 <details class="notes">
-  <summary>Notes de maquette · 10</summary>
+  <summary>Notes de maquette · 11</summary>
   <ol>
-    <li><b>Vidéo v3</b> : parcelle 97415000EY0109 (1 150 m², Plateau Caillou) : ni vente DVF ni permis affichés, propriétaire non nommé. Retour sur l’île en vue sombre ; le dossier montre les 3 premières pages du vrai PDF. 13,5 s, 2,2 Mo.</li>
-    <li><b>Zoom sur LABUSE</b> : remplace l’ancienne liste « L’outil » : 9 rubriques avec leurs vrais écrans. Chaque phrase a été vérifiée dans le code de l’app, puis relue par un vérificateur chargé de la contredire.</li>
-    <li><b>CRM et projets</b> : le compte de démo est vide et je n’ai pas pu y créer de données (action bloquée). La diapo CRM montre le menu « + CRM », la diapo Projets l’écran de création. Avec quelques parcelles dans le CRM et un projet, ces deux captures seraient plus parlantes.</li>
-    <li><b>Parcelle montrée</b> : EY0109 est la maison d’un particulier (nom non affiché, ni vente ni permis). Son adresse se lit dans la fiche et dans le PDF de la vidéo. Si tu préfères, je floute l’adresse ou je refais tout sur une parcelle de société ou de commune.</li>
-    <li><b>Marché</b> : « porteur » plutôt que « florissant » : les sources parlent d’une demande à venir, et l’Insee note une construction à un point bas de 2016 à 2023. 4 chiffres sourcés, au conditionnel quand ce sont des projections.</li>
-    <li><b>Chiffres de l’app</b> : 99 sources et 59 couches (bandeau) bougent avec l’app, qui compte aujourd’hui 60 couches pour 59 cases. Dans les nouvelles sections : « près de 100 sources », « une soixantaine de couches ». 431 663 = « parcelles couvertes », le libellé de l’app.</li>
-    <li><b>2,6 M+</b> : 2 678 205 enregistrements de sources publiques comptés dans la base locale, doublons retirés : à recompter sur le serveur avant la mise en ligne.</li>
-    <li><b>Fraîcheur</b> : en prod, permis (Sitadel), ventes (DVF), procédures (BODACC), adresses et DPE se rechargent seuls via les anciens crons. Le crontab du registre n’est pas déployé et la sentinelle des sources est à l’arrêt depuis le 24/09 : aucune phrase ne s’appuie sur elle. Attention, le futur crontab ne reprend pas encore le rechargement DVF.</li>
-    <li><b>Mentions</b> : « Prix hors taxes » et « pré-analyse » retirés de Tarifs et du pied de page, comme demandé. La FAQ « constructible ? » est reformulée sans ce mot, mais renvoie toujours au certificat d’urbanisme.</li>
+    <li><b>Vidéo v4</b> : ralentie de moitié (32 s, 4,2 Mo). Après PPR multirisque, on la retire, on coche « Zonage PLU par parcelle » et on zoome sur Plateau Caillou (Saint-Paul) pour voir les zones parcelle par parcelle.</li>
+    <li><b>Fraîcheur : ce qui est vrai aujourd’hui</b> : en prod, les permis sont vérifiés chaque jour, les procédures collectives (BODACC) mises à jour chaque jour, les DPE chaque semaine. C’est tout ce que la section affirme.</li>
+    <li><b>Fraîcheur : ce qui ne l’est pas encore</b> : les ventes (DVF) sont contrôlées chaque semaine mais leur rechargement échoue (bug de refresh_dvf). Le rechargement des adresses du 05/10 n’a pas abouti. Zonage PLU et risques (PPR) : aucun contrôle automatique. La sonde quotidienne des sources n’est pas planifiée (crontab du registre non déployé). Une fois ces points corrigés dans l’app, on peut écrire « toutes les données clés vérifiées chaque semaine ».</li>
+    <li><b>Attention au déploiement</b> : le crontab du registre (deploy.sh) passerait permis et DPE à un rythme mensuel et ne reprend pas les ventes ni les adresses : à aligner avant, sinon la section deviendrait fausse.</li>
+    <li><b>FAQ « à jour ? »</b> : corrigée : elle promettait l’intégration automatique des ventes, ce qui est faux aujourd’hui.</li>
+    <li><b>SEO</b> : un vrai chantier a été fait le 11/07 (balises, données structurées, plan du site, score SEO 100), mais sur une branche jamais fusionnée (feat/seo-fondations). En ligne : seulement la base du 01/07. Le correctif du 07/10 n’est pas déployé non plus. À reprendre à l’intégration Astro.</li>
+    <li><b>Pied de page</b> : texte de présentation, contact, 3 colonnes de liens réels, liens légaux avec la barre finale (évite une redirection). Ancres #reunion et #questions ajoutées.</li>
+    <li><b>Parcelle montrée</b> : EY0109 est la maison d’un particulier (nom non affiché, ni vente ni permis). Son adresse se lit dans la fiche et dans le PDF de la vidéo : je peux la flouter si tu préfères.</li>
+    <li><b>Marché</b> : « porteur » plutôt que « florissant » ; chaque chiffre garde sa source sous la tuile.</li>
+    <li><b>Chiffres de l’app</b> : 99 sources et 59 couches (bandeau) bougent avec l’app ; 2,6 M+ (2 678 205 enregistrements comptés en local) : à recompter sur le serveur avant la mise en ligne.</li>
     <li><b>Polices</b> : chargées depuis Google pour la maquette seulement ; sur le site, hébergées chez nous (RGPD).</li>
   </ol>
 </details>
@@ -717,44 +600,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   // Vidéo : figée si l'utilisateur réduit les animations
   const v = document.getElementById('promo');
   if (v && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
-  // Zoom sur LABUSE : un écran à la fois ; défilement auto qui s'arrête au premier clic
-  const z = document.getElementById('zoom');
-  if (z) {
-    const items = [...z.querySelectorAll('.z-item')], shots = [...z.querySelectorAll('.z-shot')];
-    const count = z.querySelector('.z-count b'), nameEl = z.querySelector('.z-name');
-    const DUR = 7000;
-    // Mobile : l'écran se glisse sous l'onglet ouvert (accordéon), sans défilement auto
-    const mq = window.matchMedia('(max-width: 999px)'), stage = z.querySelector('.z-stage');
-    let held = false, i = 0, auto = !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !mq.matches, paused = false, visible = false, prog = 0, last = 0;
-    const place = () => { const host = mq.matches ? items[i] : z; if (stage.parentElement !== host) { const f = stage.contains(document.activeElement) ? document.activeElement : null; host.appendChild(stage); if (f) f.focus({ preventScroll: true }); } };
-    const live = document.getElementById('z-live'), pb = z.querySelector('.z-pause');
-    const bar = () => items[i].querySelector('.z-bar');
-    const go = (n, user) => {
-      i = (n + items.length) % items.length;
-      items.forEach((it, k) => { const on = k === i; it.classList.toggle('on', on); it.querySelector('.z-tab').setAttribute('aria-expanded', String(on)); it.querySelector('.z-bar').style.width = '0'; });
-      shots.forEach((sh, k) => { sh.classList.toggle('on', k === i); sh.setAttribute('aria-hidden', String(k !== i)); });
-      count.textContent = String(i + 1).padStart(2, '0'); nameEl.textContent = items[i].dataset.name;
-      prog = 0; if (user) { auto = false; pb.hidden = true; live.textContent = 'Écran ' + (i + 1) + ' sur ' + items.length + ' : ' + items[i].dataset.name; } place();
-    };
-    place(); mq.addEventListener('change', place);
-    pb.hidden = !auto;
-    pb.addEventListener('click', () => { const on = pb.getAttribute('aria-pressed') !== 'true'; pb.setAttribute('aria-pressed', String(on)); pb.setAttribute('aria-label', on ? 'Reprendre le défilement automatique' : 'Mettre en pause le défilement automatique'); pb.firstElementChild.textContent = on ? '▶' : '❚❚'; paused = on; held = on; });
-    items.forEach((it, k) => it.querySelector('.z-tab').addEventListener('click', () => go(k, true)));
-    z.querySelector('.z-prev').addEventListener('click', () => go(i - 1, true));
-    z.querySelector('.z-next').addEventListener('click', () => go(i + 1, true));
-    let x0 = null; const view = z.querySelector('.z-view');
-    view.addEventListener('pointerdown', (e) => { x0 = e.clientX; });
-    view.addEventListener('pointerup', (e) => { if (x0 === null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1), true); });
-    z.addEventListener('mouseenter', () => { paused = true; }); z.addEventListener('mouseleave', () => { paused = held; });
-    z.addEventListener('focusin', () => { paused = true; }); z.addEventListener('focusout', () => { paused = held; });
-    if ('IntersectionObserver' in window) new IntersectionObserver((es) => es.forEach((e) => { visible = e.isIntersecting; }), { threshold: 0.3 }).observe(z); else visible = true;
-    const tick = (now) => {
-      const dt = last ? now - last : 0; last = now;
-      if (auto && !paused && visible && !document.hidden) { prog += dt / DUR; bar().style.width = Math.min(100, prog * 100) + '%'; if (prog >= 1) go(i + 1, false); }
-      if (auto) requestAnimationFrame(tick); else bar().style.width = '0';
-    };
-    if (auto) requestAnimationFrame(tick);
-  }
   // Boutons Démo / Flash : amorce du message, sans choix d'offre dans le formulaire
   const msg = document.getElementById('f-msg');
   const PRE = {

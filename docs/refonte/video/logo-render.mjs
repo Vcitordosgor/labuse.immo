@@ -6,10 +6,10 @@ const b = await launch();
 const p = await b.newPage({ viewport: { width: 2880, height: 1800 }, deviceScaleFactor: 1 });
 await p.goto('file://' + SP + '/video/logo.html', { waitUntil: 'networkidle' });
 await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(500);
-const FPS = 30, DUR = 2.85;
-for (let i = 0; i < Math.round(FPS * DUR); i++) {
-  await p.evaluate((t) => window.render(t), i / FPS);
+const FPS = 30, DUR = 2.85, S = +(process.env.SLOW || 1);
+for (let i = 0; i < Math.round(FPS * DUR * S); i++) {
+  await p.evaluate((t) => window.render(t), i / (FPS * S));
   await p.screenshot({ path: `${out}/${String(i).padStart(4, '0')}.jpg`, type: 'jpeg', quality: 90 });
 }
-console.log('logo frames', Math.round(FPS * DUR));
+console.log('logo frames', Math.round(FPS * DUR * S));
 await b.close();

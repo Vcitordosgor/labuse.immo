@@ -23,7 +23,7 @@ html,body{width:1440px;height:900px;overflow:hidden;background:#0A0C0B}
 #pages img+img{margin-top:20px}
 #cur{position:fixed;left:0;top:0;z-index:9;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
 </style></head><body>
-<img id="from" class="full" src="frames/B/0098.jpg">
+<img id="from" class="full">
 <div id="viewer" class="full">
   <div id="bar">
     <div class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
@@ -34,7 +34,7 @@ html,body{width:1440px;height:900px;overflow:hidden;background:#0A0C0B}
   <div id="side"><div id="thumbs"></div></div>
   <div id="scroll"><div id="pages"><img src="dossier/p1.png"><img src="dossier/p2.png"><img src="dossier/p3.png"><img src="dossier/p4.png"></div></div>
 </div>
-<img id="to" class="full" src="frames/C/0000.jpg" style="opacity:0">
+<img id="to" class="full" style="opacity:0">
 <div id="cur"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.6L10.4 19z" fill="#fff" stroke="#071009" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
 <script>
 const CUR={x:1115,y:702};
@@ -42,7 +42,8 @@ const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2, out=t=>1-Math.pow(1-t,3), clamp
 const th=document.getElementById('thumbs');
 for(let i=1;i<=10;i++) th.insertAdjacentHTML('beforeend',`<div class="th"><img src="dossier/p${i}.png"><span>${i}</span></div>`);
 // Découpage (images à 30 i/s) : apparition 7 · lecture p.1 8 · défilement de 3 pages 60 · arrêt 8 · fondu retour 8
-const IN=7, HOLD=8, SCR=60, STOP=8, BACK=8; window.TOTAL=IN+HOLD+SCR+STOP+BACK;
+const S=window.SLOW||1, IN=7*S, HOLD=8*S, SCR=60*S, STOP=8*S, BACK=8*S; window.TOTAL=IN+HOLD+SCR+STOP+BACK;
+document.getElementById('from').src=window.FROM||'frames/B/0098.jpg'; document.getElementById('to').src=window.TO||'frames/C/0000.jpg';
 const PH=792, GAP=20, VIEW=900-52, SEND=2*(PH+GAP); // page 3 entière à l'écran
 document.getElementById('cur').style.transform=`translate(${CUR.x-5}px,${CUR.y-3}px)`;
 window.render=f=>{
