@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://labuse.immo/sitemap.xml
+Sitemap: https://labuse.immo/sitemap-index.xml

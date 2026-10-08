@@ -1,11 +1,11 @@
-# LA BUSE — site vitrine
+# LABUSE — site vitrine
 
-One-pager marketing de **LA BUSE**, plateforme B2B d'intelligence foncière pour
-promoteurs immobiliers à La Réunion.
+One-pager marketing de **LABUSE** : tout le foncier de La Réunion au même endroit.
 
-Stack : **Astro** (`output: 'static'`) + **Tailwind CSS** (build-time, tokens dans
-`tailwind.config.js`) + **Preact** (îlot pour le formulaire). Zéro CDN, fonts
-auto-hébergées (Inter + JetBrains Mono).
+Stack : **Astro 4** (`output: 'static'`), CSS maison (`src/styles/global.css`,
+tokens dans `:root`), un seul script inline par page. Zéro CDN, polices
+auto-hébergées via @fontsource (Inter, Space Grotesk, JetBrains Mono) : la CSP
+de `public/_headers` impose `font-src 'self'`.
 
 Architecture (pattern éprouvé sur tania.re) : **site 100 % statique sur Cloudflare
 Pages** + **Worker séparé `labuse-contact`** (`workers/contact/`) routé sur
@@ -19,6 +19,7 @@ npm install      # installer les dépendances
 npm run dev      # serveur de dev → http://localhost:4321
 npm run build    # build statique → dist/
 npm run preview  # prévisualiser le build
+npm run seo:check  # après le build : titles, canonical, JSON-LD, sitemap, mots interdits
 ```
 
 ## Déploiement
@@ -47,8 +48,9 @@ Prérequis Email Routing (sinon `send_failed`) : Email Routing actif sur
 
 ## Formulaire de contact
 
-Section `Contact.astro` → îlot Preact `ContactForm.tsx` (`client:visible`) qui POST
-en JSON vers `/api/contact` (le worker). Côté client : validation, honeypot
+Section `#contact` de `src/pages/index.astro` : le script de la page POST en JSON
+vers `/api/contact` (le worker). Les boutons `data-pre="demo|flash"` (et `?pre=…`
+dans l'URL) pré-remplissent le message. Côté client : validation, honeypot
 `website`, time-trap. Côté worker (`workers/contact/src/index.js`) :
 
 1. honeypot + validation (nom / téléphone / email) ;
@@ -67,51 +69,17 @@ en JSON vers `/api/contact` (le worker). Côté client : validation, honeypot
 
 | Je veux changer…                | Fichier |
 |---------------------------------|---------|
-| Les **couleurs / typo (tokens)**| `tailwind.config.js` **et** les variables `:root` de `src/styles/global.css` (garder les deux synchronisés) |
-| L'**e-mail de contact / les CTA démo** | `src/consts.ts` (`CONTACT_EMAIL`, `CONTACT_ANCHOR`, `CALENDLY_URL`). Les boutons « Demander une démo » pointent vers le formulaire (`#contact`). |
-| Le **formulaire de contact** (destinataire, marque, sender) | `src/pages/api/contact.ts` (constantes en haut) |
-| Les **entrées du menu**         | `src/consts.ts` (`NAV`) |
-| Le **texte d'une section**      | Le composant correspondant dans `src/components/` (une section = un composant) |
-| Le **SEO / Open Graph / JSON-LD** | `src/layouts/BaseLayout.astro` |
-| L'**ordre des sections**        | `src/pages/index.astro` |
+| Les **couleurs / typo (tokens)**| variables `:root` de `src/styles/global.css` |
+| Le **texte d'une section**, l'ordre des sections, le formulaire | `src/pages/index.astro` |
+| Le **menu** / le **pied de page** | `src/components/Header.astro` / `src/components/Footer.astro` |
+| Le **SEO / Open Graph / JSON-LD** | `src/layouts/BaseLayout.astro` (commun) ; JSON-LD de l'offre Flash en tête de `src/pages/index.astro` |
+| Les **pages légales** | `src/pages/mentions-legales.astro`, `src/pages/confidentialite.astro` |
+| La **vidéo** | `public/video/` (sources de tournage et de montage : `docs/refonte/video/`) |
+| L'**image de partage** | `public/og.jpg` (1200×630) |
+| Ce que lisent les IA | `public/llms.txt` |
 
-### Correspondance sections → composants
+Le plan du site (`sitemap-index.xml`) est généré au build par `@astrojs/sitemap`,
+**épinglé en 3.2.1** (les 3.7.x plantent sur Astro 4).
 
-| # | Section | Composant |
-|---|---------|-----------|
-| 1 | Header sticky | `Header.astro` |
-| 2 | Hero + radar | `Hero.astro` (+ `Radar.astro`) |
-| 3 | Le constat | `Constat.astro` |
-| 4 | Ce que fait LA BUSE | `Features.astro` |
-| 5 | Comment ça marche | `HowItWorks.astro` |
-| 6 | Aperçu produit (maquette) | `ProductPreview.astro` |
-| 7 | Les données (22 couches) | `DataLayers.astro` |
-| 8 | Chiffres clés | `KeyFigures.astro` |
-| 9 | Pour qui | `Audience.astro` |
-| 10 | CTA final | `FinalCTA.astro` |
-| 11 | Contact (formulaire) | `Contact.astro` (+ `ContactForm.tsx`, `api/contact.ts`) |
-| 12 | Bandeau confiance | `TrustBar.astro` |
-| 13 | Footer | `Footer.astro` |
-
-## Le radar
-
-`src/components/Radar.astro` contient l'élément signature : cercle + grille radiale +
-faisceau tournant + contour **réel** de La Réunion (path issu du GeoJSON officiel dépt
-974, `france-geojson` / gregoiredavid) + points parcellaires clignotants + point
-« détecté » en surbrillance. Les animations (`sweep`, `blink`, `pulse`) et la carte de
-détection sont dans `src/styles/global.css`.
-
-Toutes les animations se **figent proprement** avec `prefers-reduced-motion: reduce`.
-
-## À faire avant mise en production (`TODO` dans le code)
-
-- [ ] Remplacer les **logos placeholders** du bandeau confiance par de vrais clients
-      (avec accord signé) — `src/components/TrustBar.astro`.
-- [ ] Compléter l'**identité légale** (forme juridique, SIREN, siège, directeur de la
-      publication) — `src/pages/mentions-legales.astro`.
-- [ ] Confirmer le **volume réel de parcelles** — `src/components/KeyFigures.astro`
-      (« 500 000+ », à ajuster à la fin du run prototype).
-- [x] ~~Image Open Graph en PNG~~ → `public/og.png` généré (1200×630).
-- [x] ~~Pages légales~~ → `/mentions-legales` + `/confidentialite` créées et liées.
-- [x] ~~Page 404~~ → `src/pages/404.astro`.
-- [x] ~~Headers sécurité/cache~~ → `public/_headers` (CSP, X-Frame-Options, cache immutable).
+Maquette validée, vidéo et notes de la refonte d'octobre 2026 : `docs/refonte/`.
+Corrections à faire côté app : `docs/refonte/A-FAIRE-APP.md`.

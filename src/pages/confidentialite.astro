@@ -1,249 +1,181 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { CONTACT_EMAIL } from '../consts';
 
-const updated = '5 juillet 2026';
+// Texte relu le 08/10/2026 : seul ce qui est vrai et fait aujourd'hui y figure.
+// Avant d'ajouter une phrase, vérifier qu'elle décrit une pratique réelle.
+const breadcrumb = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://labuse.immo/' },
+    { '@type': 'ListItem', position: 2, name: 'Politique de confidentialité', item: 'https://labuse.immo/confidentialite/' },
+  ],
+};
 ---
 
 <BaseLayout
-  title="Politique de confidentialité — LA BUSE"
-  description="Comment LA BUSE traite les données personnelles : visiteurs du site (formulaire de contact) et propriétaires fonciers dont les données publiques alimentent la plateforme. Droits d'accès, d'opposition et d'effacement."
+  title="Politique de confidentialité | LABUSE, La Réunion"
+  description="Politique de confidentialité de LABUSE, outil d’analyse foncière à La Réunion : données traitées, finalités, durées de conservation et droits RGPD."
+  schemas={[breadcrumb]}
 >
-  <main id="contenu" class="pt-[76px]">
-    <section class="mx-auto max-w-[760px] px-5 py-16 sm:px-8 sm:py-20">
-      <p class="eyebrow">Vos données</p>
-      <h1 class="mt-6 text-[32px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
-        Politique de <span class="text-green">confidentialité.</span>
-      </h1>
-      <p class="mt-4 text-[14px] text-muted">Dernière mise à jour : {updated}.</p>
+  <main id="contenu" class="page">
+    <div class="wrap legal">
+    <h1>Politique de confidentialité</h1>
+    <p class="maj">Dernière mise à jour : 8 octobre 2026</p>
+    <p>Cette page explique quelles données personnelles LABUSE traite, pourquoi et avec qui, et comment exercer vos droits. Elle couvre le site labuse.immo et l’application app.labuse.immo.</p>
+    <p>Elle vous concerne si vous êtes dans l’un de ces cas :</p>
+    <ul>
+    <li>vous nous écrivez par le <a href="#visiteurs">formulaire du site</a> ;</li>
+    <li>vous êtes <a href="#clients">client de l’application</a> ou acheteur d’un rapport Flash ;</li>
+    <li>vous êtes <a href="#proprietaires">propriétaire d’une parcelle</a> à La Réunion, ou dirigeant d’une société propriétaire ;</li>
+    <li>vous avez reçu un <a href="#courriers">courrier envoyé via LABUSE</a> ;</li>
+    <li>vous êtes un <a href="#prospection">professionnel que nous prospectons</a> ;</li>
+    <li>vous avez publié une <a href="#autres">annonce immobilière</a> en ligne, ou vous êtes un interlocuteur d’une commune.</li>
+    </ul>
 
-      <div class="mt-10 flex flex-col gap-9 text-[16px] leading-relaxed text-[#c3ceca]">
-        <div>
-          <p>
-            LA BUSE réalise <strong class="text-ink">deux traitements de données personnelles
-            distincts</strong>, régis par des règles différentes :
-          </p>
-          <ul class="mt-4 flex flex-col gap-2.5">
-            <li class="flex items-start gap-3">
-              <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
-              <span><a href="#visiteurs" class="text-green underline decoration-green/40 underline-offset-2">Traitement n°1 — Visiteurs du site</a> qui nous contactent volontairement (formulaire).</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
-              <span><a href="#proprietaires" class="text-green underline decoration-green/40 underline-offset-2">Traitement n°2 — Propriétaires fonciers</a> dont les données publiques sont analysées par la plateforme, <strong class="text-ink">sans qu'ils en soient utilisateurs</strong>.</span>
-            </li>
-          </ul>
-        </div>
+    <h2 id="responsable">Responsable du traitement</h2>
+    <p>Victor Lagane, entrepreneur individuel (EI), éditeur de LABUSE. SIRET 987 641 917 00016. 3 chemin de la Citerne, La Montagne, 97417 Saint-Denis, La Réunion.</p>
+    <p>Pour toute question sur vos données, écrivez à <a href="mailto:contact@labuse.immo">contact@labuse.immo</a>.</p>
 
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Responsable de traitement</h2>
-          <p class="mt-3">
-            Victor Lagane — entrepreneur individuel (LA BUSE)<br />
-            SIRET&nbsp;: 987&nbsp;641&nbsp;917&nbsp;00016<br />
-            3 chemin de la Citerne, La Montagne, 97417 Saint-Denis, La Réunion<br />
-            Contact&nbsp;: <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>
-          </p>
-        </div>
+    <h2 id="visiteurs">1. Visiteurs du site : le formulaire de contact</h2>
+    <p>Quand vous remplissez le formulaire, nous recevons votre nom, votre téléphone, votre e-mail et votre message, ainsi que le nom de votre entreprise si vous l’indiquez. Pour commander un Flash, votre message contient l’adresse du terrain.</p>
+    <p>Le nom, le téléphone, l’e-mail et le message sont obligatoires : sans eux, le formulaire ne peut pas être envoyé. Ils nous permettent de vous répondre par e-mail ou de vous rappeler, par exemple pour organiser la démonstration.</p>
+    <p>Notre hébergeur Cloudflare traite aussi les données techniques de votre visite, comme votre adresse IP, dans ses journaux.</p>
+    <p>Nous utilisons ces données pour :</p>
+    <ul>
+    <li>répondre à votre demande (démonstration, Flash ou question). Base légale : mesures précontractuelles prises à votre demande (article 6-1-b du RGPD) ;</li>
+    <li>suivre notre échange commercial dans notre outil de suivi. Base légale : notre intérêt légitime à suivre nos contacts (article 6-1-f du RGPD).</li>
+    </ul>
+    <p>Vous recevez un accusé de réception automatique à l’adresse e-mail indiquée.</p>
+    <p>Votre message passe par Cloudflare, arrive dans une boîte de réception Google (Gmail) et est enregistré dans Notion, notre outil de suivi commercial. Ces trois sociétés sont américaines : voir la section <a href="#prestataires">Services utilisés et transferts</a>. Vos données ne sont ni vendues ni louées.</p>
 
-        <!-- ══════════════════ TRAITEMENT 1 ══════════════════ -->
-        <div id="visiteurs" class="scroll-mt-24 rounded-2xl border border-white/[.07] bg-surface/40 p-6 sm:p-7">
-          <p class="eyebrow">Traitement n°1</p>
-          <h2 class="mt-4 text-[22px] font-semibold text-ink">Visiteurs du site & formulaire de contact</h2>
+    <h2 id="clients">2. Clients de l’application et acheteurs du Flash</h2>
+    <p><strong>Votre compte.</strong> Nous traitons votre e-mail, le nom du compte, votre rôle et votre mot de passe. Le mot de passe est stocké sous une forme hachée, qui ne permet pas de le relire. Nous enregistrons aussi la date et la version des CGV que vous avez acceptées, votre dernière connexion et les tentatives de connexion échouées. Pour chaque session, nous gardons une empreinte de votre adresse IP et de votre navigateur. Nous conservons enfin vos préférences de carte, le logo et les coordonnées de marque que vous ajoutez, la date de fin de votre essai et l’historique des événements de votre compte.</p>
+    <p>Ces données servent à :</p>
+    <ul>
+    <li>vous fournir le service. Base légale : exécution du contrat (article 6-1-b) ;</li>
+    <li>sécuriser l’accès, repérer un usage anormal du compte (par exemple un partage d’identifiants) et garder la preuve de votre acceptation des CGV. Base légale : intérêt légitime (article 6-1-f).</li>
+    </ul>
+    <p><strong>Votre travail dans l’application.</strong> Vos projets, notes, pipeline, étiquettes, rappels, veilles et documents sont rattachés à votre compte. Vous choisissez ce que vous y inscrivez, y compris des informations sur d’autres personnes. Pour ces informations, vous êtes responsable du traitement et LABUSE agit comme votre sous-traitant (article 28 du RGPD) : nous les hébergeons pour vous rendre le service.</p>
+    <p><strong>Le Copilote.</strong> Quand vous posez une question au Copilote, y compris depuis la fiche d’une parcelle, nous envoyons à Anthropic (États-Unis) votre question, les derniers échanges de la conversation et les informations utiles à la réponse sur les parcelles et les sociétés concernées : par exemple la dénomination et le SIREN d’une société propriétaire, ou la date de la dernière vente et le prix au m² du secteur. Le modèle d’intelligence artificielle d’Anthropic rédige la réponse. Les recherches sur le web passent aussi par Anthropic. Le Copilote refuse les questions sur l’identité d’un propriétaire particulier. Vos conversations sont enregistrées dans votre compte. N’indiquez au Copilote que les données personnelles utiles à votre question.</p>
+    <p><strong>La mesure de l’usage.</strong> Nous gardons des statistiques par compte sur les appels à l’intelligence artificielle (modèle utilisé, volume, coût), sans le contenu des échanges. Nous mesurons aussi l’usage des outils par compte (outil utilisé, date, clics vers les annonces). Pour améliorer le service, nous gardons le texte des demandes au Copilote refusées, notées, non comprises ou traitées par une recherche web, limité à 500 caractères et sans identifiant client. Quand vous nous signalez un problème, nous enregistrons votre message avec la page et le navigateur utilisés. Base légale : intérêt légitime (amélioration et pilotage du service).</p>
+    <p><strong>Les e-mails.</strong> Nous vous écrivons pour l’invitation et l’essai, les mots de passe, la prise en main, le paiement, la suspension ou la résiliation. Nous vous envoyons aussi un résumé quotidien de vos veilles et alertes ; vous pouvez vous en désinscrire en un clic. Les e-mails partent par Brevo ou, pour le résumé quotidien et certains e-mails techniques, par la messagerie de Google (Gmail). Nous gardons une trace de chaque envoi : destinataire, modèle et état. Base légale : exécution du contrat ; intérêt légitime pour le résumé quotidien.</p>
+    <p><strong>Le paiement.</strong> L’abonnement Intégral et le rapport Flash se paient par Stripe. Vous saisissez votre carte chez Stripe, et LABUSE ne stocke pas vos données de carte. Nous recevons votre e-mail et les identifiants Stripe de votre paiement ou de votre abonnement. Stripe émet les factures. En cas d’échec de paiement, nous vous écrivons pour mettre à jour votre carte. Bases légales : exécution du contrat (article 6-1-b) et obligations comptables (article 6-1-c).</p>
+    <p><strong>Le rapport Flash.</strong> Sur app.labuse.immo/flash, sans créer de compte, vous saisissez une adresse ou l’identifiant d’une parcelle. Pour trouver la parcelle, l’adresse est envoyée à la Base Adresse Nationale (api-adresse.data.gouv.fr), un service public. Quand vous lancez le paiement, nous enregistrons la commande (parcelle, statut, référence Stripe), même si vous l’abandonnez ensuite. Après le paiement, nous y ajoutons l’e-mail saisi chez Stripe, puis nous générons le rapport PDF et le gardons sur notre serveur. Le lien de téléchargement est valable 30 jours. Base légale : exécution du contrat.</p>
+    <p><strong>Les journaux de sécurité.</strong> L’application enregistre des journaux techniques : adresse IP, page demandée, navigateur, connexions réussies ou refusées. Après des échecs de connexion répétés, une adresse IP ou un compte peut être bloqué temporairement. Pour limiter l’aspiration de données, nous comptons aussi les consultations et les exports sous un identifiant pseudonyme, avec la liste des parcelles consultées. Les exports portent une marque qui permet d’en retrouver l’origine. Base légale : intérêt légitime (sécurité du service et protection de la base).</p>
 
-          <div class="mt-5 flex flex-col gap-5">
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Données collectées</h3>
-              <p class="mt-2">
-                Uniquement celles que vous saisissez dans le formulaire de contact&nbsp;: nom,
-                entreprise (facultatif), téléphone, adresse email et message. Le site
-                <strong class="text-ink"> n'utilise aucun cookie ni traceur</strong>, et aucun
-                outil de mesure d'audience tiers.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Finalité et base légale</h3>
-              <p class="mt-2">
-                Répondre à votre demande de contact ou de démonstration. Base légale&nbsp;:
-                l'exécution de mesures précontractuelles prises à votre demande
-                (article 6-1-b du RGPD).
-              </p>
-            </div>
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Destinataires</h3>
-              <p class="mt-2">
-                Votre demande est transmise à l'équipe LA BUSE par email — acheminement via
-                Cloudflare, Inc. (Email Routing), réception dans une boîte Google (Gmail) — et
-                enregistrée dans notre outil de suivi commercial (Notion Labs, Inc.). Ces
-                prestataires (Cloudflare, Inc., Google LLC et Notion Labs, Inc.) sont situés aux
-                États-Unis. Ces transferts hors Union européenne sont encadrés par des clauses
-                contractuelles types de la Commission européenne&nbsp;; Google LLC adhère en
-                outre au Data Privacy Framework UE–États-Unis. Vos données ne sont ni vendues,
-                ni cédées à des tiers.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Durée de conservation</h3>
-              <p class="mt-2">
-                3 ans à compter de votre dernier contact, puis suppression.
-              </p>
-            </div>
-          </div>
-        </div>
+    <h2 id="proprietaires">3. Propriétaires de parcelles et dirigeants de sociétés</h2>
+    <p>LABUSE analyse les parcelles de La Réunion à partir de données publiques. Vous pouvez donc être concerné sans utiliser LABUSE. Ces données ne sont pas collectées auprès de vous : cette page vous en informe (article 14 du RGPD).</p>
+    <p><strong>Votre droit d’opposition.</strong> Vous pouvez vous opposer à tout moment, pour des raisons tenant à votre situation, au traitement des données de votre parcelle ou de votre société. Écrivez à <a href="mailto:contact@labuse.immo">contact@labuse.immo</a> en indiquant la référence cadastrale ou le SIREN. Nous inscrivons la parcelle ou l’adresse concernée au registre d’opposition aux courriers, et nous répondons au reste de votre demande dans un délai d’un mois.</p>
+    <p><strong>Si vous êtes un particulier.</strong> LABUSE n’affiche pas l’identité des propriétaires particuliers. La parcelle porte seulement la mention « particulier » ou « propriétaire à identifier ». Certaines informations publiques sur la parcelle peuvent toutefois se rapporter à vous : surface, zonage et règles d’urbanisme, risques, ventes passées (prix et date), permis de construire, diagnostics de performance énergétique (DPE), adresse, annonces immobilières, éléments visibles sur les photographies aériennes (bâti, piscine, panneaux solaires).</p>
+    <p><strong>Si le propriétaire est une société.</strong> Quand le propriétaire est une personne morale (société, collectivité, association…), LABUSE affiche sa dénomination, son SIREN et sa forme juridique. Nous utilisons aussi l’adresse de son siège, sa situation au répertoire des entreprises et les annonces légales qui la concernent : procédures collectives, radiations, ventes, dépôts de comptes. La situation des années précédentes (parcelles détenues) est conservée.</p>
+    <p><strong>Si vous dirigez une société propriétaire.</strong> Nous enregistrons les dirigeants des sociétés propriétaires, tels qu’ils figurent au Registre national des entreprises (INPI) et dans l’Annuaire des entreprises : nom, prénoms, mois et année de naissance, nationalité, fonction. L’application n’affiche pas le nom des dirigeants. Dans l’outil « Successions à venir », elle affiche l’âge du dirigeant le plus âgé à côté de la dénomination et du SIREN de la société : dans une société civile, familiale ou agricole, un dirigeant de 70 ans ou plus est l’indice d’une transmission possible du patrimoine dans les années à venir. La fiche d’une parcelle peut aussi indiquer « gérant proche de la retraite ». L’âge des dirigeants sert enfin de filtre, par tranches (moins de 50 ans, 50 à 69 ans, 70 ans et plus), et entre dans le calcul des indicateurs décrits plus bas.</p>
+    <p><strong>Sources.</strong> Ces informations proviennent de sources publiques :</p>
+    <ul>
+    <li>le plan cadastral ;</li>
+    <li>les demandes de valeurs foncières (DVF) publiées par la DGFiP ;</li>
+    <li>le fichier de la DGFiP des locaux et parcelles des personnes morales ;</li>
+    <li>le BODACC (annonces légales) ;</li>
+    <li>le Registre national des entreprises (INPI) ;</li>
+    <li>le répertoire SIRENE (INSEE) et l’Annuaire des entreprises ;</li>
+    <li>SITADEL (permis de construire) ;</li>
+    <li>les DPE de l’ADEME ;</li>
+    <li>le registre national d’immatriculation des copropriétés (Anah) ;</li>
+    <li>la Base Adresse Nationale ;</li>
+    <li>les photographies aériennes de l’IGN, analysées automatiquement (bâti, piscines, panneaux solaires) ;</li>
+    <li>des annonces immobilières publiées en ligne (voir la section 6) ;</li>
+    <li>d’autres données publiques sur l’urbanisme, les risques et le territoire.</li>
+    </ul>
+    <p><strong>Pourquoi.</strong> Ces données aident nos clients professionnels à analyser des terrains et à repérer des opportunités foncières. Quand le propriétaire est une société, elles permettent d’identifier un interlocuteur. Nos clients peuvent aussi faire envoyer un courrier au propriétaire d’une parcelle (voir la section 4). Base légale : l’intérêt légitime de LABUSE et de ses clients, à savoir l’analyse du foncier à partir de données publiques (article 6-1-f du RGPD).</p>
+    <p><strong>Indicateurs.</strong> L’application classe les parcelles par paliers d’opportunité et estime leurs chances de vente dans les 12 mois. Ce calcul s’appuie sur des indices tirés des données ci-dessus. Pour les sociétés, il tient compte de l’âge des dirigeants. Pour une parcelle de particulier, un indice peut être, par exemple, un permis déposé par un professionnel dans les 36 derniers mois ou une piscine repérée sur les photographies aériennes. C’est un profilage au sens du RGPD. Ce n’est pas une décision automatisée produisant des effets juridiques (article 22) : c’est un repère pour nos clients.</p>
+    <p><strong>Qui y a accès.</strong> Nos clients y ont accès dans les écrans, les exports et les dossiers de l’application. Toute personne qui achète un rapport Flash, sans avoir besoin de compte, reçoit les informations de la parcelle choisie, y compris la dénomination et le SIREN du propriétaire quand c’est une société. Notre hébergeur OVHcloud les stocke en France. Quand un client interroge le Copilote sur une parcelle ou une société, les informations utiles à la réponse sont transmises à Anthropic (États-Unis), qui rédige la réponse.</p>
 
-        <!-- ══════════════════ TRAITEMENT 2 (cœur) ══════════════════ -->
-        <div id="proprietaires" class="scroll-mt-24 rounded-2xl border border-green/25 bg-green/[.04] p-6 sm:p-7">
-          <p class="eyebrow">Traitement n°2</p>
-          <h2 class="mt-4 text-[22px] font-semibold text-ink">Propriétaires fonciers</h2>
-          <p class="mt-3">
-            Pour aider les professionnels de l'immobilier à identifier le foncier
-            constructible, LA BUSE analyse des données relatives aux propriétaires de
-            parcelles à La Réunion — <strong class="text-ink">y compris des personnes
-            physiques</strong> — à partir de sources publiques. Si vous êtes propriétaire,
-            vos données peuvent apparaître dans la plateforme sans que vous en soyez
-            utilisateur. Cette section vous concerne directement.
-          </p>
+    <h2 id="courriers">4. Courriers envoyés pour le compte de nos clients</h2>
+    <p>À la demande d’un client, LABUSE envoie un courrier postal au propriétaire d’une parcelle. Le courrier indique, quand le client l’a renseigné, le nom de l’entreprise cliente pour le compte de laquelle il est envoyé.</p>
+    <ul>
+    <li>Si le propriétaire est une société, le courrier est adressé à sa dénomination, à son siège tel qu’il figure au répertoire des entreprises. Faute de siège connu, il est adressé « À l’occupant » à l’adresse de la parcelle, si celle-ci est bâtie.</li>
+    <li>Si le propriétaire est un particulier, le courrier est adressé « À l’occupant », sans nom, à l’adresse de la parcelle. Il n’est envoyé que si la parcelle est bâtie.</li>
+    </ul>
+    <p>LABUSE et le client pour le compte duquel le courrier est envoyé sont responsables conjoints de cet envoi (article 26 du RGPD). Le client choisit la parcelle. LABUSE détermine l’adresse d’envoi, compose la lettre et gère le registre d’opposition. LABUSE reçoit vos demandes et les transmet au client si nécessaire.</p>
+    <p>Pour chaque envoi, nous conservons la parcelle, l’adresse d’envoi, le texte de la lettre, le client demandeur et le suivi de l’envoi. Base légale : l’intérêt légitime du client et de LABUSE à prendre contact au sujet d’un terrain (article 6-1-f).</p>
+    <p>Si vous répondez au courrier par e-mail, par exemple pour demander l’analyse gratuite proposée, nous utilisons vos coordonnées pour vous répondre.</p>
+    <p><strong>Ne plus recevoir de courrier.</strong> Écrivez à <a href="mailto:stop@labuse.immo">stop@labuse.immo</a> en indiquant la référence cadastrale qui figure sur le courrier. Nous inscrivons alors l’adresse ou la parcelle à notre registre d’opposition, avec la date et la référence citée. Nos outils bloquent ensuite l’envoi de courriers via LABUSE vers cette adresse ou cette parcelle, quel que soit le client.</p>
 
-          <div class="mt-5 flex flex-col gap-5">
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Données traitées</h3>
-              <p class="mt-2">
-                Identité du ou des propriétaires (nom et prénom pour les personnes physiques,
-                dénomination pour les personnes morales), qualité de propriétaire, références
-                cadastrales des parcelles détenues et leurs caractéristiques (surface, zonage,
-                constructibilité), valeurs et historiques de mutations foncières, et le cas
-                échéant informations publiques relatives aux personnes morales. Aucune donnée
-                sensible au sens de l'article 9 du RGPD n'est traitée.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Sources</h3>
-              <p class="mt-2">
-                Exclusivement des <strong class="text-ink">sources publiques</strong>&nbsp;:
-                le plan cadastral, les Demandes de valeurs foncières (DVF, open data de la
-                DGFiP), les données foncières publiées par la DGFiP, et le Bulletin officiel
-                des annonces civiles et commerciales (BODACC). LA BUSE ne collecte aucune
-                donnée directement auprès des propriétaires.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Finalité et base légale</h3>
-              <p class="mt-2">
-                Fournir à nos clients professionnels une aide à la détection d'opportunités
-                foncières et à l'identification des propriétaires en vue d'une prise de contact.
-                Base légale&nbsp;: l'<strong class="text-ink">intérêt légitime</strong> de LA
-                BUSE et de ses clients (article 6-1-f du RGPD). Nous avons procédé à une mise en
-                balance entre cet intérêt et vos droits&nbsp;: les données proviennent de sources
-                publiques, ne comportent aucune donnée sensible, portent sur votre patrimoine
-                foncier dans un cadre professionnel, et vous pouvez vous opposer à tout moment
-                (voir plus bas). Le <strong class="text-ink">score d'opportunité</strong> produit
-                par la plateforme est une aide à la décision destinée à des professionnels&nbsp;;
-                il ne constitue pas une décision automatisée produisant des effets juridiques à
-                votre égard au sens de l'article 22 du RGPD.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Information des personnes (article 14 du RGPD)</h3>
-              <p class="mt-2">
-                Ces données n'étant pas recueillies auprès de vous, nous sommes en principe tenus
-                de vous informer individuellement. Compte tenu du nombre de propriétaires
-                concernés sur les communes couvertes, une information individuelle exigerait un
-                <strong class="text-ink"> effort disproportionné</strong> au sens de l'article
-                14-5-b du RGPD. Nous ne cherchons pas à éluder cette obligation&nbsp;: en
-                application de cette disposition, nous rendons cette information
-                <strong class="text-ink"> publiquement accessible</strong> via la présente
-                politique, et nous mettons en place des mesures concrètes pour protéger vos
-                droits — au premier rang desquelles un droit d'opposition et d'effacement
-                simples à exercer, décrits ci-dessous.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-[16px] font-semibold text-ink">Durée de conservation</h3>
-              <p class="mt-2">
-                Les données sont conservées le temps de leur pertinence pour l'analyse foncière
-                et rafraîchies depuis les sources publiques. Elles sont supprimées ou anonymisées
-                lorsqu'elles ne sont plus nécessaires, et sans délai en cas d'opposition ou de
-                demande d'effacement recevable.
-              </p>
-            </div>
+    <h2 id="prospection">5. Prospection de LABUSE auprès des professionnels</h2>
+    <p>Pour faire connaître LABUSE, nous contactons des professionnels. Nous dressons pour cela une liste des sociétés qui déposent des permis de construire ou d’aménager (source : SITADEL). Pour chaque société, la liste contient la dénomination, le SIREN, l’adresse du siège et les dirigeants inscrits au Registre national des entreprises (nom, prénoms, fonction). Elle ne retient que les dirigeants dont les informations sont diffusibles. Cette liste est enregistrée dans notre outil de suivi commercial, Notion, société américaine (voir la section <a href="#prestataires">Services utilisés et transferts</a>). Nous pouvons vous contacter par courrier, par e-mail ou par téléphone.</p>
+    <p>Base légale : notre intérêt légitime à prospecter des professionnels (article 6-1-f).</p>
+    <p><strong>Vous opposer à la prospection.</strong> Vous pouvez vous opposer à cette prospection à tout moment, sans avoir à vous justifier : écrivez à <a href="mailto:contact@labuse.immo">contact@labuse.immo</a>. Nous cessons alors de vous contacter.</p>
 
-            <div class="rounded-xl border border-green/30 bg-bg/40 p-5">
-              <h3 class="text-[18px] font-semibold text-green-soft">
-                Vous êtes propriétaire et vos données apparaissent dans LA BUSE&nbsp;?
-              </h3>
-              <p class="mt-3">
-                Vous disposez, sur les données vous concernant, des droits suivants&nbsp;:
-              </p>
-              <ul class="mt-3 flex flex-col gap-2.5">
-                <li class="flex items-start gap-3">
-                  <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
-                  <span><strong class="text-ink">Droit d'accès</strong> — savoir quelles données vous concernant sont traitées et en obtenir copie.</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
-                  <span><strong class="text-ink">Droit d'opposition</strong> (article 21 du RGPD) — vous opposer, pour des raisons tenant à votre situation particulière, à ce que vos données soient traitées. En cas d'opposition, nous cessons le traitement, sauf motif légitime impérieux que nous devrions démontrer.</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
-                  <span><strong class="text-ink">Droit d'effacement et de rectification</strong> — faire supprimer vos données de la plateforme ou les corriger.</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-green" aria-hidden="true"></span>
-                  <span><strong class="text-ink">Droit à la limitation</strong> du traitement.</span>
-                </li>
-              </ul>
-              <p class="mt-4">
-                Pour exercer ces droits, écrivez à
-                <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Exercice de droits — propriétaire foncier')}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>.
-                Pour nous permettre d'identifier vos parcelles, précisez si possible votre
-                identité et les références cadastrales concernées. Nous répondons dans un délai
-                d'un mois. Cette démarche est gratuite.
-              </p>
-            </div>
-          </div>
-        </div>
+    <h2 id="autres">6. Annonces immobilières et contacts des communes</h2>
+    <p><strong>Annonces immobilières (Radar).</strong> Nous enregistrons des annonces immobilières publiées en ligne (prix, surface, type de bien, commune, date de publication). Nous les rapprochons des parcelles et suivons leur évolution : baisse de prix, retrait, vente constatée dans les données DVF. Cela nous sert à alerter nos clients. Une annonce retirée sans vente peut aussi servir à repérer une parcelle à laquelle adresser un courrier (voir la section 4). Les pages enregistrées peuvent contenir le nom ou le pseudonyme d’un vendeur. Elles sont conservées dans un espace privé du serveur et ne sont jamais montrées à nos clients, qui ne voient que les caractéristiques du bien et le lien vers l’annonce. Base légale : intérêt légitime (article 6-1-f). Certaines captures peuvent être lues par le modèle d’intelligence artificielle d’Anthropic pour en extraire les caractéristiques du bien.</p>
+    <p><strong>Contacts des communes.</strong> Nous tenons un carnet d’interlocuteurs municipaux : nom, fonction, téléphone, e-mail et une note. Ces coordonnées proviennent des informations publiées par les communes ou de nos échanges avec leurs services. Tous nos clients les voient sur la fiche de la commune, pour joindre le bon service. Chaque interlocuteur peut demander à en être retiré en écrivant à <a href="mailto:contact@labuse.immo">contact@labuse.immo</a>. Base légale : intérêt légitime (article 6-1-f).</p>
 
-        <!-- ══════════════════ COMMUN ══════════════════ -->
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Sécurité</h2>
-          <p class="mt-3">
-            Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour
-            protéger les données contre tout accès, altération ou divulgation non autorisés
-            (accès restreint, chiffrement des échanges, hébergement chez des prestataires
-            reconnus).
-          </p>
-        </div>
+    <h2 id="prestataires">7. Services utilisés et transferts hors de l’Union européenne</h2>
+    <p>Nous utilisons les services suivants :</p>
+    <ul>
+    <li>OVHcloud : hébergement de l’application, de sa base de données et de ses sauvegardes (France) ;</li>
+    <li>Cloudflare : hébergement du site, acheminement du formulaire et des e-mails (États-Unis) ;</li>
+    <li>Google : boîte de réception Gmail, envoi du résumé quotidien et de certains e-mails techniques, polices de caractères de l’application, vue de la rue si vous l’ouvrez (États-Unis) ;</li>
+    <li>Notion Labs : outil de suivi commercial (États-Unis) ;</li>
+    <li>Anthropic : Copilote, analyse automatique des photographies aériennes des parcelles et lecture de captures d’annonces (États-Unis) ;</li>
+    <li>Stripe Payments Europe Ltd. (Irlande) : paiements et factures. Stripe traite aussi certaines données pour son propre compte, notamment pour lutter contre la fraude, selon sa propre politique de confidentialité ;</li>
+    <li>Brevo (France) : envoi des e-mails de l’application, données hébergées dans l’Union européenne ;</li>
+    <li>IGN Géoplateforme : fonds de carte, photographies aériennes et altimétrie (France) ;</li>
+    <li>Amazon Web Services : relief en 3D (États-Unis) ;</li>
+    <li>Base Adresse Nationale : recherche d’adresse pour le Flash (service public français).</li>
+    </ul>
+    <p>Pour les sociétés américaines, les transferts reposent sur la décision d’exécution (UE) 2023/1795 de la Commission européenne du 10 juillet 2023 (cadre de protection des données UE–États-Unis), pour les sociétés certifiées dans ce cadre.</p>
 
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Réclamation</h2>
-          <p class="mt-3">
-            Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une
-            réclamation à la CNIL —
-            <a href="https://www.cnil.fr" rel="noopener" class="text-green underline decoration-green/40 underline-offset-2">www.cnil.fr</a>.
-          </p>
-        </div>
+    <h2 id="durees">8. Durées de conservation</h2>
+    <ul>
+    <li>Demandes reçues par le formulaire : le temps de notre échange et de son suivi commercial.</li>
+    <li>Journaux techniques de Cloudflare : selon les durées fixées par Cloudflare pour ses journaux.</li>
+    <li>Session de connexion : 12 heures, ou 30 jours avec « Se souvenir de moi ».</li>
+    <li>Compte client, données de travail et historique des e-mails envoyés : tant que le compte existe. Sur demande, nous supprimons votre compte et vos données de travail (projets, pipeline, veilles, documents, conversations du Copilote, historique des e-mails), et le journal d’administration est anonymisé. Nous gardons ce que la loi nous oblige à conserver, comme les factures, ainsi que l’historique des courriers envoyés, les journaux techniques et les statistiques d’usage jusqu’à la fin de leur durée de conservation. Les données disparaissent ensuite des sauvegardes à mesure que celles-ci sont remplacées.</li>
+    <li>Factures et pièces comptables : 10 ans (article L123-22 du Code de commerce).</li>
+    <li>Conversations du Copilote : au plus tant que votre compte existe. Statistiques d’usage, demandes au Copilote gardées pour améliorer le service et signalements : le temps nécessaire au pilotage et à l’amélioration du service.</li>
+    <li>Commandes Flash et rapports PDF : le temps nécessaire à la livraison du rapport et au suivi de la commande ; les pièces comptables suivent la règle des factures. Le lien de téléchargement expire au bout de 30 jours.</li>
+    <li>Journaux de sécurité, compteurs de consultation et marques des exports : le temps nécessaire à la sécurité du service et à la protection de la base.</li>
+    <li>Données sur les parcelles, les propriétaires et les dirigeants : certaines sont mises à jour automatiquement (annonces légales, permis, ventes, DPE, adresses), d’autres lors d’un import manuel (fichier des personnes morales, dirigeants). L’historique (ventes passées, situations passées des sociétés) est conservé tant que le service d’analyse foncière est fourni : il sert à suivre l’évolution des prix et des détentions.</li>
+    <li>Courriers envoyés : le temps nécessaire au suivi des envois et des réponses. Registre d’opposition aux courriers : tant que l’opposition s’applique.</li>
+    <li>Liste de prospection : le temps de notre démarche commerciale ; dès que vous vous y opposez, nous cessons de vous contacter.</li>
+    <li>Annonces immobilières enregistrées (Radar) : le temps nécessaire au suivi du marché. Contacts des communes : tant que ces coordonnées servent à joindre le bon service, ou jusqu’à ce que la personne demande à en être retirée.</li>
+    <li>Sauvegardes : copies de la base, remplacées par rotation.</li>
+    </ul>
 
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Modifications</h2>
-          <p class="mt-3">
-            Cette politique peut évoluer avec le produit. La date de dernière mise à jour figure
-            en haut de page&nbsp;; les évolutions substantielles concernant les propriétaires
-            resteront publiées ici, conformément à notre obligation d'information.
-          </p>
-        </div>
+    <h2 id="cookies">9. Cookies et traceurs</h2>
+    <p><strong>Site labuse.immo.</strong> Le site lui-même ne dépose aucun cookie. Il n’utilise ni le stockage de votre navigateur, ni d’outil de mesure d’audience. Ses polices et sa vidéo sont hébergées sur le site. Notre hébergeur Cloudflare peut déposer un cookie technique de protection contre les robots (__cf_bm, 30 minutes) : il est nécessaire à la sécurité du site et ne demande pas votre consentement. Le site n’affiche donc pas de bandeau cookies.</p>
+    <p><strong>Application app.labuse.immo.</strong> L’application utilise :</p>
+    <ul>
+    <li>le cookie labuse_session, qui maintient votre connexion pendant 12 heures, ou 30 jours avec « Se souvenir de moi » ;</li>
+    <li>le cookie labuse_2fa, qui sert à la double authentification des administrateurs pendant 5 minutes ;</li>
+    <li>le stockage local du navigateur, qui mémorise des préférences d’affichage, comme l’état de la légende de la carte.</li>
+    </ul>
+    <p>Ces éléments sont nécessaires au service : ils ne demandent pas votre consentement.</p>
+    <p>L’application charge aussi des ressources de tiers, qui reçoivent alors votre adresse IP : les polices de caractères depuis Google Fonts, les fonds de carte et l’altimétrie depuis l’IGN, et le relief depuis Amazon Web Services quand vous activez la 3D.</p>
+    <p>La vue de la rue est fournie par Google Maps. Elle ne se charge que si vous cliquez sur « Voir la rue ». Google reçoit alors votre adresse IP et peut déposer ses propres cookies, selon sa politique de confidentialité. Si vous ne cliquez pas, rien n’est chargé depuis Google Maps.</p>
 
-        <p class="rounded-xl border border-white/[.07] bg-surface/40 p-4 text-[14px] text-muted">
-          Ce document décrit fidèlement nos traitements. Il ne se substitue pas à un conseil
-          juridique&nbsp;: une revue par un professionnel (avocat / DPO) est recommandée avant
-          exploitation commerciale.
-        </p>
-      </div>
+    <h2 id="securite">10. Sécurité</h2>
+    <p>Les échanges avec le site et l’application sont chiffrés (HTTPS). Les mots de passe sont stockés hachés (argon2id). Après des échecs de connexion répétés, l’accès est bloqué temporairement. Les comptes administrateurs nominatifs sont protégés par une double authentification.</p>
 
-      <a href="/" class="mt-12 inline-flex items-center gap-2.5 text-[16px] font-medium text-ink transition-opacity hover:opacity-80">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M19 12H5M11 6l-6 6 6 6"></path>
-        </svg>
-        Retour au site
-      </a>
-    </section>
+    <h2 id="droits">11. Vos droits</h2>
+    <p>Vous avez les droits suivants sur vos données :</p>
+    <ul>
+    <li>droit d’accès : savoir quelles données vous concernent et en obtenir une copie ;</li>
+    <li>droit de rectification : faire corriger une donnée inexacte ;</li>
+    <li>droit à l’effacement : demander la suppression de vos données, dans les cas prévus par le RGPD ;</li>
+    <li>droit à la limitation : demander qu’un traitement soit suspendu ;</li>
+    <li>droit d’opposition : vous opposer à un traitement fondé sur l’intérêt légitime, pour des raisons tenant à votre situation (voir la section 3), et à la prospection, à tout moment et sans justification (voir la section 5) ;</li>
+    <li>droit à la portabilité : recevoir, dans un format courant, les données que vous nous avez fournies dans le cadre d’un contrat ;</li>
+    <li>directives après le décès : définir ce que deviennent vos données après votre mort.</li>
+    </ul>
+    <p>Pour exercer un droit, écrivez à <a href="mailto:contact@labuse.immo">contact@labuse.immo</a>. Si vous êtes propriétaire, indiquez la référence cadastrale ou l’adresse de la parcelle. Pour ne plus recevoir de courrier, vous pouvez aussi écrire à <a href="mailto:stop@labuse.immo">stop@labuse.immo</a>. En cas de doute sur votre identité, nous pouvons vous demander un justificatif. Le RGPD nous laisse un mois pour répondre ; ce délai peut être prolongé de deux mois pour une demande complexe. L’exercice de vos droits est gratuit.</p>
+    <p>Si une donnée vous concernant est inexacte, écrivez-nous : nous vous indiquons sa source, nous la vérifions et, si elle est inexacte, nous la corrigeons dans LABUSE. Signalez-la aussi à l’organisme qui la publie, pour qu’elle soit corrigée à la source.</p>
+    <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL : <a href="https://www.cnil.fr" rel="noopener">www.cnil.fr</a>.</p>
+
+    <h2 id="evolution">12. Évolution de cette politique</h2>
+    <p>Cette politique évolue avec le service. La date de la dernière mise à jour figure en haut de la page.</p>
+
+    <a class="back" href="/">Retour à l’accueil</a>
+    </div>
   </main>
 </BaseLayout>

@@ -1,8 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const SITE = 'https://labuse.immo';
+const title = 'Tout le foncier de La Réunion au même endroit | LABUSE';
+const description = 'LABUSE, l’outil d’analyse foncière de La Réunion : cadastre, PLU, risques, ventes et permis des 24 communes. Rapport Flash d’un terrain : 79 € HT.';
+
+// Une seule offre à prix public : le Flash, 79 € HT, exactement comme affiché dans #tarifs.
+// L'Intégral (abonnement sans prix public) ne produit pas d'Offer.
+const application = {
+  '@type': 'SoftwareApplication',
+  '@id': `${SITE}/#application`,
+  name: 'LABUSE',
+  alternateName: 'LA BUSE',
+  url: `${SITE}/`,
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Analyse foncière',
+  operatingSystem: 'Web',
+  inLanguage: 'fr-FR',
+  description: 'Outil d’analyse foncière réservé à La Réunion : cadastre, zonage du PLU, risques naturels, ventes et permis de construire des 24 communes, réunis sur une carte.',
+  areaServed: { '@type': 'AdministrativeArea', name: 'La Réunion' },
+  featureList: [
+    '431 663 parcelles couvertes sur les 24 communes de La Réunion',
+    '59 couches cartographiques',
+    '16 outils fonciers',
+    'Rapport Flash d’un terrain en PDF, sources citées',
+  ],
+  publisher: { '@id': `${SITE}/#organisation` },
+  offers: {
+    '@type': 'Offer',
+    name: 'Flash, le rapport d’un terrain',
+    description: 'Rapport PDF daté d’un terrain à La Réunion : urbanisme, risques, marché et alentours, sources citées. Une adresse suffit. Paiement unique, sans compte ni abonnement.',
+    url: `${SITE}/#tarifs`,
+    price: '79.00',
+    priceCurrency: 'EUR',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: '79.00',
+      priceCurrency: 'EUR',
+      valueAddedTaxIncluded: false,
+    },
+    availability: 'https://schema.org/InStock',
+    seller: { '@id': `${SITE}/#organisation` },
+  },
+};
 ---
 
-<BaseLayout home>
+<BaseLayout home title={title} description={description} schemas={[application]}>
 <main id="contenu">
   <!-- HERO -->
   <section class="hero">
@@ -245,7 +288,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div class="fld"><label for="f-msg">Message *</label><textarea id="f-msg" name="message" required placeholder="Votre message"></textarea></div>
           <button class="btn btn-p" type="submit">Envoyer</button>
           <p class="status" id="cf-status" role="status" aria-live="polite"></p>
-          <p class="fine">* Champs obligatoires. Vos informations servent uniquement à vous répondre. <a href="/confidentialite/">Politique de confidentialité</a>.</p>
+          <p class="fine">* Champs obligatoires. Vos informations servent à vous répondre et à suivre notre échange. <a href="/confidentialite/">Politique de confidentialité</a>.</p>
         </form>
       </div>
     </div>

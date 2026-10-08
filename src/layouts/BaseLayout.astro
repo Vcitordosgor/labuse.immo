@@ -1,5 +1,6 @@
 ---
-// Polices auto-hébergées (pas de CDN Google → RGPD + perf).
+// Polices auto-hébergées (@fontsource, servies depuis /_astro/) : la CSP de
+// public/_headers impose font-src 'self', Google Fonts y serait bloqué.
 import '@fontsource-variable/inter';
 import '@fontsource-variable/space-grotesk';
 import '@fontsource/jetbrains-mono/400.css';
@@ -12,37 +13,71 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 export interface Props {
+  /** Moins de 60 caractères, unique par page. */
   title?: string;
+  /** Moins de 155 caractères, unique par page. */
   description?: string;
+  /** URL canonique absolue. Par défaut : l'URL de la page, avec slash final. */
+  canonical?: string;
+  /** Page hors index (404) : meta robots noindex, pas de canonical. */
   noindex?: boolean;
+  /** Nœuds JSON-LD propres à la page (sans @context), ajoutés au @graph. */
   schemas?: Record<string, unknown>[];
   home?: boolean;
 }
 
+const SITE = 'https://labuse.immo';
 const {
   title = 'Tout le foncier de La Réunion au même endroit | LABUSE',
-  description = 'LABUSE réunit cadastre, PLU, risques, ventes et permis des 24 communes de La Réunion. Chaque information cite sa source.',
+  description = 'LABUSE, l’outil d’analyse foncière de La Réunion : cadastre, PLU, risques, ventes et permis des 24 communes. Rapport Flash d’un terrain : 79 € HT.',
+  canonical: canonicalProp,
   noindex = false,
   schemas = [],
 } = Astro.props;
 
-const site = 'https://labuse.immo';
-const canonical = new URL(Astro.url.pathname, site).href;
-const ogImage = `${site}/og.jpg`;
+// Canonical absolu, toujours avec slash final (sans slash, Cloudflare Pages répond en 308).
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const canonical = canonicalProp ?? new URL(path, SITE).href;
+const ogImage = `${SITE}/og.jpg`;
+const ogAlt = 'LABUSE, tout le foncier de La Réunion au même endroit';
 
+// JSON-LD commun à toutes les pages. Graphie unique « LABUSE », l'ancienne en alternateName.
+// Pas de legalName (l'éditeur est une EI, « LA BUSE » n'est qu'un nom commercial),
+// pas d'adresse, de téléphone ni de sameAs tant qu'ils ne sont pas publiés.
 const organization = {
-  '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${SITE}/#organisation`,
   name: 'LABUSE',
   alternateName: 'LA BUSE',
-  url: `${site}/`,
-  logo: `${site}/apple-touch-icon.png`,
+  url: `${SITE}/`,
+  logo: { '@type': 'ImageObject', url: `${SITE}/apple-touch-icon.png`, width: 180, height: 180 },
+  image: `${SITE}/og.jpg`,
+  slogan: 'Tout le foncier de La Réunion. Au même endroit.',
   email: 'contact@labuse.immo',
-  areaServed: { '@type': 'Place', name: 'La Réunion' },
-  contactPoint: { '@type': 'ContactPoint', contactType: 'sales', email: 'contact@labuse.immo', availableLanguage: 'French' },
+  areaServed: {
+    '@type': 'AdministrativeArea',
+    name: 'La Réunion',
+    sameAs: 'https://fr.wikipedia.org/wiki/La_R%C3%A9union',
+  },
+  knowsAbout: ['Analyse foncière', 'Cadastre', 'Plan local d’urbanisme (PLU)', 'Risques naturels', 'Ventes immobilières (DVF)', 'Permis de construire'],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    email: 'contact@labuse.immo',
+    areaServed: 'RE',
+    availableLanguage: 'French',
+  },
 };
-const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'LABUSE', url: `${site}/`, inLanguage: 'fr-FR' };
-const ld = [organization, website, ...schemas];
+const website = {
+  '@type': 'WebSite',
+  '@id': `${SITE}/#site`,
+  name: 'LABUSE',
+  alternateName: 'LA BUSE',
+  url: `${SITE}/`,
+  inLanguage: 'fr-FR',
+  publisher: { '@id': `${SITE}/#organisation` },
+};
+const ld = { '@context': 'https://schema.org', '@graph': [organization, website, ...schemas] };
 ---
 
 <!doctype html>
@@ -52,13 +87,20 @@ const ld = [organization, website, ...schemas];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {noindex
+      ? <meta name="robots" content="noindex" />
+      : <>
+          <meta name="robots" content="index, follow, max-image-preview:large" />
+          <link rel="canonical" href={canonical} />
+        </>}
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#0A0C0B" />
     <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={groteskUrl} as="font" type="font/woff2" crossorigin />
 
+    <!-- Open Graph (LinkedIn, Facebook, WhatsApp…) -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="LABUSE" />
     <meta property="og:locale" content="fr_FR" />
@@ -66,13 +108,17 @@ const ld = [organization, website, ...schemas];
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="LABUSE — tout le foncier de La Réunion au même endroit" />
+    <meta property="og:image:alt" content={ogAlt} />
+
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogAlt} />
 
     <script type="application/ld+json" set:html={JSON.stringify(ld)} />
   </head>

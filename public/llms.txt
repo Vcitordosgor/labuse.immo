@@ -1,0 +1,27 @@
+# LABUSE
+
+> LABUSE (aussi écrit « LA BUSE ») est un outil d’analyse foncière réservé à La Réunion. Il réunit au même endroit ce qu’il faut savoir sur un terrain des 24 communes de l’île : cadastre, zonage du PLU, risques naturels, ventes immobilières et permis de construire.
+
+- Couverture : les 24 communes de La Réunion, 431 663 parcelles couvertes, du littoral aux Hauts.
+- Contenu : 99 sources de données, 59 couches cartographiques, 16 outils fonciers, plus de 2,6 millions de données publiques intégrées.
+- Pour qui : promoteurs immobiliers, lotisseurs, aménageurs, marchands de biens, bailleurs sociaux, constructeurs, agents immobiliers, notaires, géomètres-experts, architectes, bureaux d’études, investisseurs, collectivités et services d’urbanisme.
+- L’app (https://app.labuse.immo) s’utilise sur ordinateur. Le rapport Flash est un PDF qui se lit partout.
+- Les informations d’urbanisme sont une aide à la décision : pour une réponse qui engage, il faut le certificat d’urbanisme délivré par la mairie.
+
+## Offres
+
+- [Flash, le rapport d’un terrain](https://labuse.immo/#tarifs): 79 € HT, paiement unique, sans compte ni abonnement. Une adresse suffit. Un PDF daté, sources citées : urbanisme, risques, marché et alentours.
+- [Intégral, l’outil complet](https://labuse.immo/#tarifs): abonnement mensuel sans engagement, tarif sur demande. Toute l’île et ses 24 communes ; carte, 16 outils, Copilote et Radar ; projets, CRM et documents. Démo : 48 h d’accès complet.
+
+## Pages
+
+- [Accueil](https://labuse.immo/): l’outil en vidéo, les chiffres clés, les 24 communes, le marché réunionnais, les métiers concernés, les offres, les questions fréquentes et le formulaire de contact.
+- [Questions fréquentes](https://labuse.immo/#questions): démo, données, zonage du PLU, usage sur téléphone.
+- [Mentions légales](https://labuse.immo/mentions-legales/): éditeur et hébergement du site.
+- [Politique de confidentialité](https://labuse.immo/confidentialite/): données personnelles et droits RGPD.
+
+## Contact
+
+- E-mail : contact@labuse.immo (réponse sous 24 h ouvrées)
+- Démo ou rapport Flash : https://labuse.immo/#contact
+- Se connecter à l’app : https://app.labuse.immo/login
