@@ -1,0 +1,10 @@
+import { writeFileSync, mkdirSync } from 'fs';
+const SP='/tmp/claude-0/-home-user-labuse-immo/c63124ce-02a1-58ce-ac83-598cbc29f87a/scratchpad';
+const { launch } = await import(SP+'/video/browser.mjs'); const { serve } = await import(SP+'/tools/serve.mjs');
+const [,, pdfRel, outDir, width='1600'] = process.argv;
+const s = await serve(); const b = await launch(); const p = await b.newPage();
+await p.goto('http://127.0.0.1:8765/tools/pdf2png.html'); await p.waitForFunction(()=>window.ready);
+const pages = await p.evaluate(([u,w])=>window.renderAll(u,w), ['/'+pdfRel, +width]);
+mkdirSync(outDir,{recursive:true});
+pages.forEach((d,i)=>writeFileSync(`${outDir}/p${i+1}.png`, Buffer.from(d.split(',')[1],'base64')));
+console.log(pages.length,'pages'); await b.close(); s.close();

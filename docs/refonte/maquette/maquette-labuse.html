@@ -22,7 +22,7 @@
   --r-s:4px; --r:6px; --t:.1s;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:80px}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
 body{margin:0;background:var(--bg-0);color:var(--txt);font:400 16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
@@ -71,24 +71,24 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 /* ── En-tête ── */
 .mq{background:var(--amber-bg);color:var(--amber);font:500 11px/1.4 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:7px 16px}
 .hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg-0);border-bottom:1px solid var(--line)}
-.hdr .wrap{display:flex;align-items:center;gap:20px;height:64px}
+.hdr .wrap{display:flex;align-items:center;gap:20px;height:76px}
 .logo{display:inline-flex;align-items:center;gap:11px;flex:none}
-.logo svg{width:30px;height:auto;color:var(--mint)}
-.wm{font:700 21px/1 var(--f-display);letter-spacing:.04em;color:var(--txt-hi)}
+.logo svg{width:42px;height:auto;color:var(--mint)}
+.wm{font:700 28px/1 var(--f-display);letter-spacing:.04em;color:var(--txt-hi)}
 .wm b{color:var(--mint)}
 .nav{display:flex;gap:4px;margin-left:auto}
 .nav a{padding:8px 12px;border-radius:var(--r);color:var(--txt-dim);font-size:14.5px;border:1px solid transparent}
 .hdr-cta{display:flex;gap:8px}
 @media (max-width:900px){.nav{display:none}.hdr-cta{margin-left:auto}}
-@media (max-width:520px){.hdr-cta .btn-s{display:none}}
-@media (max-width:380px){.wm{font-size:17px}.logo svg{width:24px}.logo{gap:8px}.hdr .wrap{gap:10px}.hdr-cta .btn-p{padding:0 10px;font-size:13px}}
+@media (max-width:520px){.hdr-cta .btn-s{display:none}.wm{font-size:23px}.logo svg{width:34px}}
+@media (max-width:380px){.wm{font-size:21px}.logo svg{width:30px}.logo{gap:8px}.hdr .wrap{gap:10px}.hdr-cta .btn-p{padding:0 10px;font-size:13px}}
 
 /* ── Hero : texte | radar ── */
 .hero{padding-block:clamp(48px,6vw,88px) clamp(40px,5vw,64px)}
 .hero-grid{display:grid;gap:clamp(36px,5vw,64px);grid-template-columns:minmax(0,1fr);align-items:center}
 @media (min-width:1000px){.hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 .hero .cap{color:var(--mint)}
-.hero h1{margin-top:20px}
+.hero h1{margin-top:0}
 .hero .lead{margin-top:24px;max-width:40ch}
 .ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
 
@@ -114,14 +114,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 @keyframes sweep{to{transform:rotate(360deg)}}
 @keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
 @keyframes pulse{0%{transform:scale(.5);opacity:.9}70%{transform:scale(1.5);opacity:0}100%{opacity:0}}
-/* carte de repérage flottante (élément flottant : seule ombre autorisée) */
-.spot{position:absolute;z-index:10;left:0;bottom:6%;width:min(232px,62%);background:var(--bg-3);border:1px solid var(--line-3);border-radius:var(--r);padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
-.spot .t{display:flex;align-items:center;gap:8px;font:500 13px/1.3 var(--f-body);color:var(--txt-hi)}
-.spot .t i{width:8px;height:8px;border-radius:50%;background:var(--mint);flex:none}
-.spot ul{list-style:none;margin:10px 0 0;padding:10px 0 0;border-top:1px solid var(--line-3);display:grid;gap:6px}
-.spot li{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--txt-dim)}
-.spot li b{color:var(--mint);font-weight:500}
-@media (min-width:1000px){.spot{left:-6%}}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{transition:none!important}
@@ -142,7 +134,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 
 /* ── Chiffres : 2 lignes de 4 ── */
 .figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line-2);border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;margin-top:clamp(48px,6vw,72px)}
-@media (min-width:900px){.figs{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (min-width:900px){.figs{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .fig{background:var(--bg-stat);padding:24px 22px;min-width:0}
 .fig .v{font:700 clamp(30px,3.2vw,42px)/1 var(--f-display);color:var(--txt-hi);letter-spacing:-.02em;white-space:nowrap}
 .fig .l{margin-top:10px;font-size:14px;line-height:1.4;color:var(--txt-dim)}
@@ -153,7 +145,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .head{display:grid;gap:16px;max-width:780px;margin-bottom:clamp(36px,4.5vw,56px)}
 
 /* ── Avant / après ── */
-.punch h2{font-size:clamp(34px,4.8vw,60px);max-width:16ch}
+.punch h2{font-size:clamp(30px,4vw,52px);max-width:24ch}
 .ba{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);margin-top:clamp(36px,4.5vw,52px)}
 @media (min-width:900px){.ba{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}}
 .ba > div{border:1px solid var(--line-2);border-radius:var(--r);padding:clamp(20px,3vw,30px);min-width:0;display:grid;gap:18px;align-content:start}
@@ -194,9 +186,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 @media (min-width:960px){.run{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 .run h2{font-size:clamp(34px,4.6vw,58px)}
 .run .lead{margin-top:22px;max-width:44ch}
-.pts{list-style:none;padding:0;margin:28px 0 0;border-top:1px solid var(--line-2)}
-.pts li{display:flex;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--txt-hi)}
-.pts li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--mint);flex:none;transform:translateY(-2px)}
 .coms{display:flex;flex-wrap:wrap;gap:8px;align-content:center}
 .com{display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:9999px;background:var(--commune);border:1px solid #000;color:#fff;font:500 13px/1 var(--f-body)}
 .coms-note{margin-top:14px;font:400 12px/1.4 var(--f-mono);letter-spacing:.04em;color:var(--lab)}
@@ -208,8 +197,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 /* ── Tarifs : deux cartes au même gabarit ── */
 .offers{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
 @media (min-width:900px){.offers{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.offer{border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);display:grid;grid-template-rows:auto 1fr;min-width:0;overflow:hidden}
-.offer-vis{height:150px;border-bottom:1px solid var(--line-2);background:var(--bg-1);display:grid;place-items:center;position:relative;overflow:hidden}
+.offer{border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);display:grid;min-width:0;overflow:hidden}
 .offer-body{padding:clamp(22px,3vw,30px);display:grid;grid-template-rows:auto auto auto 1fr auto;gap:16px}
 .offer .nm{font:500 12px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mint)}
 .offer h3{font-size:26px;letter-spacing:-.02em}
@@ -220,18 +208,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .incl li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:10px;font-size:15px;color:var(--txt)}
 .incl svg{width:14px;height:14px;color:var(--mint);margin-top:5px}
 .offer .btn{width:100%}
-/* visuel Flash : un rapport PDF */
-.pdf{width:104px;height:124px;transform:rotate(-4deg);background:#E8EFEA;border-radius:3px;box-shadow:0 8px 24px rgba(0,0,0,.45);padding:12px 11px;display:grid;gap:6px;align-content:start}
-.pdf + .pdf{position:absolute;transform:rotate(5deg) translate(40px,6px);opacity:.55}
-.pdf i{display:block;height:5px;border-radius:2px;background:#C8D2CC}
-.pdf i.h{height:9px;width:62%;background:#1E9E58}
-.pdf i.s{width:70%}
-.pdf i.k{height:26px;background:#D7E0DA}
-/* visuel Intégral : les catégories de l'app */
-.rail{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:0 16px}
-.rail .tile{width:40px;height:40px}
-.rail .tile svg{width:19px;height:19px}
-.rail .tile.ia{border-color:rgba(180,151,240,.42);background:rgba(180,151,240,.16);color:var(--ia)}
 .legal{margin-top:22px;font-size:13px;color:var(--txt-dim);max-width:80ch}
 
 /* ── FAQ ── */
@@ -278,7 +254,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .notes ol{clear:both;margin:0;padding:16px 18px 16px 34px;background:var(--bg-3);border:1px solid var(--line-3);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.45);display:grid;gap:8px;font-size:13px;color:var(--txt);max-height:60vh;overflow:auto}
 </style>
 
-<div class="mq">Maquette v3 · labuse.immo · 08/10/2026</div>
+<div class="mq">Maquette v4 · labuse.immo · 08/10/2026</div>
 
 <header class="hdr">
   <div class="wrap">
@@ -304,9 +280,8 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <p class="cap">100 % La Réunion · 24 communes</p>
           <h1>Tout le foncier de La Réunion. <span class="m blk">Au même endroit.</span></h1>
-          <p class="lead">Urbanisme, risques, ventes, permis : tout ce qu’il faut savoir sur un terrain, en un clic. Rien que pour La Réunion.</p>
+          <p class="lead">Urbanisme, risques, ventes, permis : tout ce qu’il faut savoir sur un terrain, en un clic.</p>
           <div class="ctas">
             <a class="btn btn-p" href="#contact" data-pre="demo">Demander une démo
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -349,15 +324,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
               </svg>
             </div>
           </div>
-          <div class="spot" aria-hidden="true">
-            <p class="t"><i></i>Terrain repéré · Saint-Paul</p>
-            <ul>
-              <li>Urbanisme <b>✓</b></li>
-              <li>Risques <b>✓</b></li>
-              <li>Ventes autour <b>✓</b></li>
-              <li>Permis autour <b>✓</b></li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
@@ -369,7 +335,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
       <div class="laptop">
         <div class="lid">
           <div class="screen">
-            <video id="promo" autoplay muted loop playsinline preload="auto" poster="assets/poster.jpg" aria-label="Vidéo : le logo LABUSE prend son envol, l’app s’ouvre, on zoome sur un terrain, sa fiche s’ouvre et défile, puis on active une couche des risques."><source src="assets/labuse-promo.mp4" type="video/mp4"></video>
+            <video id="promo" autoplay muted loop playsinline preload="auto" poster="assets/poster.jpg" aria-label="Vidéo : le logo LABUSE prend son envol, on zoome sur la carte, on passe en vue aérienne, on ouvre la fiche d’un terrain puis son dossier PDF, et on affiche les risques sur toute l’île."><source src="assets/labuse-promo.mp4" type="video/mp4"></video>
           </div>
         </div>
         <div class="base" aria-hidden="true"></div>
@@ -382,8 +348,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
         <div class="fig hf"><div class="v num">24</div><div class="l">communes</div></div>
         <div class="fig hf"><div class="v num">16</div><div class="l">outils fonciers</div></div>
         <div class="fig hf"><div class="v num">2,6&nbsp;M+</div><div class="l">données publiques intégrées</div></div>
-        <div class="fig hf"><div class="v num">50&nbsp;805</div><div class="l">permis et autorisations d’urbanisme</div></div>
-        <div class="fig hf"><div class="v num">78&nbsp;308</div><div class="l">ventes immobilières depuis 2014</div></div>
       </div>
     </div>
   </section>
@@ -391,7 +355,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   <!-- AVANT / APRÈS -->
   <section class="sec punch">
     <div class="wrap">
-      <h2>Dix sites pour un seul terrain&nbsp;? <span class="m">C’est fini.</span></h2>
+      <h2>Des onglets, des PDF, des heures à tout recouper. Pour un seul terrain. <span class="m">C’est fini.</span></h2>
       <div class="ba">
         <div class="before">
           <p class="cap">Aujourd’hui</p>
@@ -407,7 +371,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
             <li class="tab">cartes.gouv.fr</li>
             <li class="tab">Annonces immobilières</li>
           </ul>
-          <p>Dix onglets, des PDF, des heures à tout recouper. Pour un seul terrain.</p>
         </div>
         <div class="after">
           <p class="cap" style="color:var(--mint)">Avec LABUSE</p>
@@ -422,7 +385,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
   <section class="sec alt">
     <div class="wrap">
       <div class="head">
-        <h2>Vous passiez des heures à chercher. <span class="m blk">Maintenant, vous décidez.</span></h2>
+        <h2>Ce que vous gagnez <span class="m">avec LABUSE.</span></h2>
       </div>
       <div class="adv">
         <div class="hf"><span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6.2 6.2 0 0 0-11.4-2.3M4 12a6.2 6.2 0 0 0 11.4 2.3"/><path d="M4.4 2.8v3.1h3.1M15.6 17.2v-3.1h-3.1"/></svg></span><h3>Des données qui suivent</h3><p>Permis, ventes, procédures : les nouvelles publications arrivent toutes seules.</p></div>
@@ -459,14 +422,7 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
       <div class="run">
         <div>
           <h2>Créé pour La Réunion. <span class="m blk">Uniquement pour La Réunion.</span></h2>
-          <p class="lead">Pas un outil national adapté à l’île : ici, La Réunion n’est pas une note de bas de page, c’est tout le sujet. La carte s’arrête à ses côtes.</p>
-          <ul class="pts">
-            <li>Toute l’île, de Saint-Denis à Saint-Philippe</li>
-            <li>Des Hauts jusqu’aux 50 pas géométriques</li>
-            <li>Les risques de l’île, de la ravine au littoral</li>
-            <li>Les prix et les ventes de chaque commune</li>
-            <li>Un Copilote qui ne connaît qu’un territoire : le vôtre</li>
-          </ul>
+          <p class="lead">Pas un outil national adapté à l’île : ici, La Réunion n’est pas une note de bas de page, c’est tout le sujet.</p>
         </div>
         <div>
           <div class="coms" aria-label="Les 24 communes analysées">
@@ -483,10 +439,10 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
     <div class="wrap">
       <div class="head">
         <h2>Vous travaillez le foncier réunionnais ? <span class="m blk">LABUSE travaille pour vous.</span></h2>
-        <p class="lead">Promoteur, notaire, géomètre, banquier ou élu : dès qu’un terrain compte dans votre décision, LABUSE vous fait gagner du temps.</p>
+        <p class="lead">Promoteurs, lotisseurs, agents immobiliers, bailleurs, apporteurs d’affaires, notaires : dès qu’un terrain compte dans votre décision, LABUSE vous fait gagner du temps.</p>
       </div>
       <div class="jobs">
-        <span class="job hf">Promoteurs immobiliers</span><span class="job hf">Lotisseurs</span><span class="job hf">Aménageurs</span><span class="job hf">Marchands de biens</span><span class="job hf">Bailleurs sociaux</span><span class="job hf">SEM et SPL</span><span class="job hf">Établissements publics fonciers</span><span class="job hf">Constructeurs de maisons individuelles</span><span class="job hf">Agents immobiliers</span><span class="job hf">Apporteurs d’affaires</span><span class="job hf">Notaires</span><span class="job hf">Géomètres-experts</span><span class="job hf">Architectes</span><span class="job hf">Maîtres d’œuvre</span><span class="job hf">Bureaux d’études</span><span class="job hf">Experts fonciers et immobiliers</span><span class="job hf">Avocats en droit immobilier</span><span class="job hf">Investisseurs immobiliers</span><span class="job hf">Foncières</span><span class="job hf">Gestionnaires de patrimoine</span><span class="job hf">Banques et financeurs</span><span class="job hf">Collectivités et services d’urbanisme</span><span class="job hf">Développeurs d’énergies renouvelables</span>
+        <span class="job hf">Promoteurs immobiliers</span><span class="job hf">Lotisseurs</span><span class="job hf">Aménageurs</span><span class="job hf">Marchands de biens</span><span class="job hf">Bailleurs sociaux</span><span class="job hf">SEM et SPL</span><span class="job hf">Établissements publics fonciers</span><span class="job hf">Constructeurs de maisons individuelles</span><span class="job hf">Agents immobiliers</span><span class="job hf">Apporteurs d’affaires</span><span class="job hf">Notaires</span><span class="job hf">Géomètres-experts</span><span class="job hf">Architectes</span><span class="job hf">Maîtres d’œuvre</span><span class="job hf">Bureaux d’études</span><span class="job hf">Experts fonciers et immobiliers</span><span class="job hf">Avocats en droit immobilier</span><span class="job hf">Investisseurs immobiliers</span><span class="job hf">Foncières</span><span class="job hf">Collectivités et services d’urbanisme</span><span class="job hf">Développeurs d’énergies renouvelables</span>
       </div>
     </div>
   </section>
@@ -499,10 +455,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
       </div>
       <div class="offers">
         <article class="offer">
-          <div class="offer-vis" aria-hidden="true">
-            <div class="pdf"><i class="h"></i><i></i><i class="s"></i><i class="k"></i><i></i><i class="s"></i></div>
-            <div class="pdf"><i class="h"></i><i></i><i class="s"></i><i class="k"></i></div>
-          </div>
           <div class="offer-body">
             <p class="nm">Flash</p>
             <h3>Le rapport d’un terrain</h3>
@@ -517,18 +469,6 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
           </div>
         </article>
         <article class="offer">
-          <div class="offer-vis" aria-hidden="true">
-            <div class="rail">
-              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3.5 6.5 L8 4.5 L12 6.5 L16.5 4.5 V13.5 L12 15.5 L8 13.5 L3.5 15.5 Z"/><path d="M8 4.5v9M12 6.5v9" stroke-width="1.2" opacity=".6"/></svg></span>
-              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="6.5"/><path d="M12.6 7.4 L11 11 L7.4 12.6 L9 9 Z" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M5.5 3.5 H11.5 L15 7 V16.5 H5.5 Z"/><path d="M11.5 3.5 V7 H15" stroke-width="1.3"/><path d="M7.8 10.5 H12.2 M7.8 13 H12.2" stroke-width="1.3"/></svg></span>
-              <span class="tile ia"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M10 3.5 L11.6 8.4 L16.5 10 L11.6 11.6 L10 16.5 L8.4 11.6 L3.5 10 L8.4 8.4 Z"/></svg></span>
-              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.8" stroke-width="1.3"/><circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/><path d="M10 2.5v2.4M17.5 10h-2.4"/></svg></span>
-              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3.5 6 H8.2 L9.6 7.6 H16.5 V15 A0.8 0.8 0 0 1 15.7 15.8 H4.3 A0.8 0.8 0 0 1 3.5 15 Z"/><path d="M10 9 L10.7 10.7 L12.5 10.9 L11.2 12.1 L11.6 13.9 L10 13 L8.4 13.9 L8.8 12.1 L7.5 10.9 L9.3 10.7 Z" fill="currentColor" stroke="none"/></svg></span>
-              <span class="tile"><svg viewBox="0 0 20 20" fill="currentColor"><rect x="3.5" y="9" width="3.6" height="7.5" rx="0.8"/><rect x="8.2" y="5" width="3.6" height="11.5" rx="0.8"/><rect x="12.9" y="11.5" width="3.6" height="5" rx="0.8"/></svg></span>
-              <span class="tile"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><ellipse cx="10" cy="5.5" rx="5.5" ry="2.2"/><path d="M4.5 5.5 V10 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V5.5"/><path d="M4.5 10 v4.5 c0 1.2 2.5 2.2 5.5 2.2 s5.5 -1 5.5 -2.2 V10"/></svg></span>
-            </div>
-          </div>
           <div class="offer-body">
             <p class="nm">Intégral</p>
             <h3>L’outil complet</h3>
@@ -610,8 +550,8 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 <details class="notes">
   <summary>Notes de maquette · 7</summary>
   <ol>
-    <li><b>Vidéo</b> : tournée dans l’app en prod avec le compte client, image par image en Retina (10 s, 1,9 Mo, en boucle). Terrain : 97415000EY0054, Saint-Paul.</li>
-    <li><b>Chiffres</b> : tous trouvés dans l’app. 99 sources, 2,6 M+ données et 78 308 ventes viennent de ta base locale : à recompter une fois sur le serveur avant la mise en ligne. 50 805 permis est mesuré en prod.</li>
+    <li><b>Vidéo</b> : tournée dans l’app en prod avec le compte client, image par image en Retina (13 s, 2,1 Mo, en boucle). Terrain : 97415000EY0054, Saint-Paul. L’attente de génération du dossier (≈ 7 s) est coupée ; les pages montrées sont celles du vrai PDF.</li>
+    <li><b>Chiffres</b> : tous trouvés dans l’app, aucun qui bouge chaque mois. 99 sources et 2,6 M+ données viennent de ta base locale : à recompter une fois sur le serveur avant la mise en ligne. 431 663 = parcelles du cadastre ; l’app affiche 430 813 parcelles analysées : à aligner.</li>
     <li><b>2,6 M+</b> : somme exacte de 2 678 205 enregistrements de sources publiques, doublons retirés. Écrit à la baisse, jamais arrondi au-dessus.</li>
     <li><b>Onglets « Aujourd’hui »</b> : vrais portails publics, tous intégrés par LABUSE. Géoportail remplacé par cartes.gouv.fr (fermeture annoncée), DVF par explore.data.gouv.fr (explorateur officiel actuel).</li>
     <li><b>Radar</b> : l’animation de l’ancien site, recolorée dans la DA de l’app ; elle se met en pause hors écran et se fige si l’utilisateur réduit les animations.</li>
