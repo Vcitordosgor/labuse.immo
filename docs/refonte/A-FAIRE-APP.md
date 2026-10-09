@@ -54,7 +54,7 @@ même raison.
 > # Rapport Flash
 > ### Tout ce qu'il faut savoir sur un terrain, dans un seul PDF.
 >
-> **79 € HT** · paiement unique
+> **79 €** · paiement unique *(sans « HT » : le jour où la TVA s'appliquera, le prix affiché ne bougera pas)*
 >
 > - **Le terrain** : surface, bâti, plan cadastral et vue aérienne. Et quand le propriétaire est une société, sa dénomination et son SIREN.
 > - **Le droit du sol** : la zone du PLU, les règles qui s'y appliquent, la hauteur et l'emprise autorisées, les servitudes repérées.
@@ -65,23 +65,23 @@ même raison.
 >
 > Onze volets, du plan cadastral au potentiel du terrain.
 >
-> **Comment ça se passe**
-> 1. Vous indiquez le terrain : une adresse, ou sa référence cadastrale.
-> 2. Vous vérifiez la parcelle trouvée. Rien n'est débité à cette étape.
-> 3. Vous payez, et votre PDF s'affiche aussitôt, prêt à télécharger.
->
 > **Quelle parcelle ?**
-> [Adresse ou référence cadastrale] — *Une adresse, une référence du type « Saint-Paul CW 658 », ou l'identifiant complet de la parcelle (97415000CW0658).*
-> **Voir ma parcelle →**
+> [Adresse du bien] — **avec complétion pendant la frappe**, sur la Base Adresse Nationale, comme la recherche de la carte. L'acheteur choisit une adresse existante : beaucoup moins d'échecs.
+> — ou —
+> [Référence cadastrale] — *exemple affiché : 97415000AS0772.* Accepte l'IDU à 14 caractères comme une référence « commune + section + numéro ».
+>
+> Dès qu'un champ est rempli, l'autre disparaît. Un seul bouton : **Voir ma parcelle →**
 >
 > Vous verrez la parcelle avant de payer. Rien n'est débité à cette étape.
 
-**Écran de validation**
+**Écran de validation** — l'acheteur reconnaît son terrain sur une **vue aérienne**, pas sur une ligne de chiffres (décision de Vic, 09/10). Image : IGN Géoplateforme, couche `HR.ORTHOIMAGERY.ORTHOPHOTOS`, déjà utilisée par la carte. Contour : la géométrie cadastrale de la parcelle, assombrissement autour, trait vert. Maquette : https://claude.ai/artifact/SQFxbcDTWU1Jup1ULjAHMx
 
-> # Votre rapport Flash
-> ### CW 0658 · Saint-Paul · 27 156 m²
+> # Est-ce le bon terrain ?
 >
-> Votre PDF réunit onze volets : identité et plan, terrain, bâti, urbanisme, risques, réseaux, fiscalité, marché, quartier, potentiel et simulation. Chaque information porte sa source et sa date.
+> [vue aérienne, parcelle entourée]
+> **CW 0658** — Saint-Paul · 25 633 m² · *Vue aérienne IGN*
+>
+> **Votre dossier est établi après le paiement**, sur cette parcelle.
 >
 > - Livré dès le paiement. Le lien de téléchargement reste valable 30 jours.
 > - Paiement unique de **79 € HT**. Pas d'abonnement, pas de compte à créer.
@@ -92,12 +92,18 @@ même raison.
 > **Payer 79 € et recevoir mon rapport →**
 > ← changer de parcelle
 >
-> Vendu par LABUSE — Victor Lagane EI · contact@labuse.immo
+> Vendu par LABUSE (CLOSING CREST) · contact@labuse.immo
+> Prix total, sans TVA à ajouter — TVA non applicable, article 293 B du CGI.
 > Document d'aide à la décision établi à partir des données publiques. Il ne remplace ni le certificat d'urbanisme délivré par la mairie, ni le conseil d'un notaire.
 
 **À retirer partout sur la page** : « ce qu'on peut y construire », « potentiel
-constructible chiffré », « Radar foncier » (ancienne signature, remplacer par LABUSE),
-« votre contact LABUSE » (écrire contact@labuse.immo), et « 79 € » sans la mention HT.
+constructible chiffré », « Radar foncier » (ancienne signature, remplacer par LABUSE) et
+« votre contact LABUSE » (écrire contact@labuse.immo).
+
+**À vérifier au passage** : l'app affiche 27 156 m² pour la parcelle CW 0658 de Saint-Paul,
+alors que la contenance cadastrale officielle (apicarto.ign.fr) est de 25 633 m², soit 6 %
+d'écart. Surface calculée depuis la géométrie plutôt que lue au cadastre ? C'est la surface
+affichée à l'acheteur avant qu'il paie, et celle du dossier.
 
 **Une phrase à ne pas écrire tant que la priorité 1 n'est pas faite** : « la donnée la
 plus fraîche ». Le texte ci-dessus dit seulement que chaque information porte sa source
