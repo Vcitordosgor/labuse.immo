@@ -1,0 +1,15 @@
+import { launch } from '/tmp/claude-0/-home-user-labuse-immo/c63124ce-02a1-58ce-ac83-598cbc29f87a/scratchpad/video/browser.mjs';
+const b = await launch();
+const ctx = await b.newContext({ viewport:{width:1440,height:900}, deviceScaleFactor:2 });
+const p = await ctx.newPage();
+await p.goto('https://app.labuse.immo/login', { waitUntil:'networkidle' });
+await p.fill('#identifiant', process.env.LB_ID);
+await p.fill('#password', process.env.LB_PW);
+await p.click('button[type=submit]');
+await p.waitForLoadState('networkidle'); await p.waitForTimeout(3000);
+console.log('URL', p.url());
+const rail = await p.evaluate(() => document.body.innerText.slice(0,600));
+console.log(rail.replace(/\n+/g,' | '));
+await p.screenshot({ path:'/tmp/claude-0/-home-user-labuse-immo/c63124ce-02a1-58ce-ac83-598cbc29f87a/scratchpad/video/01-home.png' });
+await ctx.storageState({ path:'/tmp/claude-0/-home-user-labuse-immo/c63124ce-02a1-58ce-ac83-598cbc29f87a/scratchpad/video/state.json' });
+await b.close();

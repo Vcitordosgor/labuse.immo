@@ -1,0 +1,13 @@
+<!doctype html><meta charset="utf-8"><body style="margin:0">
+<script type="module">
+import * as pdfjs from '/tools/node_modules/pdfjs-dist/build/pdf.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc='/tools/node_modules/pdfjs-dist/build/pdf.worker.mjs';
+window.renderAll = async (url, width) => {
+  const doc = await pdfjs.getDocument(url).promise; const out=[];
+  for (let i=1;i<=doc.numPages;i++){ const pg=await doc.getPage(i); const v0=pg.getViewport({scale:1}); const v=pg.getViewport({scale:width/v0.width});
+    const c=document.createElement('canvas'); c.width=Math.round(v.width); c.height=Math.round(v.height);
+    await pg.render({canvasContext:c.getContext('2d'),viewport:v}).promise; out.push(c.toDataURL('image/png')); }
+  return out;
+};
+window.ready=true;
+</script>

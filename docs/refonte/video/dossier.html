@@ -1,0 +1,60 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=block" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1440px;height:900px;overflow:hidden;background:#0A0C0B}
+.full{position:fixed;inset:0;width:1440px;height:900px}
+#viewer{background:#1A1F1C;will-change:opacity}
+#bar{position:absolute;left:0;right:0;top:0;height:52px;background:#0C0F0D;border-bottom:1px solid #212A25;display:flex;align-items:center;gap:12px;padding:0 20px;font:500 13px/1 Inter,sans-serif;color:#B8C4BC;z-index:2}
+#bar .ic{width:26px;height:26px;border-radius:4px;background:#12291D;border:1px solid rgba(74,222,128,.35);display:grid;place-items:center;color:#4ADE80}
+#bar .fn{flex:1}
+#bar .pg{font:500 12px/1 'JetBrains Mono',monospace;color:#8A968F;padding:7px 10px;border:1px solid #263029;border-radius:4px;background:#111614}
+#bar .pg b{color:#E8EFEA;font-weight:500}
+#bar .zm{display:flex;gap:6px;align-items:center;font:500 12px/1 'JetBrains Mono',monospace;color:#8A968F}
+#bar .zm span{padding:7px 9px;border:1px solid #263029;border-radius:4px;background:#111614}
+#side{position:absolute;left:0;top:52px;bottom:0;width:170px;background:#111614;border-right:1px solid #212A25;overflow:hidden}
+#thumbs{position:absolute;left:0;right:0;top:20px;display:grid;justify-items:center;gap:14px;will-change:transform}
+.th{display:grid;justify-items:center;gap:6px;font:500 10px/1 'JetBrains Mono',monospace;color:#5E6B64}
+.th img{width:92px;height:130px;display:block;background:#fff;border-radius:2px;outline:1px solid #263029;outline-offset:2px}
+.th.on{color:#4ADE80}.th.on img{outline:2px solid #4ADE80}
+#scroll{position:absolute;left:170px;right:0;top:52px;bottom:0;overflow:hidden}
+#pages{position:absolute;left:355px;top:28px;width:560px;will-change:transform}
+#pages img{display:block;width:560px;height:792px;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.45);border-radius:2px}
+#pages img+img{margin-top:20px}
+#cur{position:fixed;left:0;top:0;z-index:9;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+</style></head><body>
+<img id="from" class="full">
+<div id="viewer" class="full">
+  <div id="bar">
+    <div class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+    <div class="fn">Dossier parcelle — 97415000EY0109.pdf</div>
+    <div class="pg"><b id="pn">1</b> / 10</div>
+    <div class="zm"><span>−</span><span>75 %</span><span>+</span></div>
+  </div>
+  <div id="side"><div id="thumbs"></div></div>
+  <div id="scroll"><div id="pages"><img src="dossier/p1.png"><img src="dossier/p2.png"><img src="dossier/p3.png"><img src="dossier/p4.png"></div></div>
+</div>
+<img id="to" class="full" style="opacity:0">
+<div id="cur"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.6L10.4 19z" fill="#fff" stroke="#071009" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+<script>
+const CUR={x:1115,y:702};
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2, out=t=>1-Math.pow(1-t,3), clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const th=document.getElementById('thumbs');
+for(let i=1;i<=10;i++) th.insertAdjacentHTML('beforeend',`<div class="th"><img src="dossier/p${i}.png"><span>${i}</span></div>`);
+// Découpage (images à 30 i/s) : apparition 7 · lecture p.1 8 · défilement de 3 pages 60 · arrêt 8 · fondu retour 8
+const S=window.SLOW||1, IN=7*S, HOLD=8*S, SCR=60*S, STOP=8*S, BACK=8*S; window.TOTAL=IN+HOLD+SCR+STOP+BACK;
+document.getElementById('from').src=window.FROM||'frames/B/0098.jpg'; document.getElementById('to').src=window.TO||'frames/C/0000.jpg';
+const PH=792, GAP=20, VIEW=900-52, SEND=2*(PH+GAP); // page 3 entière à l'écran
+document.getElementById('cur').style.transform=`translate(${CUR.x-5}px,${CUR.y-3}px)`;
+window.render=f=>{
+  const v=document.getElementById('viewer'), pg=document.getElementById('pages');
+  const a=clamp(f/(IN-1),0,1); v.style.opacity=out(a);
+  const s=ease(clamp((f-IN-HOLD)/(SCR-1),0,1))*SEND;
+  pg.style.transform=`translateY(${(1-out(a))*36-s}px)`;
+  const cur=Math.min(3, 1+Math.floor((s+VIEW/2-28)/(PH+GAP)));
+  document.getElementById('pn').textContent=cur;
+  [...th.children].forEach((c,i)=>c.classList.toggle('on',i===cur-1));
+  th.style.transform=`translateY(${-Math.max(0,(s/(PH+GAP))*158-60)}px)`;
+  const b=clamp((f-(IN+HOLD+SCR+STOP))/BACK,0,1); document.getElementById('to').style.opacity=ease(b);
+};
+</script></body></html>

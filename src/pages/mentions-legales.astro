@@ -1,78 +1,59 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { CONTACT_EMAIL } from '../consts';
 
-const updated = '5 juillet 2026';
+// Texte relu le 08/10/2026 : seul ce qui est vrai et fait aujourd'hui y figure.
+// Avant d'ajouter une phrase, vérifier qu'elle décrit une pratique réelle.
+const breadcrumb = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://labuse.immo/' },
+    { '@type': 'ListItem', position: 2, name: 'Mentions légales', item: 'https://labuse.immo/mentions-legales/' },
+  ],
+};
 ---
 
 <BaseLayout
-  title="Mentions légales — LA BUSE"
-  description="Mentions légales du site labuse.immo, plateforme d'intelligence foncière à La Réunion."
+  title="Mentions légales | LABUSE, La Réunion"
+  description="Mentions légales de labuse.immo : éditeur, hébergeur et propriété intellectuelle de LABUSE, l’outil d’analyse foncière de La Réunion."
+  schemas={[breadcrumb]}
 >
-  <Header />
-  <main id="contenu" class="pt-[76px]">
-    <section class="mx-auto max-w-[760px] px-5 py-16 sm:px-8 sm:py-20">
-      <p class="eyebrow">Informations légales</p>
-      <h1 class="mt-6 text-[32px] font-semibold leading-[1.08] tracking-tightest sm:text-[42px]">
-        Mentions <span class="text-green">légales.</span>
-      </h1>
-      <p class="mt-4 text-[14px] text-muted">Dernière mise à jour : {updated}.</p>
+  <main id="contenu" class="page">
+    <div class="wrap legal">
+    <h1>Mentions légales</h1>
+    <p class="maj">Dernière mise à jour : 8 octobre 2026</p>
+    <p>Ces mentions concernent le site labuse.immo et l’application LABUSE, accessible à l’adresse app.labuse.immo.</p>
 
-      <div class="mt-10 flex flex-col gap-8 text-[16px] leading-relaxed text-[#c3ceca]">
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Éditeur du site</h2>
-          <p class="mt-3">
-            Victor Lagane — entrepreneur individuel (EI), exerçant sous le nom
-            « LA&nbsp;BUSE ».<br />
-            SIRET&nbsp;: 987&nbsp;641&nbsp;917&nbsp;00016<br />
-            3 chemin de la Citerne, La Montagne<br />
-            97417 Saint-Denis, La Réunion<br />
-            Directeur de la publication&nbsp;: Victor Lagane<br />
-            Contact&nbsp;: <a href={`mailto:${CONTACT_EMAIL}`} class="text-green underline decoration-green/40 underline-offset-2">{CONTACT_EMAIL}</a>
-          </p>
-        </div>
+    <h2>Éditeur</h2>
+    <p>LABUSE est un service édité par Victor Lagane, entrepreneur individuel (EI).</p>
+    <ul>
+    <li>Adresse : 3 chemin de la Citerne, La Montagne, 97417 Saint-Denis, La Réunion</li>
+    <li>E-mail : <a href="mailto:contact@labuse.immo">contact@labuse.immo</a></li>
+    <li>Inscrit au Registre national des entreprises (RNE)</li>
+    <li>SIREN : 987 641 917</li>
+    <li>SIRET : 987 641 917 00016</li>
+    </ul>
 
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Hébergement</h2>
-          <p class="mt-3">
-            Ce site est hébergé par Cloudflare, Inc.<br />
-            101 Townsend Street, San Francisco, CA 94107, États-Unis<br />
-            <a href="https://www.cloudflare.com" rel="noopener" class="text-green underline decoration-green/40 underline-offset-2">www.cloudflare.com</a>
-          </p>
-        </div>
+    <h2>Directeur de la publication</h2>
+    <p>Victor Lagane.</p>
 
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Propriété intellectuelle</h2>
-          <p class="mt-3">
-            L'ensemble des contenus de ce site (textes, visuels, marque LA BUSE, éléments
-            graphiques) est protégé par le droit de la propriété intellectuelle. Toute
-            reproduction ou représentation, totale ou partielle, sans autorisation écrite
-            préalable est interdite.
-          </p>
-        </div>
+    <h2>Hébergement</h2>
+    <p>Le site labuse.immo et son formulaire de contact sont hébergés par Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis. Téléphone : +1 888 993 5273. Site : <a href="https://www.cloudflare.com" rel="noopener">www.cloudflare.com</a>.</p>
+    <p>L’application app.labuse.immo est hébergée par OVH SAS (OVHcloud), 2 rue Kellermann, 59100 Roubaix, France, sur un serveur situé à Gravelines (France). Téléphone : +33 9 72 10 10 07.</p>
+    <p>Les paiements en ligne sont traités par Stripe Payments Europe Ltd. (Irlande).</p>
 
-        <div>
-          <h2 class="text-[20px] font-semibold text-ink">Données personnelles</h2>
-          <p class="mt-3">
-            Le site et la plateforme LA BUSE réalisent deux traitements de données
-            personnelles distincts&nbsp;: celui des visiteurs qui nous contactent, et celui
-            des propriétaires fonciers dont les données publiques sont analysées par le
-            produit. Les deux sont décrits dans notre
-            <a href="/confidentialite" class="text-green underline decoration-green/40 underline-offset-2">politique de confidentialité</a>.
-            Ce site n'utilise aucun cookie ni traceur.
-          </p>
-        </div>
-      </div>
+    <h2>Prix et conditions de vente</h2>
+    <p>Les prix sont indiqués hors taxes.</p>
+    <p>Les offres LABUSE, y compris le rapport Flash, s’adressent aux professionnels, pour les besoins de leur activité.</p>
+    <p>Les conditions de vente de l’abonnement Intégral et du rapport Flash figurent dans les <a href="https://app.labuse.immo/cgv" rel="noopener">conditions générales de vente</a>.</p>
 
-      <a href="/" class="mt-12 inline-flex items-center gap-2.5 text-[16px] font-medium text-ink transition-opacity hover:opacity-80">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M19 12H5M11 6l-6 6 6 6"></path>
-        </svg>
-        Retour au site
-      </a>
-    </section>
+    <h2>Propriété intellectuelle</h2>
+    <p>Le nom et le logo LABUSE, ainsi que les textes, les visuels et les vidéos du site, sont protégés par le droit de la propriété intellectuelle. Toute reproduction, totale ou partielle, sans l’accord écrit de l’éditeur est interdite.</p>
+    <p>Cette règle ne s’applique pas aux contenus de tiers. Les données publiques et les fonds de carte visibles sur le site et dans l’application restent soumis à leur propre licence. Fonds de carte et photographies aériennes : source IGN – Géoplateforme, réutilisés sous Licence Ouverte 2.0 (Etalab).</p>
+
+    <h2>Données personnelles et cookies</h2>
+    <p>Notre <a href="/confidentialite/">politique de confidentialité</a> explique comment nous traitons les données personnelles et quels cookies nous utilisons, sur le site comme dans l’application.</p>
+
+    <a class="back" href="/">Retour à l’accueil</a>
+    </div>
   </main>
-  <Footer />
 </BaseLayout>

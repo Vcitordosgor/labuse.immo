@@ -1,74 +1,24 @@
 ---
-import { NAV, CONTACT_EMAIL } from '../consts';
-import Logo from './Logo.astro';
-
+// Pied de page : présentation, contact, liens. Année générée au build.
 const year = new Date().getFullYear();
-
-// Liens légaux. (CGU à ajouter quand il y aura des conditions contractuelles.)
-const legal = [
-  { href: '/mentions-legales', label: 'Mentions légales' },
-  { href: '/confidentialite', label: 'Politique de confidentialité' },
-];
 ---
-
-<footer class="border-t border-white/5 bg-bg">
-  <div class="mx-auto max-w-content px-5 py-14 sm:px-8">
-    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
-      <!-- Marque -->
-      <div>
-        <a href="/" class="flex items-center gap-3 font-bold tracking-[.34em] text-ink" aria-label="LA BUSE — accueil">
-          <Logo class="h-[14px] w-auto text-green" />
-          <span class="text-[17px]">LA&nbsp;BUSE</span>
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-top">
+      <div class="ftr-brand">
+        <a class="logo" href="/" aria-label="LABUSE — accueil">
+          <svg viewBox="0 8 240 54" fill="currentColor" aria-hidden="true"><path d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></svg>
+          <span class="wm">LA<b>BUSE</b></span>
         </a>
-        <p class="mt-5 max-w-[320px] text-[15px] leading-relaxed text-muted">
-          Intelligence foncière pour promoteurs, bailleurs et investisseurs, à La Réunion.
-          Tout le foncier de l’île au même endroit — parcelle par parcelle, chaque réponse sourcée.
-        </p>
+        <p class="ftr-pitch">LABUSE réunit au même endroit ce qu’il faut savoir sur un terrain à La Réunion&nbsp;: cadastre, zonage du PLU, risques naturels, ventes et permis de construire, chaque information avec sa source. Les 24 communes de l’île, du littoral aux Hauts.</p>
+        <p class="ftr-contact"><a class="hf" href="mailto:contact@labuse.immo">contact@labuse.immo</a><span>Réponse sous 24 h ouvrées · La Réunion (974)</span></p>
       </div>
-
-      <!-- Navigation -->
-      <nav aria-label="Liens du site">
-        <p class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-muted" aria-hidden="true">Le site</p>
-        <ul class="mt-4 flex flex-col gap-3">
-          {
-            NAV.map((item) => (
-              <li>
-                <a href={item.href} class="inline-block py-1 text-[15px] text-[#c3cdc7] transition-colors hover:text-green">
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
+      <nav class="ftr-cols" aria-label="Pied de page">
+        <div><p class="ftr-h">Le site</p><ul><li><a class="hf" href="/#outil">L’outil en vidéo</a></li><li><a class="hf" href="/#fraicheur">Fraîcheur des données</a></li><li><a class="hf" href="/#reunion">Les 24 communes</a></li><li><a class="hf" href="/#questions">Questions fréquentes</a></li><li><a class="hf" href="/#contact">Contact</a></li></ul></div>
+        <div><p class="ftr-h">Offres</p><ul><li><a class="hf" href="/#contact" data-pre="flash">Commander un rapport Flash</a></li><li><a class="hf" href="/#contact" data-pre="demo">Demander une démo</a></li><li><a class="hf" href="/#tarifs">Tarifs</a></li><li><a class="hf" href="https://app.labuse.immo/login">Se connecter</a></li></ul><p class="ftr-note">L’app s’utilise sur ordinateur&nbsp;; le rapport Flash se lit partout.</p></div>
+        <div><p class="ftr-h">Informations</p><ul><li><a class="hf" href="/mentions-legales/">Mentions légales</a></li><li><a class="hf" href="/confidentialite/">Politique de confidentialité</a></li><li><a class="hf" href="mailto:contact@labuse.immo">Nous écrire</a></li></ul></div>
       </nav>
-
-      <!-- Contact + légal -->
-      <div>
-        <p class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-muted" aria-hidden="true">Contact</p>
-        <ul class="mt-4 flex flex-col gap-3">
-          <li>
-            <a href={`mailto:${CONTACT_EMAIL}`} class="text-[15px] text-[#c3cdc7] transition-colors hover:text-green">
-              {CONTACT_EMAIL}
-            </a>
-          </li>
-          <li class="text-[15px] text-muted">La Réunion (974)</li>
-        </ul>
-      </div>
     </div>
-
-    <div class="mt-12 flex flex-col gap-4 border-t border-white/5 pt-6 text-[13px] text-muted md:flex-row md:items-center md:justify-between">
-      <p>© {year} LA BUSE · Fait à La Réunion.</p>
-      <ul class="flex flex-wrap gap-x-6 gap-y-2">
-        {
-          legal.map((item) => (
-            <li>
-              <a href={item.href} class="inline-block py-1.5 transition-colors hover:text-green">
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+    <div class="ftr-bot"><span>© {year} LABUSE · Fait à La Réunion</span><span>Créé pour La Réunion, et uniquement pour elle.</span></div>
   </div>
 </footer>

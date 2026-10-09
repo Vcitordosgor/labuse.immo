@@ -1,32 +1,353 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Constat from '../components/Constat.astro';
-import Features from '../components/Features.astro';
-import HowItWorks from '../components/HowItWorks.astro';
-import DataLayers from '../components/DataLayers.astro';
-import KeyFigures from '../components/KeyFigures.astro';
-import Audience from '../components/Audience.astro';
-import FinalCTA from '../components/FinalCTA.astro';
-import Contact from '../components/Contact.astro';
-import TrustBar from '../components/TrustBar.astro';
-import Footer from '../components/Footer.astro';
+
+const SITE = 'https://labuse.immo';
+const title = 'Tout le foncier de La Réunion au même endroit | LABUSE';
+const description = 'LABUSE, l’outil d’analyse foncière de La Réunion : cadastre, PLU, risques, ventes et permis des 24 communes. Rapport Flash d’un terrain : 79 € HT.';
+
+// Une seule offre à prix public : le Flash, 79 € HT, exactement comme affiché dans #tarifs.
+// L'Intégral (abonnement sans prix public) ne produit pas d'Offer.
+const application = {
+  '@type': 'SoftwareApplication',
+  '@id': `${SITE}/#application`,
+  name: 'LABUSE',
+  alternateName: 'LA BUSE',
+  url: `${SITE}/`,
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Analyse foncière',
+  operatingSystem: 'Web',
+  inLanguage: 'fr-FR',
+  description: 'Outil d’analyse foncière réservé à La Réunion : cadastre, zonage du PLU, risques naturels, ventes et permis de construire des 24 communes, réunis sur une carte.',
+  areaServed: { '@type': 'AdministrativeArea', name: 'La Réunion' },
+  featureList: [
+    '431 663 parcelles couvertes sur les 24 communes de La Réunion',
+    '59 couches cartographiques',
+    '16 outils fonciers',
+    'Rapport Flash d’un terrain en PDF, sources citées',
+  ],
+  publisher: { '@id': `${SITE}/#organisation` },
+  offers: {
+    '@type': 'Offer',
+    name: 'Flash, le rapport d’un terrain',
+    description: 'Rapport PDF daté d’un terrain à La Réunion : urbanisme, risques, marché et alentours, sources citées. Une adresse suffit. Paiement unique, sans compte ni abonnement.',
+    url: `${SITE}/#tarifs`,
+    price: '79.00',
+    priceCurrency: 'EUR',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: '79.00',
+      priceCurrency: 'EUR',
+      valueAddedTaxIncluded: false,
+    },
+    availability: 'https://schema.org/InStock',
+    seller: { '@id': `${SITE}/#organisation` },
+  },
+};
 ---
 
-<BaseLayout>
-  <Header />
-  <main id="contenu">
-    <Hero />
-    <Constat />
-    <Features />
-    <HowItWorks />
-    <DataLayers />
-    <KeyFigures />
-    <Audience />
-    <FinalCTA />
-    <Contact />
-    <TrustBar />
-  </main>
-  <Footer />
+<BaseLayout home title={title} description={description} schemas={[application]}>
+<main id="contenu">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <h1>Tout le foncier de La Réunion. <span class="m blk">Au même endroit.</span></h1>
+          <p class="lead">Urbanisme, risques, ventes, permis : tout ce qu’il faut savoir sur un terrain, en un clic.</p>
+          <div class="ctas">
+            <a class="btn btn-p" href="#contact" data-pre="demo">Demander une démo
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn-s" href="#contact" data-pre="flash">Commander un Flash</a>
+          </div>
+        </div>
+        <div class="radar-wrap" id="radar">
+          <div class="radar" role="img" aria-label="Radar animé sur l’île de La Réunion : les terrains sont repérés au fil du balayage.">
+            <div class="ticks" aria-hidden="true"></div>
+            <div class="sweep" aria-hidden="true"></div>
+            <div class="island" aria-hidden="true">
+              <svg viewBox="0 0 500 440" xmlns="http://www.w3.org/2000/svg">
+                <path class="coast" d="M47.8 204.6 L30.6 190.6 L23.1 180.5 L23.8 166.4 L26.9 162.8 L25.5 163.6 L23.4 160.1 L20.0 151.2 L33.8 136.4 L42.1 137.9 L49.6 135.2 L64.4 123.9 L69.1 106.9 L65.1 89.7 L67.3 85.2 L68.1 76.4 L69.9 76.8 L68.8 82.6 L70.0 77.5 L71.7 79.0 L72.3 74.7 L73.9 75.0 L72.8 74.3 L74.2 73.3 L71.8 73.0 L73.0 71.7 L71.2 71.6 L71.6 75.5 L69.4 75.2 L69.6 68.9 L72.3 66.6 L85.0 70.6 L95.4 69.9 L96.2 72.1 L92.6 73.5 L100.2 75.2 L100.4 70.9 L98.8 70.6 L97.9 68.5 L99.5 70.1 L104.4 69.7 L114.8 65.4 L120.4 57.4 L126.3 54.8 L133.4 48.0 L152.3 35.5 L171.7 30.0 L186.0 31.6 L194.0 28.0 L207.7 37.2 L222.5 38.3 L232.4 35.8 L257.5 42.6 L256.5 43.6 L261.1 45.0 L267.8 45.5 L273.9 42.6 L284.9 44.2 L290.9 47.1 L298.8 45.9 L319.7 56.9 L325.9 56.8 L339.8 60.5 L353.4 68.6 L366.2 81.8 L376.3 97.8 L379.1 107.3 L380.7 136.5 L384.4 143.9 L392.2 147.1 L398.3 156.8 L402.6 160.2 L401.9 167.7 L407.4 176.2 L420.0 189.2 L425.1 197.8 L431.6 202.5 L438.0 213.6 L442.4 216.4 L446.6 215.4 L452.9 217.6 L460.1 225.0 L472.0 229.7 L473.6 236.3 L478.8 242.2 L477.4 250.3 L480.0 259.2 L476.5 261.5 L472.0 261.2 L471.2 273.9 L463.3 282.1 L459.1 292.0 L458.8 300.3 L454.0 315.8 L455.6 330.0 L459.0 336.3 L455.7 353.0 L457.4 365.2 L459.7 368.6 L458.2 373.0 L450.5 383.3 L434.5 394.4 L420.5 392.5 L416.1 396.0 L398.7 397.6 L385.1 402.6 L364.9 401.2 L357.0 407.9 L348.3 407.2 L339.1 412.0 L335.5 408.4 L329.2 407.0 L311.3 410.4 L303.0 404.1 L296.7 402.3 L294.5 398.9 L283.6 402.1 L271.4 398.6 L268.1 401.0 L266.9 398.1 L258.8 393.2 L247.7 391.1 L231.0 383.3 L221.4 383.0 L218.4 384.6 L214.4 378.1 L207.9 378.8 L200.2 376.3 L196.2 371.5 L196.7 369.2 L192.3 366.8 L178.3 365.3 L170.6 361.7 L164.6 356.5 L160.7 349.7 L149.1 339.9 L131.5 334.3 L112.1 332.1 L108.0 329.2 L105.7 325.7 L107.5 323.5 L104.5 315.1 L96.7 310.6 L97.5 308.0 L89.8 301.3 L76.6 293.6 L70.8 276.9 L67.4 273.4 L72.4 258.9 L72.1 242.5 L67.9 236.9 L61.5 234.7 L59.7 229.7 L60.3 220.9 L47.1 207.7 L47.8 204.6 Z"/>
+                <circle class="phot-ring" cx="108.2" cy="250.0" r="26"/>
+                <circle class="phot-ring" cx="108.2" cy="250.0" r="16" style="animation-delay:.7s"/>
+                <circle class="phot" cx="108.2" cy="250.0" r="7"/>
+                <circle class="pdot" cx="250" cy="215" r="4.4" style="animation-delay:1.93s"/>
+                <circle class="pdot" cx="171.8" cy="91.5" r="4.9" style="animation-delay:1.92s"/>
+                <circle class="pdot" cx="265.9" cy="170.6" r="3.4" style="animation-delay:1.21s"/>
+                <circle class="pdot" cx="216.5" cy="340.3" r="4.4" style="animation-delay:2.34s"/>
+                <circle class="pring" cx="216.5" cy="340.3" r="10.9" style="animation-delay:2.34s"/>
+                <circle class="pdot" cx="83.0" cy="118.2" r="4.2" style="animation-delay:0.64s"/>
+                <circle class="pdot" cx="306.6" cy="384.8" r="4.3" style="animation-delay:0.03s"/>
+                <circle class="pring" cx="306.6" cy="384.8" r="10.8" style="animation-delay:0.03s"/>
+                <circle class="pdot" cx="165.0" cy="336.3" r="3.8" style="animation-delay:2.38s"/>
+                <circle class="pdot" cx="311.7" cy="173.0" r="3.7" style="animation-delay:2.07s"/>
+                <circle class="pring" cx="311.7" cy="173.0" r="10.2" style="animation-delay:2.07s"/>
+                <circle class="pdot" cx="271.2" cy="59.1" r="4.4" style="animation-delay:0.33s"/>
+                <circle class="pring" cx="271.2" cy="59.1" r="10.9" style="animation-delay:0.33s"/>
+                <circle class="pdot" cx="330.1" cy="193.4" r="4.8" style="animation-delay:0.54s"/>
+                <circle class="pring" cx="330.1" cy="193.4" r="11.3" style="animation-delay:0.54s"/>
+                <circle class="pdot" cx="167.5" cy="251.5" r="5.0" style="animation-delay:2.27s"/>
+                <circle class="pring" cx="167.5" cy="251.5" r="11.5" style="animation-delay:2.27s"/>
+                <circle class="pdot" cx="229.2" cy="146.3" r="4.9" style="animation-delay:1.4s"/>
+                <circle class="pdot" cx="380.7" cy="293.2" r="3.7" style="animation-delay:2.45s"/>
+                <circle class="pdot" cx="136.4" cy="247.4" r="4.9" style="animation-delay:2.32s"/>
+                <circle class="pring" cx="136.4" cy="247.4" r="11.4" style="animation-delay:2.32s"/>
+                <circle class="pdot" cx="261.2" cy="358.1" r="4.0" style="animation-delay:0.43s"/>
+                <circle class="pring" cx="261.2" cy="358.1" r="10.5" style="animation-delay:0.43s"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L'APP DANS L'ORDINATEUR -->
+  <span id="produit" class="anchor-alias" aria-hidden="true"></span><span id="methode" class="anchor-alias" aria-hidden="true"></span>
+  <section id="outil" aria-labelledby="outil-titre" style="padding-bottom:clamp(64px,8vw,104px)">
+    <div class="wrap">
+      <h2 class="sr-only" id="outil-titre">LABUSE en vidéo : la carte, la fiche d’un terrain, son dossier PDF, les risques et le zonage du PLU</h2>
+      <div class="laptop">
+        <div class="lid">
+          <div class="screen">
+            <video id="promo" autoplay muted loop playsinline preload="metadata" poster="/video/poster.jpg" aria-label="Vidéo : le logo LABUSE prend son envol, on zoome sur la carte, on passe en vue aérienne, on ouvre la fiche d’un terrain puis son dossier PDF, on affiche les risques sur toute l’île, puis le zonage du PLU parcelle par parcelle."><source src="/video/labuse-promo.mp4" type="video/mp4"></video>
+          </div>
+        </div>
+        <div class="base" aria-hidden="true"></div>
+      </div>
+
+      <div class="figs" id="chiffres">
+        <div class="fig hf"><div class="v num">431&nbsp;663</div><div class="l">parcelles couvertes</div></div>
+        <div class="fig hf"><div class="v num">99</div><div class="l">sources de données</div></div>
+        <div class="fig hf"><div class="v num">59</div><div class="l">couches cartographiques</div></div>
+        <div class="fig hf"><div class="v num">24</div><div class="l">communes</div></div>
+        <div class="fig hf"><div class="v num">16</div><div class="l">outils fonciers</div></div>
+        <div class="fig hf"><div class="v num">2,6&nbsp;M+</div><div class="l">données publiques intégrées</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVANT / APRÈS -->
+  <section class="sec punch">
+    <div class="wrap">
+      <h2>Des onglets, des PDF, des heures à tout recouper. Pour un seul terrain. <span class="m">C’est fini.</span></h2>
+      <div class="ba">
+        <div class="before">
+          <p class="cap">Aujourd’hui</p>
+          <ul class="tabs" aria-label="Les sites à consulter pour un seul terrain">
+            <li class="tab">cadastre.gouv.fr</li>
+            <li class="tab">Géoportail Urbanisme</li>
+            <li class="tab">georisques.gouv.fr</li>
+            <li class="tab">DEAL Réunion</li>
+            <li class="tab">explore.data.gouv.fr</li>
+            <li class="tab">Sitadel · data.gouv.fr</li>
+            <li class="tab">Annuaire Entreprises</li>
+            <li class="tab">bodacc.fr</li>
+            <li class="tab">cartes.gouv.fr</li>
+            <li class="tab">Annonces immobilières</li>
+          </ul>
+        </div>
+        <div class="after">
+          <p class="cap" style="color:var(--mint)">Avec LABUSE</p>
+          <span class="one"><svg viewBox="0 0 240 82" fill="currentColor" aria-hidden="true"><path d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></svg>app.labuse.immo</span>
+          <p>Un onglet. Un clic sur le terrain.<br><b>Tout est déjà là.</b></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAÎCHEUR DES DONNÉES -->
+  <span id="donnees" class="anchor-alias" aria-hidden="true"></span>
+  <section class="sec alt" id="fraicheur">
+    <div class="wrap">
+      <div class="fr">
+        <h2>Chez LABUSE, vous êtes sûr d’avoir <span class="m">la dernière donnée en date.</span></h2>
+        <p class="lead">C’est notre engagement&nbsp;: nous suivons les sources officielles de près, pour que rien ne vous échappe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LA RÉUNION -->
+  <section class="sec" id="reunion">
+    <div class="wrap">
+      <div class="run">
+        <div>
+          <h2>Créé pour La Réunion. <span class="m blk">Uniquement pour La Réunion.</span></h2>
+          <p class="lead">Pas un outil national adapté à l’île : ici, La Réunion n’est pas une note de bas de page, c’est tout le sujet.</p>
+        </div>
+        <div>
+          <div class="coms" aria-label="Les 24 communes analysées">
+            <span class="com">Les Avirons</span><span class="com">Bras-Panon</span><span class="com">Cilaos</span><span class="com">Entre-Deux</span><span class="com">L’Étang-Salé</span><span class="com">Petite-Île</span><span class="com">La Plaine-des-Palmistes</span><span class="com">Le Port</span><span class="com">La Possession</span><span class="com">Saint-André</span><span class="com">Saint-Benoît</span><span class="com">Saint-Denis</span><span class="com">Saint-Joseph</span><span class="com">Saint-Leu</span><span class="com">Saint-Louis</span><span class="com">Saint-Paul</span><span class="com">Saint-Philippe</span><span class="com">Saint-Pierre</span><span class="com">Sainte-Marie</span><span class="com">Sainte-Rose</span><span class="com">Sainte-Suzanne</span><span class="com">Salazie</span><span class="com">Le Tampon</span><span class="com">Les Trois-Bassins</span>
+          </div>
+          <p class="coms-note">24 communes · 431&nbsp;663 parcelles · 21°06′ S · 55°32′ E</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LE MARCHÉ RÉUNIONNAIS -->
+  <section class="sec alt" id="marche">
+    <div class="wrap">
+      <div class="head">
+        <h2>La Réunion, un marché porteur. <span class="m blk">Et un foncier qui se mérite.</span></h2>
+        <p class="lead">Toujours plus d’habitants, toujours aussi peu de place&nbsp;: ici, chaque terrain compte. Pour trouver le bon avant les autres, il faut connaître l’île par cœur. C’est notre métier.</p>
+      </div>
+      <div class="mk">
+        <div class="mk-c"><div class="v num">1&nbsp;million</div><p class="l">d’habitants vers 2044, si les tendances récentes se prolongent</p><p class="s">Insee, projections 2022</p></div>
+        <div class="mk-c"><div class="v num">172&nbsp;500</div><p class="l">logements à construire entre 2021 et 2050, soit environ 5&nbsp;900 par an</p><p class="s">Insee et DEAL Réunion, 2024</p></div>
+        <div class="mk-c"><div class="v num">+0,6&nbsp;%</div><p class="l">de population en plus chaque année en moyenne, de 2018 à 2050, contre +0,1&nbsp;% en métropole</p><p class="s">Insee, projections 2022</p></div>
+        <div class="mk-c"><div class="v num">42&nbsp;%</div><p class="l">de l’île classée dans le cœur du Parc national</p><p class="s">Parc national de La Réunion</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTIERS -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="head">
+        <h2>Vous travaillez le foncier réunionnais ? <span class="m blk">LABUSE travaille pour vous.</span></h2>
+        <p class="lead">Promoteurs, lotisseurs, agents immobiliers, bailleurs, apporteurs d’affaires, notaires : dès qu’un terrain compte dans votre décision, LABUSE vous fait gagner du temps.</p>
+      </div>
+      <div class="jobs">
+        <span class="job hf">Promoteurs immobiliers</span><span class="job hf">Lotisseurs</span><span class="job hf">Aménageurs</span><span class="job hf">Marchands de biens</span><span class="job hf">Bailleurs sociaux</span><span class="job hf">SEM et SPL</span><span class="job hf">Établissements publics fonciers</span><span class="job hf">Constructeurs de maisons individuelles</span><span class="job hf">Agents immobiliers</span><span class="job hf">Apporteurs d’affaires</span><span class="job hf">Notaires</span><span class="job hf">Géomètres-experts</span><span class="job hf">Architectes</span><span class="job hf">Maîtres d’œuvre</span><span class="job hf">Bureaux d’études</span><span class="job hf">Experts fonciers et immobiliers</span><span class="job hf">Avocats en droit immobilier</span><span class="job hf">Investisseurs immobiliers</span><span class="job hf">Foncières</span><span class="job hf">Collectivités et services d’urbanisme</span><span class="job hf">Développeurs d’énergies renouvelables</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TARIFS -->
+  <section class="sec alt" id="tarifs">
+    <div class="wrap">
+      <div class="head">
+        <h2>Un terrain, <span class="m">ou toute l’île.</span></h2>
+      </div>
+      <div class="offers">
+        <article class="offer">
+          <div class="offer-body">
+            <p class="nm">Flash</p>
+            <h3>Le rapport d’un terrain</h3>
+            <p class="price"><b class="num">79 € HT</b><span>paiement unique</span></p>
+            <ul class="incl">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Une adresse suffit</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Urbanisme, risques, marché et alentours</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Un PDF daté, sources citées</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sans compte ni abonnement</li>
+            </ul>
+            <a class="btn btn-p" href="#contact" data-pre="flash">Commander un Flash</a>
+          </div>
+        </article>
+        <article class="offer">
+          <div class="offer-body">
+            <p class="nm">Intégral</p>
+            <h3>L’outil complet</h3>
+            <p class="price"><b>Abonnement</b><span>mensuel, sans engagement</span></p>
+            <ul class="incl">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Toute l’île, ses 24 communes</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Carte, 16 outils, Copilote et Radar</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Projets, CRM et documents</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Démo : 48 h d’accès complet</li>
+            </ul>
+            <a class="btn btn-p" href="#contact" data-pre="demo">Demander une démo</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="questions">
+    <div class="wrap">
+      <div class="head">
+        <h2>Vous vous demandez peut-être…</h2>
+      </div>
+      <div class="faq">
+        <details><summary class="hf">Comment se passe la démo ?<span class="arr" aria-hidden="true">+</span></summary><p>Vous avez accès à tout LABUSE pendant 48 h : la carte, les outils, le Copilote, les documents. Sans engagement.</p></details>
+        <details><summary class="hf">Les données sont-elles à jour ?<span class="arr" aria-hidden="true">+</span></summary><p>Oui, c’est notre engagement&nbsp;: vous travaillez sur la dernière donnée en date. Sur la fiche, les données affichent leur source.</p></details>
+        <details><summary class="hf">LABUSE dit-il si un terrain est constructible ?<span class="arr" aria-hidden="true">+</span></summary><p>Il vous dit ce que permet la zone du PLU (constructible, à urbaniser, agricole ou naturelle), avec les risques et les contraintes connues : vous savez vite si le terrain mérite d’aller plus loin. Pour une réponse qui engage, c’est le certificat d’urbanisme de la mairie.</p></details>
+        <details><summary class="hf">Voit-on qui possède un terrain ?<span class="arr" aria-hidden="true">+</span></summary><p>Oui, quand le propriétaire est une personne morale (société, collectivité, association…). Un particulier n’est jamais nommé.</p></details>
+        <details><summary class="hf">Puis-je utiliser LABUSE sur mon téléphone ?<span class="arr" aria-hidden="true">+</span></summary><p>L’app s’utilise sur ordinateur : la carte a besoin de place. Le rapport Flash, lui, est un PDF qui se lit partout.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="sec alt" id="contact">
+    <div class="wrap">
+      <div class="ct">
+        <div>
+          <h2>Une question ? <span class="m blk">Écrivez-nous.</span></h2>
+          <p class="lead" style="margin-top:18px">Démo, Flash ou simple question : nous vous répondons sous 24 h ouvrées.</p>
+          <div class="mail"><p class="cap">Par e-mail</p><span>contact@labuse.immo</span></div>
+        </div>
+        <form class="form" id="cf" novalidate>
+          <div class="hp" aria-hidden="true"><label>Ne pas remplir <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <div class="fgrid">
+            <div class="fld"><label for="f-nom">Nom *</label><input id="f-nom" name="nom" autocomplete="name" required placeholder="Votre nom"></div>
+            <div class="fld"><label for="f-ent">Entreprise</label><input id="f-ent" name="entreprise" autocomplete="organization" placeholder="Facultatif"></div>
+            <div class="fld"><label for="f-tel">Téléphone *</label><input id="f-tel" name="telephone" type="tel" autocomplete="tel" required placeholder="0692 12 34 56"></div>
+            <div class="fld"><label for="f-mail">E-mail *</label><input id="f-mail" name="email" type="email" autocomplete="email" required placeholder="vous@societe.re"></div>
+          </div>
+          <div class="fld"><label for="f-msg">Message *</label><textarea id="f-msg" name="message" required placeholder="Votre message"></textarea></div>
+          <button class="btn btn-p" type="submit">Envoyer</button>
+          <p class="status" id="cf-status" role="status" aria-live="polite"></p>
+          <p class="fine">* Champs obligatoires. Vos informations servent à vous répondre et à suivre notre échange. <a href="/confidentialite/">Politique de confidentialité</a>.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
 </BaseLayout>
+
+<script>
+(() => {
+  // Radar : animations en pause hors écran
+  const r = document.getElementById('radar');
+  if (r && 'IntersectionObserver' in window) {
+    new IntersectionObserver((es) => es.forEach((e) => r.classList.toggle('radar-paused', !e.isIntersecting))).observe(r);
+  }
+  // Vidéo : figée si l'utilisateur réduit les animations
+  const v = document.getElementById('promo');
+  if (v && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
+  // Boutons Démo / Flash : amorce du message, sans choix d'offre dans le formulaire
+  const msg = document.getElementById('f-msg');
+  // Arrivée depuis une autre page avec ?pre=demo|flash
+  const q = new URLSearchParams(location.search).get('pre');
+  const PRE = {
+    demo: 'Bonjour, je souhaite une démo de LABUSE (48 h d’accès).',
+    flash: 'Bonjour, je souhaite commander un Flash pour le terrain situé : ',
+  };
+  const prefill = (k) => { if (!msg.value.trim() || Object.values(PRE).includes(msg.value)) msg.value = PRE[k] || ''; };
+  if (q) prefill(q);
+  document.querySelectorAll('[data-pre]').forEach((a) => a.addEventListener('click', () => prefill(a.dataset.pre)));
+  // Formulaire : envoi au worker /api/contact (mêmes champs et mêmes contrôles que le serveur)
+  const form = document.getElementById('cf');
+  const status = document.getElementById('cf-status');
+  const PHONE = /^[+]?[\d\s().-]{8,20}$/, EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const ERR = { validation: 'Certains champs sont incomplets.', binding_missing: 'Le service d’envoi est momentanément indisponible.', send_failed: 'L’envoi a échoué.' };
+  const FALLBACK = ' Vous pouvez aussi nous écrire à contact@labuse.immo.';
+  const shownAt = Date.now();
+  const say = (t, ok) => { status.textContent = t; status.classList.toggle('ok', !!ok); };
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    if (String(fd.get('website') || '').trim()) { say('Merci, votre message est envoyé.', true); form.reset(); return; }
+    const data = Object.fromEntries(['nom', 'entreprise', 'telephone', 'email', 'message'].map((k) => [k, String(fd.get(k) || '').trim()]));
+    const bad = [];
+    if (!data.nom) bad.push(['nom', 'Indiquez votre nom.']);
+    if (!PHONE.test(data.telephone)) bad.push(['telephone', data.telephone ? 'Ce numéro de téléphone ne semble pas valide.' : 'Indiquez un téléphone.']);
+    if (!EMAIL.test(data.email)) bad.push(['email', data.email ? 'Cette adresse e-mail ne semble pas valide.' : 'Indiquez votre e-mail.']);
+    if (!data.message) bad.push(['message', 'Écrivez votre message.']);
+    form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+    if (bad.length) {
+      bad.forEach(([k]) => form.elements[k].setAttribute('aria-invalid', 'true'));
+      form.elements[bad[0][0]].focus(); say(bad[0][1]); return;
+    }
+    const btn = form.querySelector('button[type=submit]'); btn.disabled = true; say('Envoi en cours…');
+    const wait = 1500 - (Date.now() - shownAt); if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+    try {
+      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      if (!res.ok) { const b = await res.json().catch(() => ({})); say((ERR[b.error] || 'L’envoi a échoué.') + FALLBACK); return; }
+      form.reset(); say('Merci, votre message est envoyé. Nous vous répondons sous 24 h ouvrées.', true);
+    } catch { say('Impossible d’envoyer (problème de réseau).' + FALLBACK); }
+    finally { btn.disabled = false; }
+  });
+})();
+</script>
