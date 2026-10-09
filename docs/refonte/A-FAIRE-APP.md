@@ -63,7 +63,7 @@ même raison.
 > - **Le quartier et le projet** : équipements, réseaux, fiscalité locale, et ce que les règles permettent d'envisager.
 > - **Chaque information porte sa source et sa date.** Quand c'est une estimation, c'est écrit.
 >
-> Onze volets, du plan cadastral au potentiel du terrain. Ce que vous mettriez une journée à rassembler sur cinq sites différents, prêt en quelques secondes.
+> Onze volets, du plan cadastral au potentiel du terrain.
 >
 > [Adresse du bien] — *Une adresse suffit : nous retrouvons la parcelle. Si elle n'aboutit pas, utilisez l'identifiant de parcelle ci-dessous.*
 > [Identifiant de parcelle (IDU)] — *14 caractères, lisible sur cadastre.gouv.fr.*
@@ -86,7 +86,7 @@ même raison.
 > **Payer 79 € et recevoir mon rapport →**
 > ← changer de parcelle
 >
-> Vendu par Victor Lagane EI — contact@labuse.immo
+> Vendu par LABUSE (Victor Lagane EI) — contact@labuse.immo
 > Document d'aide à la décision établi à partir des données publiques. Il ne remplace ni le certificat d'urbanisme délivré par la mairie, ni le conseil d'un notaire.
 
 **À retirer partout sur la page** : « ce qu'on peut y construire », « potentiel
