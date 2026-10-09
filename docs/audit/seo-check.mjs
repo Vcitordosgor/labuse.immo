@@ -66,9 +66,10 @@ for (const [file, exp] of Object.entries(pages)) {
     const offers = [app?.offers ?? []].flat();
     offers.length === 1 ? ok('une seule Offer') : err(`${offers.length} Offer (attendu : 1, le Flash)`);
     const o = offers[0] ?? {};
-    Number(o.price) === 79 && o.priceCurrency === 'EUR' && o.priceSpecification?.valueAddedTaxIncluded === false
-      ? ok('Offer Flash 79 EUR HT') : err(`Offer incohérente : ${JSON.stringify(o)}`);
-    nb(html).includes('79 € HT') ? ok('« 79 € HT » affiché dans la page') : err('« 79 € HT » introuvable dans la page');
+    Number(o.price) === 79 && o.priceCurrency === 'EUR' && o.priceSpecification?.valueAddedTaxIncluded === true
+      ? ok('Offer Flash 79 EUR') : err(`Offer incohérente : ${JSON.stringify(o)}`);
+    nb(html).includes('79 €') ? ok('« 79 € » affiché dans la page') : err('« 79 € » introuvable dans la page');
+    /HT\b/.test(nb(html)) && err('« HT » réapparu : le prix est total, sans TVA à ajouter');
   }
 }
 
@@ -85,7 +86,7 @@ JSON.stringify([...locs].sort()) === JSON.stringify(expected) ? ok(`sitemap = ca
 
 const llms = nb(readFileSync('dist/llms.txt', 'utf-8'));
 for (const re of FORBIDDEN) if (re.test(llms)) err(`llms.txt : mot interdit ${re}`);
-llms.includes('79 € HT') ? ok('llms.txt : Flash 79 € HT') : err('llms.txt : prix du Flash absent');
+llms.includes('79 €') ? ok('llms.txt : Flash 79 €') : err('llms.txt : prix du Flash absent');
 
 // Image de partage : JPEG 1200×630, moins de 300 Ko (lecture du marqueur SOF).
 const jpg = readFileSync('dist/og.jpg');

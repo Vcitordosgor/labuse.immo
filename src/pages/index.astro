@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const SITE = 'https://labuse.immo';
 const title = 'Tout le foncier de La Réunion au même endroit | LABUSE';
-const description = 'LABUSE, l’outil d’analyse foncière de La Réunion : cadastre, PLU, risques, ventes et permis des 24 communes. Rapport Flash d’un terrain : 79 € HT.';
+const description = 'LABUSE, l’outil d’analyse foncière de La Réunion : cadastre, PLU, risques, ventes et permis des 24 communes. Rapport Flash d’un terrain : 79 €.';
 
 // Une seule offre à prix public : le Flash, 79 € HT, exactement comme affiché dans #tarifs.
 // L'Intégral (abonnement sans prix public) ne produit pas d'Offer.
@@ -29,7 +29,7 @@ const application = {
   offers: {
     '@type': 'Offer',
     name: 'Flash, le rapport d’un terrain',
-    description: 'Rapport PDF daté d’un terrain à La Réunion : urbanisme, risques, marché et alentours, sources citées. Une adresse suffit. Paiement unique, sans compte ni abonnement.',
+    description: 'Rapport PDF daté d’un terrain à La Réunion : urbanisme, risques, marché et alentours, sources citées. Une adresse suffit. Paiement unique, sans compte ni abonnement. Prix total, aucune TVA à ajouter.',
     url: `${SITE}/#tarifs`,
     price: '79.00',
     priceCurrency: 'EUR',
@@ -37,7 +37,7 @@ const application = {
       '@type': 'UnitPriceSpecification',
       price: '79.00',
       priceCurrency: 'EUR',
-      valueAddedTaxIncluded: false,
+      valueAddedTaxIncluded: true,
     },
     availability: 'https://schema.org/InStock',
     seller: { '@id': `${SITE}/#organisation` },
@@ -224,7 +224,7 @@ const application = {
           <div class="offer-body">
             <p class="nm">Flash</p>
             <h3>Le rapport d’un terrain</h3>
-            <p class="price"><b class="num">79 € HT</b><span>paiement unique</span></p>
+            <p class="price"><b class="num">79 €</b><span>paiement unique</span></p>
             <ul class="incl">
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Une adresse suffit</li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Urbanisme, risques, marché et alentours</li>
