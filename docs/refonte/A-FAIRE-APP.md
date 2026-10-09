@@ -33,13 +33,81 @@ La page existe déjà et marche sur ordinateur : `https://app.labuse.immo/flash`
 
 | # | Problème | Où regarder | Ce qu'il faut faire | Comment vérifier |
 |---|---|---|---|---|
-| 11 | **Sur téléphone et tablette, /flash affiche « LABUSE est disponible sur ordinateur »** à la place du formulaire : un visiteur mobile du site ne peut pas commander. | `src/labuse/api/coffre_ui.py:237` (charge `/ordinateur.js`) ; `src/labuse/api/onboarding.py:112-145` | Exempter `/flash`, `/flash/retour` et la page « Lien expiré » de ce blocage (par exemple un paramètre de `coffre_ui.page`). | Ouvrir `/flash` en émulation iPhone : le formulaire s'affiche, on va jusqu'au bouton « Payer ». |
+| 11 | **Sur téléphone et tablette, /flash affiche « LABUSE est disponible sur ordinateur »** à la place du formulaire : un visiteur mobile du site ne peut pas commander. **Décision de Vic (09/10) : le message « disponible sur ordinateur » ne doit concerner que l'application elle-même.** Le site vitrine et la page Flash doivent fonctionner sur téléphone. | `src/labuse/api/coffre_ui.py:237` (charge `/ordinateur.js`) ; `src/labuse/api/onboarding.py:112-145` | Exempter `/flash`, `/flash/retour` et la page « Lien expiré » de ce blocage (par exemple un paramètre de `coffre_ui.page`), et vérifier qu'aucune autre page publique ne le porte. Soigner l'affichage de /flash sur petit écran. | Ouvrir `/flash` en émulation iPhone : le formulaire s'affiche, rien ne déborde, on va jusqu'au bouton « Payer ». |
 | 12 | **Le paiement réel n'est pas confirmé.** La checklist de bascule n'est pas cochée et le dernier webhook Stripe reçu date du 24/07 (`/healthz/crons`). | `docs/BASCULE_LIVE_CHECKLIST.md` ; `src/labuse/facturation.py:150-285` | Clé `sk_live`, Price Flash 79 € en live, webhook live, puis un achat réel remboursé. | L'URL de paiement Stripe commence par `cs_live_` (et non `cs_test_`) ; le PDF arrive après l'achat test. |
 | 13 | **Aucune acceptation des CGV avant de payer le Flash.** Les CGV disent « acceptation à la création du compte » et « contrat B2B », mais le Flash se fait sans compte ; l'art. 4 bis invoque une renonciation à la rétractation jamais recueillie. | `src/labuse/facturation.py:176-185` (`creer_checkout_flash`) ; écran de validation dans `onboarding.py:819-961` ; CGV dans `onboarding.py` | Case obligatoire au-dessus de « Payer 79 € » : « J'agis pour les besoins de mon activité professionnelle et j'accepte les conditions générales de vente ». Enregistrer la version des CGV et l'heure d'acceptation dans `flash_commandes`. Retirer la renonciation de l'art. 4 bis ; dire dans les CGV que pour le Flash, l'acceptation se fait avant le paiement. | Impossible de payer sans cocher ; la commande en base porte la version et l'heure. |
 | 14 | **L'e-mail « Flash prêt » n'est jamais envoyé**, alors que la page de retour dit après 2 minutes « le lien vous parviendra par e-mail ». Un acheteur qui ferme l'onglet perd son lien. | `src/labuse/brevo.py:89` (modèle `flash_pret`, aucun appelant) ; `/flash-retour.js` (`onboarding.py:158-201`) ; `_flash_fulfill` (`facturation.py:194`) | Envoyer l'e-mail à la fin de `_flash_fulfill`, avec le lien de téléchargement. Sinon, retirer la phrase. | Achat test : l'e-mail arrive avec un lien qui marche. |
-| 15 | Textes de /flash à reprendre : « ce qu'on peut y construire » et « potentiel constructible chiffré » promettent trop ; « votre contact LABUSE » n'est pas une adresse ; l'identité du vendeur n'est pas affichée ; le prix est « 79 € » ici, « 79 € HT » sur le site, « TTC » dans `config.py`. | `onboarding.py:819-961` ; `config.py:186-192` | Formulations non garanties (« le zonage et les règles du PLU qui s'appliquent ») ; écrire contact@labuse.immo ; afficher « Vendu par Victor Lagane EI » et les étapes près de l'offre ; aligner le libellé du prix sur « 79 € HT ». | Relire la page /flash. |
-| 16 | La recherche par adresse échoue souvent (« aucune parcelle cadastrale à ce point ») : 4 adresses sur 7 testées, et l'exemple affiché par la page elle-même (« 12 rue de la Gare, Saint-André ») échoue. Un IDU tapé dans le champ adresse est refusé. | `onboarding.py:819-961` ; `src/labuse/geocode.py` | Si le point BAN tombe hors parcelle (voirie), prendre la parcelle la plus proche dans un rayon court et la faire valider ; reconnaître un IDU dans le champ adresse ; changer l'exemple. | Les 7 adresses du test aboutissent. |
+| 15 | **Textes de /flash à réécrire** (texte complet proposé plus bas). Aujourd'hui la page promet « ce qu'on peut y construire » et un « potentiel constructible chiffré », ce que le site a justement retiré ; elle affiche « 79 € » sans HT, signe « Radar foncier » au lieu de LABUSE, et n'indique ni le vendeur ni les étapes de la commande. | `onboarding.py:819-961` ; `config.py:186-192` | Appliquer le texte proposé à la fin de ce document. | Relire la page /flash et la page de validation. |
+| 16 | **Un seul champ de saisie, un seul bouton** (décision de Vic, 09/10) : la page demande deux fois la même chose. Le champ unique doit accepter une adresse, un IDU à 14 caractères, ou une référence « commune + section + numéro » (« Saint-Paul CW 658 »). Au passage, la recherche par adresse échoue souvent (« aucune parcelle cadastrale à ce point ») : 4 adresses sur 7 testées, et l'exemple affiché par la page elle-même (« 12 rue de la Gare, Saint-André ») échoue. | `onboarding.py:819-961` ; `src/labuse/geocode.py` | Fusionner les deux champs et reconnaître la nature de la saisie. Si le point BAN tombe hors parcelle (voirie), prendre la parcelle la plus proche dans un rayon court et la faire valider. Quand rien n'est trouvé, le dire et proposer la référence cadastrale. Changer l'exemple affiché. | Les 7 adresses du test aboutissent ; un IDU et une référence « Saint-Paul CW 658 » aboutissent dans le même champ. |
 | 17 | `https://app.labuse.immo/flash/` (avec la barre finale) répond 401 « Authentification requise ». | `src/labuse/api/auth.py:44` (`_PUBLIC`) | Rediriger `/flash/` vers `/flash`. | `curl -I https://app.labuse.immo/flash/` donne 301 ou 308. |
+
+## Texte proposé pour la page /flash
+
+Écrit le 09/10/2026, à la demande de Vic : plus désirable, et vrai. Deux promesses de
+la page actuelle sont retirées parce que LABUSE ne les tient pas — « ce qu'on peut y
+construire » et « potentiel constructible chiffré » : l'app donne les règles qui
+s'appliquent, pas un feu vert à construire. Le site vitrine les a retirées pour la
+même raison.
+
+**Écran de saisie**
+
+> # Rapport Flash
+> ### Tout ce qu'il faut savoir sur un terrain, dans un seul PDF.
+>
+> **79 €** · paiement unique *(sans « HT » : le jour où la TVA s'appliquera, le prix affiché ne bougera pas)*
+>
+> - **Le terrain** : surface, bâti, plan cadastral et vue aérienne. Et quand le propriétaire est une société, sa dénomination et son SIREN.
+> - **Le droit du sol** : la zone du PLU, les règles qui s'y appliquent, la hauteur et l'emprise autorisées, les servitudes repérées.
+> - **Les risques** : inondation, mouvement de terrain, littoral, et les plans de prévention qui couvrent la parcelle.
+> - **Le marché** : les ventes faites autour, le prix au m² du secteur, les permis déposés par les voisins.
+> - **Le quartier et le projet** : équipements, réseaux, fiscalité locale, et ce que les règles permettent d'envisager.
+> - **Chaque information porte sa source et sa date.** Quand c'est une estimation, c'est écrit.
+>
+> Onze volets, du plan cadastral au potentiel du terrain.
+>
+> **Quelle parcelle ?**
+> [Adresse du bien] — **avec complétion pendant la frappe, exactement comme la recherche de la carte** (api-adresse.data.gouv.fr) : le visiteur tape « 3 chemin de la citerne » et on lui propose cette voie dans chaque commune de l'île, sous la forme « ADRESSE · 3 Chemin de la Citerne · 97417 Saint-Denis ». Classement : la voie qui commence par ce qui est tapé d'abord, puis la plus courte. L'acheteur choisit une adresse existante : beaucoup moins d'échecs de recherche.
+> — ou —
+> [Référence cadastrale] — *exemple affiché : 97415000AS0772.* Accepte l'IDU à 14 caractères comme une référence « commune + section + numéro ».
+>
+> Dès qu'un champ est rempli, l'autre disparaît. Un seul bouton : **Voir ma parcelle →**
+>
+> Vous verrez la parcelle avant de payer. Rien n'est débité à cette étape.
+
+**Écran de validation** — l'acheteur reconnaît son terrain sur une **vue aérienne**, pas sur une ligne de chiffres (décision de Vic, 09/10). Image : IGN Géoplateforme, couche `HR.ORTHOIMAGERY.ORTHOPHOTOS`, déjà utilisée par la carte. Contour : la géométrie cadastrale de la parcelle, assombrissement autour, trait vert. Maquette : https://claude.ai/artifact/SQFxbcDTWU1Jup1ULjAHMx
+
+> # Est-ce le bon terrain ?
+>
+> [vue aérienne, parcelle entourée]
+> **CW 0658** — Saint-Paul · 25 633 m² · *Vue aérienne IGN*
+>
+>
+> - Livré dès le paiement. Le lien de téléchargement reste valable 30 jours.
+> - Paiement unique de **79 € HT**. Pas d'abonnement, pas de compte à créer.
+> - Aucune donnée de carte ne passe par LABUSE : le paiement est traité par Stripe.
+>
+> ☐ *J'agis pour les besoins de mon activité professionnelle et j'accepte les [conditions générales de vente].* (case obligatoire, voir le point 13)
+>
+> **Payer 79 € et recevoir mon rapport →**
+> ← changer de parcelle
+>
+> Vendu par LABUSE (CLOSING CREST) · contact@labuse.immo
+> Prix total, sans TVA à ajouter — TVA non applicable, article 293 B du CGI.
+> Document d'aide à la décision établi à partir des données publiques. Il ne remplace ni le certificat d'urbanisme délivré par la mairie, ni le conseil d'un notaire.
+
+**À retirer partout sur la page** : « ce qu'on peut y construire », « potentiel
+constructible chiffré », « Radar foncier » (ancienne signature, remplacer par LABUSE) et
+« votre contact LABUSE » (écrire contact@labuse.immo).
+
+**À vérifier au passage** : l'app affiche 27 156 m² pour la parcelle CW 0658 de Saint-Paul,
+alors que la contenance cadastrale officielle (apicarto.ign.fr) est de 25 633 m², soit 6 %
+d'écart. Surface calculée depuis la géométrie plutôt que lue au cadastre ? C'est la surface
+affichée à l'acheteur avant qu'il paie, et celle du dossier.
+
+**Une phrase à ne pas écrire tant que la priorité 1 n'est pas faite** : « la donnée la
+plus fraîche ». Le texte ci-dessus dit seulement que chaque information porte sa source
+et sa date, ce qui est vrai aujourd'hui. Une fois les points 1 à 6 réglés, on pourra
+ajouter la promesse du site : « vous travaillez sur la dernière donnée en date ».
 
 ## Priorité 3 : données personnelles (pour que la politique de confidentialité reste vraie)
 

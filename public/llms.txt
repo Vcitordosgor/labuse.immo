@@ -10,7 +10,7 @@
 
 ## Offres
 
-- [Flash, le rapport d’un terrain](https://labuse.immo/#tarifs): 79 € HT, paiement unique, sans compte ni abonnement. Une adresse suffit. Un PDF daté, sources citées : urbanisme, risques, marché et alentours.
+- [Flash, le rapport d’un terrain](https://labuse.immo/#tarifs): 79 €, paiement unique, prix total sans TVA à ajouter, sans compte ni abonnement. Une adresse suffit. Un PDF daté, sources citées : urbanisme, risques, marché et alentours.
 - [Intégral, l’outil complet](https://labuse.immo/#tarifs): abonnement mensuel sans engagement, tarif sur demande. Toute l’île et ses 24 communes ; carte, 16 outils, Copilote et Radar ; projets, CRM et documents. Démo : 48 h d’accès complet.
 
 ## Pages
