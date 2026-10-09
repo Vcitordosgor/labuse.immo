@@ -52,7 +52,7 @@ même raison.
 **Écran de saisie**
 
 > # Rapport Flash
-> ### Tout ce que LABUSE sait d'un terrain, réuni dans un seul PDF.
+> ### Tout ce qu'il faut savoir sur un terrain, dans un seul PDF.
 >
 > **79 € HT** · paiement unique
 >
@@ -63,7 +63,7 @@ même raison.
 > - **Le quartier et le projet** : équipements, réseaux, fiscalité locale, et ce que les règles permettent d'envisager.
 > - **Chaque information porte sa source et sa date.** Quand c'est une estimation, c'est écrit.
 >
-> C'est le dossier complet que produisent nos abonnés : onze volets, rien n'est mis de côté.
+> Onze volets, du plan cadastral au potentiel du terrain. Ce que vous mettriez une journée à rassembler sur cinq sites différents, prêt en quelques secondes.
 >
 > [Adresse du bien] — *Une adresse suffit : nous retrouvons la parcelle. Si elle n'aboutit pas, utilisez l'identifiant de parcelle ci-dessous.*
 > [Identifiant de parcelle (IDU)] — *14 caractères, lisible sur cadastre.gouv.fr.*
@@ -75,7 +75,7 @@ même raison.
 > # Votre rapport Flash
 > ### CW 0658 · Saint-Paul · 27 156 m²
 >
-> Votre PDF réunit les onze volets de la fiche : identité et plan, terrain, bâti, urbanisme, risques, réseaux, fiscalité, marché, quartier, potentiel et simulation. Chaque information porte sa source et sa date.
+> Votre PDF réunit onze volets : identité et plan, terrain, bâti, urbanisme, risques, réseaux, fiscalité, marché, quartier, potentiel et simulation. Chaque information porte sa source et sa date.
 >
 > - Livré dès le paiement. Le lien de téléchargement reste valable 30 jours.
 > - Paiement unique de **79 € HT**. Pas d'abonnement, pas de compte à créer.
