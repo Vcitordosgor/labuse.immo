@@ -38,7 +38,7 @@ La page existe déjà et marche sur ordinateur : `https://app.labuse.immo/flash`
 | 13 | **Aucune acceptation des CGV avant de payer le Flash.** Les CGV disent « acceptation à la création du compte » et « contrat B2B », mais le Flash se fait sans compte ; l'art. 4 bis invoque une renonciation à la rétractation jamais recueillie. | `src/labuse/facturation.py:176-185` (`creer_checkout_flash`) ; écran de validation dans `onboarding.py:819-961` ; CGV dans `onboarding.py` | Case obligatoire au-dessus de « Payer 79 € » : « J'agis pour les besoins de mon activité professionnelle et j'accepte les conditions générales de vente ». Enregistrer la version des CGV et l'heure d'acceptation dans `flash_commandes`. Retirer la renonciation de l'art. 4 bis ; dire dans les CGV que pour le Flash, l'acceptation se fait avant le paiement. | Impossible de payer sans cocher ; la commande en base porte la version et l'heure. |
 | 14 | **L'e-mail « Flash prêt » n'est jamais envoyé**, alors que la page de retour dit après 2 minutes « le lien vous parviendra par e-mail ». Un acheteur qui ferme l'onglet perd son lien. | `src/labuse/brevo.py:89` (modèle `flash_pret`, aucun appelant) ; `/flash-retour.js` (`onboarding.py:158-201`) ; `_flash_fulfill` (`facturation.py:194`) | Envoyer l'e-mail à la fin de `_flash_fulfill`, avec le lien de téléchargement. Sinon, retirer la phrase. | Achat test : l'e-mail arrive avec un lien qui marche. |
 | 15 | **Textes de /flash à réécrire** (texte complet proposé plus bas). Aujourd'hui la page promet « ce qu'on peut y construire » et un « potentiel constructible chiffré », ce que le site a justement retiré ; elle affiche « 79 € » sans HT, signe « Radar foncier » au lieu de LABUSE, et n'indique ni le vendeur ni les étapes de la commande. | `onboarding.py:819-961` ; `config.py:186-192` | Appliquer le texte proposé à la fin de ce document. | Relire la page /flash et la page de validation. |
-| 16 | La recherche par adresse échoue souvent (« aucune parcelle cadastrale à ce point ») : 4 adresses sur 7 testées, et l'exemple affiché par la page elle-même (« 12 rue de la Gare, Saint-André ») échoue. Un IDU tapé dans le champ adresse est refusé. | `onboarding.py:819-961` ; `src/labuse/geocode.py` | Si le point BAN tombe hors parcelle (voirie), prendre la parcelle la plus proche dans un rayon court et la faire valider ; reconnaître un IDU dans le champ adresse ; changer l'exemple. | Les 7 adresses du test aboutissent. |
+| 16 | **Un seul champ de saisie, un seul bouton** (décision de Vic, 09/10) : la page demande deux fois la même chose. Le champ unique doit accepter une adresse, un IDU à 14 caractères, ou une référence « commune + section + numéro » (« Saint-Paul CW 658 »). Au passage, la recherche par adresse échoue souvent (« aucune parcelle cadastrale à ce point ») : 4 adresses sur 7 testées, et l'exemple affiché par la page elle-même (« 12 rue de la Gare, Saint-André ») échoue. | `onboarding.py:819-961` ; `src/labuse/geocode.py` | Fusionner les deux champs et reconnaître la nature de la saisie. Si le point BAN tombe hors parcelle (voirie), prendre la parcelle la plus proche dans un rayon court et la faire valider. Quand rien n'est trouvé, le dire et proposer la référence cadastrale. Changer l'exemple affiché. | Les 7 adresses du test aboutissent ; un IDU et une référence « Saint-Paul CW 658 » aboutissent dans le même champ. |
 | 17 | `https://app.labuse.immo/flash/` (avec la barre finale) répond 401 « Authentification requise ». | `src/labuse/api/auth.py:44` (`_PUBLIC`) | Rediriger `/flash/` vers `/flash`. | `curl -I https://app.labuse.immo/flash/` donne 301 ou 308. |
 
 ## Texte proposé pour la page /flash
@@ -65,10 +65,16 @@ même raison.
 >
 > Onze volets, du plan cadastral au potentiel du terrain.
 >
-> [Adresse du bien] — *Une adresse suffit : nous retrouvons la parcelle. Si elle n'aboutit pas, utilisez l'identifiant de parcelle ci-dessous.*
-> [Identifiant de parcelle (IDU)] — *14 caractères, lisible sur cadastre.gouv.fr.*
+> **Comment ça se passe**
+> 1. Vous indiquez le terrain : une adresse, ou sa référence cadastrale.
+> 2. Vous vérifiez la parcelle trouvée. Rien n'est débité à cette étape.
+> 3. Vous payez, et votre PDF s'affiche aussitôt, prêt à télécharger.
 >
-> Vous vérifiez la parcelle avant de payer.
+> **Quelle parcelle ?**
+> [Adresse ou référence cadastrale] — *Une adresse, une référence du type « Saint-Paul CW 658 », ou l'identifiant complet de la parcelle (97415000CW0658).*
+> **Voir ma parcelle →**
+>
+> Vous verrez la parcelle avant de payer. Rien n'est débité à cette étape.
 
 **Écran de validation**
 
@@ -86,7 +92,7 @@ même raison.
 > **Payer 79 € et recevoir mon rapport →**
 > ← changer de parcelle
 >
-> Vendu par LABUSE (Victor Lagane EI) — contact@labuse.immo
+> Vendu par LABUSE — Victor Lagane EI · contact@labuse.immo
 > Document d'aide à la décision établi à partir des données publiques. Il ne remplace ni le certificat d'urbanisme délivré par la mairie, ni le conseil d'un notaire.
 
 **À retirer partout sur la page** : « ce qu'on peut y construire », « potentiel
