@@ -66,7 +66,7 @@ même raison.
 > Onze volets, du plan cadastral au potentiel du terrain.
 >
 > **Quelle parcelle ?**
-> [Adresse du bien] — **avec complétion pendant la frappe**, sur la Base Adresse Nationale, comme la recherche de la carte. L'acheteur choisit une adresse existante : beaucoup moins d'échecs.
+> [Adresse du bien] — **avec complétion pendant la frappe, exactement comme la recherche de la carte** (api-adresse.data.gouv.fr) : le visiteur tape « 3 chemin de la citerne » et on lui propose cette voie dans chaque commune de l'île, sous la forme « ADRESSE · 3 Chemin de la Citerne · 97417 Saint-Denis ». Classement : la voie qui commence par ce qui est tapé d'abord, puis la plus courte. L'acheteur choisit une adresse existante : beaucoup moins d'échecs de recherche.
 > — ou —
 > [Référence cadastrale] — *exemple affiché : 97415000AS0772.* Accepte l'IDU à 14 caractères comme une référence « commune + section + numéro ».
 >
@@ -81,7 +81,6 @@ même raison.
 > [vue aérienne, parcelle entourée]
 > **CW 0658** — Saint-Paul · 25 633 m² · *Vue aérienne IGN*
 >
-> **Votre dossier est établi après le paiement**, sur cette parcelle.
 >
 > - Livré dès le paiement. Le lien de téléchargement reste valable 30 jours.
 > - Paiement unique de **79 € HT**. Pas d'abonnement, pas de compte à créer.
