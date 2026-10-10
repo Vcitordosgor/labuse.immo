@@ -7,7 +7,9 @@ ce sont des réglages de comptes, des décisions ou des démarches.
 
 | # | Quoi | Pourquoi | Où |
 |---|---|---|---|
-| 1 | **Vérifier pourquoi le site en ligne n'a pas bougé depuis juillet.** Le correctif fusionné sur `main` le 07/10 n'est toujours pas en ligne. | Si le déploiement est cassé, la refonte ne sortira pas non plus. | Cloudflare → Workers & Pages → projet du site → Deployments : regarder la branche de production (doit être `main`) et le dernier build (en échec ?). |
+| ~~1~~ | ~~Le site en ligne n'a pas bougé depuis juillet.~~ **Résolu le 10/10.** Cause : le compte GitHub de l'éditeur avait été signalé par la détection anti-abus, probablement après une rafale d'une trentaine de commits assistés début juillet. Les dépôts devenaient invisibles aux tiers et Cloudflare ne pouvait plus les cloner (`fatal: repository … not found`). Le support GitHub a levé la restriction sur demande. | | |
+
+**Piège à connaître, pour la suite.** La liste des Deployments garde trois mois de tentatives en échec. Relancer l'une d'elles avec « Retry deployment » republie **le code de ce déploiement-là** : relancer une vieille ligne remet l'ancien site en ligne. Une seule ligne compte, la plus récente sur `main`. Pour forcer une construction neuve sans toucher à ces lignes, il suffit de pousser un commit sur `main`.
 | ~~2~~ | ~~Numéro de téléphone pour les mentions légales.~~ **Fait le 09/10** : 0693 51 71 53, publié dans les mentions légales. | | |
 
 ## Dans le mois qui suit
