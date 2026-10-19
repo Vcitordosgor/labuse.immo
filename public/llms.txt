@@ -2,7 +2,7 @@
 
 > LABUSE (aussi écrit « LA BUSE ») est un outil d’analyse foncière réservé à La Réunion. Il réunit au même endroit ce qu’il faut savoir sur un terrain des 24 communes de l’île : cadastre, zonage du PLU, risques naturels, ventes immobilières et permis de construire.
 
-- Couverture : les 24 communes de La Réunion, 431 663 parcelles couvertes, du littoral aux Hauts.
+- Couverture : les 24 communes de La Réunion, 434 582 parcelles couvertes, du littoral aux Hauts.
 - Contenu : 99 sources de données, 59 couches cartographiques, 16 outils fonciers, plus de 2,6 millions de données publiques intégrées.
 - Pour qui : promoteurs immobiliers, lotisseurs, aménageurs, marchands de biens, bailleurs sociaux, constructeurs, agents immobiliers, notaires, géomètres-experts, architectes, bureaux d’études, investisseurs, collectivités et services d’urbanisme.
 - L’app (https://app.labuse.immo) s’utilise sur ordinateur. Le rapport Flash est un PDF qui se lit partout.
