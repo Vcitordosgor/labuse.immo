@@ -11,7 +11,7 @@ par un recensement, puis par une contre-vérification adversariale (workflow du 
 | 59 couches cartographiques | interrupteurs du panneau Couches côté client | `CouchesTuyau.tsx:52,111,729-740`, `couches_tuyau.py:803`, `declarations/couches/*.yaml` | Compté dans le code ; recompter une fois en prod. |
 | 24/24 communes | communes distinctes du cadastre analysé | `registre/moteurs/commune.py:185,202` | Vrai pour le cadastre et l'analyse, pas pour chaque couche (PLU 23/24). |
 | 89 informations sur la fiche | champs distincts déclarés sur la fiche parcelle | `declarations/fiche/*.yaml` | Pas toutes renseignées pour chaque parcelle : ne jamais écrire « 89 données par parcelle ». |
-| 431 663 parcelles analysées | lignes du run servi `q_v16` | `config/served_manifest.json`, `docs/audit-2026-10/QV16-VERIF-1` | — |
+| 434 582 parcelles couvertes | `GET /sources/couverture` sur l'app en production | relevé le 19/10/2026 ; le run servi est passé de `q_v16` à `q_v18` (analyse du 11/10) | Remplace les 431 663 du 06/10. Recompter à chaque nouveau run. |
 | 16 outils fonciers | outils visibles du registre | `outils/registry.ts`, `Rail.tsx:238` | — |
 
 Écartés : 43 « contrôles croisés », 208 ou 286 « données » (interprétations non publiables).
@@ -39,6 +39,9 @@ par un recensement, puis par une contre-vérification adversariale (workflow du 
 | Affiché | Valeur exacte | Source (repo app) | Réserve |
 |---|---|---|---|
 | 99 sources de données | 99 (tuile « sources ») | `DASHBOARD-AUDIT-1/RAPPORT.md:21` | Choix de Vic ; mesuré sur la base locale, à relire en prod. |
+| 99 sources de données | `GET /sources` renvoie 99 entrées | relevé le 19/10/2026 sur l'app en production | Inchangé. |
+| 24 communes | `GET /sources/couverture` → `communes: 24 / 24` | relevé le 19/10/2026 | Inchangé. |
+| 16 outils fonciers | tiroir Outils de l'app : 16 entrées `[data-outil]` | relevé le 19/10/2026 | Inchangé. Le registre du code compte 26 entrées, mais seules 16 sont exposées. |
 | 2,6 M+ données publiques intégrées | 2 678 205 enregistrements (somme des `count(*)`, dérivés et doublons de bâtiments retirés) | `docs/audit-2026-10/CHASSE-1/COUVERTURE.csv`, `ECARTS.csv:6` | Base locale du 04/10 ; recompter sur le VPS. |
 | 50 805 permis et autorisations d'urbanisme | 50 805 (SITADEL) | `docs/audit-2026-10/PARITE-AUDIT-1.md:177` | Mesuré en prod le 07/10. |
 | 78 308 ventes immobilières depuis 2014 | 29 566 (2021-2025) + 48 742 (2014-2020) | `PARITE-AUDIT-1.md:169`, `docs/M124_DVF_PROFONDEUR.md:12` | 2021-2025 identique prod/local. |
