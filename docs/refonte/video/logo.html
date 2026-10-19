@@ -9,12 +9,11 @@ html,body{margin:0;width:2880px;height:1800px;overflow:hidden;background:#0A0C0B
 </style></head><body>
 <img id="app" src="app-first.jpg">
 <svg id="bird" viewBox="0 0 240 82" overflow="visible">
-  <defs>
-    <clipPath id="L"><rect x="-50" y="-100" width="170.6" height="300"/></clipPath>
-    <clipPath id="R"><rect x="119.4" y="-100" width="170.6" height="300"/></clipPath>
-  </defs>
-  <g id="wl" clip-path="url(#L)"><path fill="#4ADE80" d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></g>
-  <g id="wr" clip-path="url(#R)"><path fill="#4ADE80" d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></g>
+  <!-- Une seule forme : les ailes se PLIENT au lieu de pivoter en deux moitiés.
+       L'ancienne version découpait l'oiseau en deux et faisait tourner chaque moitié :
+       au plus fort du battement, les deux bords se séparaient et un coin sombre
+       apparaissait au centre — l'aile semblait se décrocher puis se raccrocher. -->
+  <path id="w" fill="#4ADE80"/>
 </svg>
 <div id="wm">LA<b>BUSE</b></div>
 <script>
@@ -28,6 +27,21 @@ const END={x:69,y:53,w:58};
 // 2,2 → 2,8 s : il redécolle et rejoint le logo de l'en-tête · 2,5 → 2,85 s : l'app apparaît
 const SETTLE=1.7, TAKEOFF=2.2, FLIGHT=0.6;
 const smooth=(x)=>{x=clamp(x,0,1);return x*x*(3-2*x);};
+// Les 19 points du tracé. On les replie autour de l'axe du corps (x=120) : l'angle
+// croît avec l'éloignement du centre (puissance 1,6), donc le centre ne bouge JAMAIS
+// et l'aile se courbe comme une vraie aile au lieu de pivoter d'un bloc.
+const PTS=[[2,15],[58,10],[100,18],[120,27],[140,18],[182,10],[238,15],[202,29],[162,40],[135,46],[127,49],[122,53],[120,60],[118,53],[113,49],[105,46],[78,40],[38,29],[2,15]];
+const AXE=120, PIVOT=30, DEMI=118, COURBE=1.6;
+const plie=(deg)=>{
+  const P=PTS.map(([x,y])=>{
+    const u=(x-AXE)/DEMI;
+    const phi=deg*Math.PI/180*Math.pow(Math.abs(u),COURBE)*(u<0?-1:1);
+    const dx=x-AXE, dy=y-PIVOT, c=Math.cos(phi), s=Math.sin(phi);
+    return [AXE+dx*c-dy*s, PIVOT+dx*s+dy*c];
+  });
+  const f=(i)=>P[i][0].toFixed(2)+' '+P[i][1].toFixed(2);
+  return `M${f(0)} C${f(1)} ${f(2)} ${f(3)} C${f(4)} ${f(5)} ${f(6)} C${f(7)} ${f(8)} ${f(9)} C${f(10)} ${f(11)} ${f(12)} C${f(13)} ${f(14)} ${f(15)} C${f(16)} ${f(17)} ${f(18)} Z`;
+};
 window.render=(t)=>{
   let cx,cy,w,amp;
   if(t<1.3){ const u=ease(t/1.3); cx=lerp(-300,W/2,u); cy=lerp(1250,760,u)+Math.sin(u*Math.PI)*-120; w=lerp(300,520,u); amp=34; }
@@ -38,8 +52,7 @@ window.render=(t)=>{
   const s=w/240;
   const bird=document.getElementById('bird');
   bird.style.transform=`translate(${cx-120}px,${cy-30}px) scale(${s})`;
-  document.getElementById('wl').setAttribute('transform',`rotate(${-a} 120 30)`);
-  document.getElementById('wr').setAttribute('transform',`rotate(${a} 120 30)`);
+  document.getElementById('w').setAttribute('d', plie(a));
   const wo = t<1.45?0:(t<1.85?(t-1.45)/0.4:(t<TAKEOFF?1:Math.max(0,1-(t-TAKEOFF)/0.25)));
   document.getElementById('wm').style.opacity=wo;
   document.getElementById('app').style.opacity=clamp((t-2.5)/0.35,0,1);
