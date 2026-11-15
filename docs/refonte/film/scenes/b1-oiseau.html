@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="/lib/base.css">
+<style>
+canvas{position:absolute;inset:0}
+#oiseau{position:absolute;left:0;top:0;width:240px;height:82px;overflow:visible;transform-origin:120px 30px;filter:drop-shadow(0 0 14px rgba(74,222,128,.55))}
+#bloc{position:absolute;left:112px;bottom:118px}
+#n{font:600 176px/1 'Space Grotesk';letter-spacing:-.03em;color:var(--hi);font-variant-numeric:tabular-nums;white-space:nowrap}
+#l{margin-top:14px;font:500 68px/1.1 'Space Grotesk';letter-spacing:-.015em;color:var(--dim)}
+#l2{margin-top:30px;font:600 86px/1.02 'Space Grotesk';letter-spacing:-.025em;color:var(--mint);white-space:nowrap}
+</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<svg id="oiseau" viewBox="0 0 240 82"><path id="aile" fill="#4ADE80"/></svg>
+<div class="marque sg"><svg viewBox="0 0 240 82"><path id="logo" fill="#4ADE80"/></svg><span>LA<b>BUSE</b></span></div>
+<div class="devise">Tout le foncier de La Réunion.<br>Au même endroit.</div>
+<div id="bloc"><div id="n" class="sg">0</div><div id="l">parcelles.</div><div id="l2">Vous en cherchez une.</div></div>
+<script type="module">
+import {clamp,lerp,prog,ease,fr,rnd,oiseau} from '/lib/anim.js';
+import {ile,charger,dessiner,jusqua} from '/lib/ile.js';
+import {CAM0 as CAM} from '/lib/cadre.js';
+window.DUR=8.6;
+document.getElementById('logo').setAttribute('d',oiseau(0));
+const g=document.getElementById('c').getContext('2d');
+const CX0=-550, CY0=0, A0=160*Math.PI/180, RX=30500, RY=27000, TAU=Math.PI*2;
+// clé d'allumage : l'angle balayé dans le sens des aiguilles d'une montre depuis Saint-Paul ; l'intérieur s'allume un peu après le littoral
+const cle=(x,y,i)=>{ let d=(A0-Math.atan2(y-CY0,x-CX0))%TAU; if(d<0)d+=TAU; const r=Math.hypot(x-CX0,y-CY0)/32000; return d+0.30*(1-clamp(r))+(rnd(i)-0.5)*0.10; };
+let fantome=null;
+window.pret=charger({cle}).then(()=>{ fantome=document.createElement('canvas'); fantome.width=1920; fantome.height=1080; dessiner(fantome.getContext('2d'),CAM,{gain:0.034,halo:0.25,fond:'#0A0C0B'}); });
+const T_ENTREE=1.25, T_TOUR=4.6;                      // entrée de l'oiseau, puis un tour complet
+const ecran=(x,y)=>[CAM.cx+(x-CAM.x)*CAM.s, CAM.cy-(y-CAM.y)*CAM.s];
+const surEllipse=(a)=>ecran(CX0+RX*Math.cos(a), CY0+RY*Math.sin(a));
+const P3=surEllipse(A0), tg=(()=>{const [x1,y1]=surEllipse(A0-0.02);const d=Math.hypot(x1-P3[0],y1-P3[1]);return [(x1-P3[0])/d,(y1-P3[1])/d];})();
+const P0=[-170,930], P1=[240,880], P2=[P3[0]-tg[0]*210,P3[1]-tg[1]*210];
+const bez=(u)=>{const v=1-u;return [v*v*v*P0[0]+3*v*v*u*P1[0]+3*v*u*u*P2[0]+u*u*u*P3[0], v*v*v*P0[1]+3*v*v*u*P1[1]+3*v*u*u*P2[1]+u*u*u*P3[1]];};
+// position de l'oiseau à l'instant t (écran) et angle balayé
+const vol=(t)=>{
+  if(t<T_ENTREE){ const u=ease.out(prog(t,0,T_ENTREE)); return {p:bez(u),balaye:0}; }
+  const k=ease.inOut(prog(t,T_ENTREE,T_ENTREE+T_TOUR)); const a=A0-k*TAU; return {p:surEllipse(a),balaye:k*TAU};
+};
+window.render=(t)=>{
+  const {p,balaye}=vol(t); const {p:q}=vol(t+0.02); const vx=q[0]-p[0], vy=q[1]-p[1];
+  // l'onde suit l'oiseau, un peu en retrait ; elle finit de fermer le tour après son passage
+  const fin=prog(t,T_ENTREE+T_TOUR-0.25,T_ENTREE+T_TOUR+0.55);
+  const seuil=Math.max(0,balaye-0.16)+fin*(0.16+0.5);
+  const n=t<T_ENTREE?0:jusqua(seuil);
+  g.globalCompositeOperation='source-over'; g.globalAlpha=1; g.filter='none'; g.drawImage(fantome,0,0);
+  dessiner(g,CAM,{n,front:(n>0&&n<ile.N)?0.022:0,gain:0.22,fond:null});
+  // l'oiseau : cap sur la tangente, ailes qui respirent (un rapace plane)
+  // l'oiseau reste « debout », comme sur le logo : on le reconnaît. Il s'incline seulement dans le virage.
+  const vit=Math.hypot(vx,vy); const cap=vit>0.01?clamp(vx/vit,-1,1)*22:0;
+  const bat=t<T_ENTREE?lerp(26,7,prog(t,0.2,T_ENTREE))*Math.sin(TAU*3.0*t):7*Math.sin(TAU*1.05*t)+3;
+  const taille=lerp(250,170,ease.out(prog(t,0,T_ENTREE)))/240;
+  const o=document.getElementById('oiseau'); o.style.transform=`translate(${p[0]-120}px,${p[1]-30}px) rotate(${cap}deg) scale(${taille})`;
+  document.getElementById('aile').setAttribute('d',oiseau(bat));
+  document.getElementById('n').textContent=fr(434582*n/ile.N);
+  const a=ease.out(prog(t,T_ENTREE-0.2,T_ENTREE+0.5)); const b=document.getElementById('bloc'); b.style.opacity=a; b.style.transform=`translateY(${(1-a)*26}px)`;
+  const a2=ease.out(prog(t,T_ENTREE+T_TOUR+0.3,T_ENTREE+T_TOUR+0.85)); const l2=document.getElementById('l2'); l2.style.opacity=a2; l2.style.transform=`translateY(${(1-a2)*28}px)`;
+};
+</script></body></html>

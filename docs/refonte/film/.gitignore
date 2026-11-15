@@ -1,0 +1,9 @@
+# matière téléchargée ou fabriquée : se reconstruit avec donnees.py et lib/rendre.mjs
+data/
+frames/
+out/
+seq*/
+controle*/
+verif/
+lib/habillage/filigrane.png
+node_modules/

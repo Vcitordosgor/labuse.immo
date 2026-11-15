@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="/lib/base.css">
+<style>
+canvas{position:absolute;inset:0}
+#bloc{position:absolute;left:112px;bottom:118px}
+#n{font:600 176px/1 'Space Grotesk';letter-spacing:-.03em;color:var(--hi);font-variant-numeric:tabular-nums;white-space:nowrap;opacity:.45}
+#l1{margin-top:14px;font:500 68px/1.1 'Space Grotesk';letter-spacing:-.015em;color:var(--dim);opacity:.45}
+#l2{margin-top:30px;font:600 86px/1.02 'Space Grotesk';letter-spacing:-.025em;color:var(--mint);white-space:nowrap}
+</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div class="voile" id="voile" style="opacity:0"></div><div class="socle" id="socle"></div><div class="coin" id="coin"></div>
+<div class="anneau" id="anneau"></div><div class="point" id="point"></div>
+<div class="marque sg"><svg viewBox="0 0 240 82"><path id="logo" fill="#4ADE80"/></svg><span>LA<b>BUSE</b></span></div>
+<div class="devise" id="devise">Tout le foncier de La Réunion.<br>Au même endroit.</div><div class="adresse" id="adresse">labuse.immo</div>
+<div id="bloc"><div id="n" class="sg">434 582</div><div id="l1">parcelles.</div><div id="l2">Vous en cherchez une.</div></div>
+<div class="fil" id="fil"><span>La Réunion</span><span><i>›</i>Saint-Paul</span><span><i>›</i>section EY</span><span><i>›</i><b class="d">parcelle 0109</b></span></div>
+<script type="module">
+import {clamp,lerp,prog,ease,oiseau} from '/lib/anim.js';
+import {ile,charger as chargerIle,dessiner} from '/lib/ile.js';
+import {pl,charger as chargerPl,ortho,cadastre,tracerParcelle,commune} from '/lib/plongee.js';
+import {CAM0,TERRAIN,S1,A1,A0,SM,AM} from '/lib/cadre.js';
+import {flouZoom} from '/lib/flou.js';
+window.DUR=7.4; const g=document.getElementById('c').getContext('2d'); const $=(i)=>document.getElementById(i);
+$('logo').setAttribute('d',oiseau(0));
+window.pret=Promise.all([chargerIle(),chargerPl()]);
+// descente en deux temps (5,6 s) : de l'île à la commune, qui s'allume le temps d'un palier, puis de la commune au terrain ; arrêt de 1,4 s
+const TA=[0.4,1.7], TB=[2.6,6.0]; const L=Math.log, S0=CAM0.s, PALIER=0.10;
+// logarithme de l'échelle à l'instant t : sert aussi à mesurer la vitesse du zoom pour le flou de mouvement
+const lnS=(t)=>{ const ua=ease.inOut(prog(t,TA[0],TA[1])), up=ease.smooth(prog(t,TA[1],TB[0])), ub=ease.inOutQuart(prog(t,TB[0],TB[1]));
+  return t<TA[1]?lerp(L(S0),L(SM),ua):t<TB[0]?L(SM)+PALIER*up:lerp(L(SM)+PALIER,L(S1),ub); };
+window.render=(t)=>{
+  const ua=ease.inOut(prog(t,TA[0],TA[1])); const s=Math.exp(lnS(t));
+  const ubp=ease.inOut(prog(t,TB[0],TB[1]));
+  const cx=t<TB[0]?lerp(A0.x,AM.x,ua):lerp(AM.x,A1.x,ubp), cy=t<TB[0]?lerp(A0.y,AM.y,ua):lerp(AM.y,A1.y,ubp);
+  const cam={x:TERRAIN.x,y:TERRAIN.y,cx,cy,s};
+  const larg=1920/s; const f=(a,b)=>clamp((L(a)-L(larg))/(L(a)-L(b)));
+  const aOrtho=f(12000,4200), aPts=1-f(3000,1100), aCad=f(2400,1000), couleur=f(5200,900);
+  g.globalCompositeOperation='source-over'; g.globalAlpha=1; g.filter='none'; g.fillStyle='#0A0C0B'; g.fillRect(0,0,1920,1080);
+  ortho(g,cam,aOrtho,{assombrir:lerp(0.66,0.14,couleur),sat:lerp(0.35,1,couleur)});
+  // la commune s'allume au palier : ses parcelles brillent, le reste de l'île reste en veilleuse
+  const com=ease.out(prog(t,TA[1]-0.75,TA[1]-0.05))*(1-ease.inOut(prog(t,TB[0]+0.15,TB[0]+0.95)));
+  // à mesure qu'on s'approche, les parcelles voisines se rallument
+  dessiner(g,cam,{fond:null,alpha:aPts,rayon:clamp(s*14,0,4),gain:clamp(0.045*Math.pow(s/S0,1.22),0.045,1.35)*(1-0.5*com),halo:lerp(0.22,0.5,clamp(ua*3))});
+  if(com>0.003){ dessiner(g,cam,{fond:null,alpha:com,commune:TERRAIN.indice,gain:0.5,halo:0.6}); commune(g,cam,TERRAIN.code,com*0.95,{epais:3}); }
+  cadastre(g,cam,aCad*0.62,{epais:2.4,couleur:'rgba(232,239,234,0.76)',sauf:TERRAIN.id,rayon:lerp(0,1200,ease.out(prog(t,TB[1]-1.1,TB[1]-0.2)))});
+  if(aCad>0){ const pose=ease.outBack(prog(t,TB[1]-0.5,TB[1]+0.25)); g.save(); g.globalAlpha=aCad; tracerParcelle(g,cam,TERRAIN.id);
+    g.fillStyle=`rgba(74,222,128,${0.10+0.10*pose})`; g.fill(); g.shadowColor='#4ADE80'; g.shadowBlur=22; g.strokeStyle='#4ADE80'; g.lineWidth=lerp(2.5,5,pose); g.stroke(); g.restore(); }
+  flouZoom(g,cx,cy,(lnS(t+1/60)-lnS(t-1/60))*30);
+  $('voile').style.opacity=aOrtho; $('coin').style.opacity=ease.out(prog(t,0.4,1.0));
+  $('devise').style.opacity=1-ease.out(prog(t,0.12,0.5)); const ad=ease.out(prog(t,0.55,1.0)); $('adresse').style.opacity=ad; $('adresse').style.transform=`translateY(${(1-ad)*10}px)`; $('socle').style.opacity=ease.out(prog(t,0.6,1.1))*(1-aOrtho);
+  const pt=$('point'); pt.style.opacity=1-aCad; pt.style.transform=`translate(${cx}px,${cy}px) scale(${lerp(1,1.3,clamp(ua*2))})`;
+  const an=$('anneau'); const ka=((t+1.2)%1.5)/1.5; const r=24+ka*150; an.style.opacity=Math.max(0.25,1-ka)*0.95*(1-clamp(ua*5)); an.style.width=an.style.height=(2*r)+'px'; an.style.transform=`translate(${cx-r}px,${cy-r}px)`;
+  const sortie=1-ease.out(prog(t,TA[0]-0.3,TA[0]+0.3)); $('bloc').style.opacity=sortie; $('bloc').style.transform=`translateY(${(1-sortie)*-22}px)`;
+  // le fil d'Ariane, seul texte de la descente : il se complète aux moments calmes (départ, palier, arrivée)
+  const sp=$('fil').children; const seuils=[0.75,1.55,4.5,5.6];
+  for(let i=0;i<4;i++){ const a=ease.out(prog(t,seuils[i],seuils[i]+0.35)); sp[i].style.opacity=a; sp[i].style.transform=`translateY(${(1-a)*14}px)`; }
+};
+</script></body></html>

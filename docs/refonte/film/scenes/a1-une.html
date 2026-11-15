@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="/lib/base.css">
+<style>
+canvas{position:absolute;inset:0}
+#bloc{position:absolute;left:112px;bottom:118px}
+#n{font:600 176px/1 'Space Grotesk';letter-spacing:-.03em;color:var(--hi);font-variant-numeric:tabular-nums;white-space:nowrap}
+#l1{margin-top:14px;font:500 68px/1.1 'Space Grotesk';letter-spacing:-.015em;color:var(--dim)}
+#l2{margin-top:30px;font:600 86px/1.02 'Space Grotesk';letter-spacing:-.025em;color:var(--mint);white-space:nowrap}
+</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div class="anneau" id="anneau"></div><div class="point" id="point"></div>
+<div class="marque sg"><svg viewBox="0 0 240 82"><path id="logo" fill="#4ADE80"/></svg><span>LA<b>BUSE</b></span></div>
+<div class="devise">Tout le foncier de La Réunion.<br>Au même endroit.</div>
+<div id="bloc"><div id="n" class="sg">434 582</div><div id="l1">parcelles.</div><div id="l2">Vous en cherchez une.</div></div>
+<script type="module">
+import {clamp,lerp,prog,ease,rnd,oiseau} from '/lib/anim.js';
+import {ile,charger,dessiner,jusqua} from '/lib/ile.js';
+import {CAM0,TERRAIN} from '/lib/cadre.js';
+window.DUR=5.6; const g=document.getElementById('c').getContext('2d'); const $=(i)=>document.getElementById(i);
+$('logo').setAttribute('d',oiseau(0));
+const TAU=Math.PI*2, DEP=200*Math.PI/180;
+// ordre angulaire : sert au scintillement qui fait le tour de l'île dans la première seconde
+window.pret=charger({cle:(x,y,i)=>{let d=(DEP-Math.atan2(y-CAM0.y,x-CAM0.x))%TAU; if(d<0)d+=TAU; return d+(rnd(i)-0.5)*0.14;}});
+const T_PHRASE=1.2, T_NUIT=2.4;        // la seconde phrase arrive, puis l'île s'éteint autour d'un seul point
+window.render=(t)=>{
+  const nuit=ease.inOut(prog(t,T_NUIT,T_NUIT+1.5));
+  // avancée lente : l'image bouge dès la deuxième image et finit exactement sur le cadre de départ de la plongée
+  const cam={...CAM0,s:CAM0.s*lerp(0.962,1,ease.out(prog(t,0,window.DUR)))};
+  dessiner(g,cam,{gain:lerp(0.22,0.045,nuit),halo:lerp(0.55,0.22,nuit)});
+  const k=prog(t,0.05,1.25); if(k>0&&k<1) dessiner(g,cam,{fond:null,n:jusqua(k*TAU),front:0.10,seulFront:true,gain:0.34,halo:0.4,alpha:0.7*Math.sin(Math.PI*Math.min(1,k*6,(1-k)*6)/2)});
+  const x=cam.cx+(TERRAIN.x-cam.x)*cam.s, y=cam.cy-(TERRAIN.y-cam.y)*cam.s;
+  const pt=$('point'); const ap=ease.out(prog(t,T_NUIT+0.15,T_NUIT+0.7)); pt.style.opacity=ap; pt.style.transform=`translate(${x}px,${y}px) scale(${lerp(0.4,1,ease.outBack(prog(t,T_NUIT+0.15,T_NUIT+0.8)))})`;
+  const an=$('anneau'); const tt=Math.max(0,t-(T_NUIT+0.5)); const ka=(tt%1.5)/1.5; const r=24+ka*150;
+  an.style.opacity=t>T_NUIT+0.5?Math.max(0.25,1-ka)*0.95:0; an.style.width=an.style.height=(2*r)+'px'; an.style.transform=`translate(${x-r}px,${y-r}px)`;
+  const a2=ease.out(prog(t,T_PHRASE,T_PHRASE+0.5)); $('l2').style.opacity=a2; $('l2').style.transform=`translateY(${(1-a2)*28}px)`;
+  const s1=1-0.55*nuit; $('n').style.opacity=s1; $('l1').style.opacity=s1;
+};
+</script></body></html>

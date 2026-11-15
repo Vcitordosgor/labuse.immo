@@ -1,0 +1,99 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="/lib/base.css">
+<style>
+canvas{position:absolute;inset:0}
+#bloc{position:absolute;left:112px;bottom:118px}
+#ph{font:600 104px/1.03 'Space Grotesk';letter-spacing:-.03em;color:var(--hi);white-space:nowrap}
+#ph span{display:block;opacity:0}#ph .m{color:var(--mint)}
+#st{margin-top:34px;font:500 52px/1.36 'JetBrains Mono';color:var(--hi);white-space:nowrap;opacity:0}
+#st i{font-style:normal;color:var(--mint);margin:0 14px}
+/* derrière la signature, l'île s'efface au centre et ne reste qu'en couronne */
+#ombre{position:absolute;inset:0;background:radial-gradient(ellipse 54% 80% at 50% 50%,rgba(10,12,11,.93) 0%,rgba(10,12,11,.86) 52%,rgba(10,12,11,0) 100%);opacity:0}
+/* la signature : l'oiseau se pose, LABUSE s'écrit (courbes de l'animation du logo, tempo ralenti). Tout est composé d'emblée à sa place finale : rien ne bouge pendant qu'on lit. */
+#mot{position:absolute;left:0;right:0;top:248px;text-align:center;font:700 129px/1 'Space Grotesk';letter-spacing:.04em;color:var(--hi)}
+#mot span{display:inline-block;opacity:0}#mot b{color:var(--mint);font-weight:700}
+#sig{position:absolute;left:0;right:0;top:420px;text-align:center;font:500 54px/1.22 'Space Grotesk';letter-spacing:-.015em;color:var(--hi);opacity:0}
+#sig b{color:var(--mint);font-weight:500}
+#cta{position:absolute;left:0;right:0;top:600px;text-align:center}
+#btn{display:inline-block;background:var(--mint);color:#06301A;font:700 58px/1 'Space Grotesk';letter-spacing:-.01em;padding:30px 58px 32px;border-radius:18px;box-shadow:0 0 60px rgba(74,222,128,.28);opacity:0}
+#url{margin-top:34px;font:700 80px/1 'JetBrains Mono';letter-spacing:-.01em;color:var(--hi);opacity:0}
+#h48{margin-top:26px;font:400 52px/1 'Inter';color:#D3DCD6;opacity:0}
+#cred{position:absolute;left:0;right:0;bottom:34px;text-align:center;font:400 32px/1 'Inter';color:var(--txt);opacity:0}
+</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div class="voile" id="voile"></div><div class="socle" id="socle"></div><div class="coin" id="coin"></div><div id="ombre"></div><div class="point" id="point"></div>
+<div class="marque sg" id="marque"><svg viewBox="0 0 240 82"><path id="logo" fill="#4ADE80"/></svg><span>LA<b>BUSE</b></span></div>
+<div class="adresse" id="adresse">labuse.immo</div>
+<div id="bloc"><div id="ph" class="sg"><span id="ph1">Un terrain,</span><span id="ph2" class="m">ou toute l’île.</span></div>
+<div id="st">99 sources<i>·</i>59 couches<br>24 communes<i>·</i>16 outils</div></div>
+<canvas id="oiseaux" width="1920" height="1080"></canvas>
+<div id="mot" class="sg"><span>L</span><span>A</span><b><span>B</span><span>U</span><span>S</span><span>E</span></b></div>
+<div id="sig" class="sg">Tout le foncier de La Réunion.<br><b>Au même endroit.</b></div>
+<div id="cta"><div id="btn" class="sg">Demander une démo</div><div id="url">labuse.immo</div><div id="h48">48 h d’accès complet</div></div>
+<div id="cred">Photos aériennes : IGN · Cadastre : DGFiP, septembre 2026</div>
+<script type="module">
+import {clamp,lerp,prog,ease,oiseau} from '/lib/anim.js';
+import {ile,charger as chargerIle,dessiner} from '/lib/ile.js';
+import {pl,charger as chargerPl,ortho,cadastre,tracerParcelle} from '/lib/plongee.js';
+import {CAM0,TERRAIN,S1 as S1B,A1,A0} from '/lib/cadre.js';
+import {flouZoom} from '/lib/flou.js';
+window.DUR=19.0; const g=document.getElementById('c').getContext('2d'); const $=(i)=>document.getElementById(i);
+const go=$('oiseaux').getContext('2d');
+$('logo').setAttribute('d',oiseau(0));
+window.pret=Promise.all([chargerIle({graine:[TERRAIN.x,TERRAIN.y],alea:2600}),chargerPl()]);
+const T_PH1=0.4, T_MONTE=[0.6,3.4], T_PH2=2.6, T_ONDE=[3.0,5.1], T_STATS=4.3, T_SORTIE=8.6, T_OISEAU=9.1, T_CTA=12.5;
+const T_FIGE=T_SORTIE+1.45; let fige=false;            // après ce moment, le fond ne change plus : on ne le redessine pas
+const S0=CAM0.s, S1=S1B*1.045; const L=Math.log, TAU=Math.PI*2;
+const lettres=[...document.querySelectorAll('#mot span')];
+const lnS=(t)=>L(S0)+(L(S1)-L(S0))*(1-ease.inOutQuart(prog(t,T_MONTE[0],T_MONTE[1])));
+// l'oiseau à l'instant u (secondes depuis son entrée) : position, taille, angle des ailes — la phase du battement est continue
+const VOL=1.3, POSE=0.8, CYB=155, LARG=344;
+const oiseauA=(u)=>{ let cx,cy,w,amp;
+  if(u<VOL){ const k=ease.inOut(clamp(u/VOL)); cx=lerp(-200,960,k); cy=lerp(640,CYB,k)+Math.sin(k*Math.PI)*-80; w=lerp(210,LARG,k); amp=34; }
+  else { const d=1-ease.smooth(clamp((u-VOL)/POSE)); cx=960; cy=CYB+Math.sin((u-VOL)*4)*7*d; w=LARG; amp=34*d; }
+  const phase=u<VOL?TAU*3.4*u:TAU*3.4*VOL+TAU*2.6*(u-VOL);
+  return {cx,cy,w,a:amp*Math.sin(phase)}; };
+const tracer=(o,alpha)=>{ const sc=o.w/240; go.setTransform(sc,0,0,sc,o.cx-120*sc,o.cy-30*sc); go.globalAlpha=alpha; go.fill(new Path2D(oiseau(o.a))); };
+window.render=(t)=>{
+  const fin=ease.inOut(prog(t,T_SORTIE,T_SORTIE+1.4));
+  if(!(t>=T_FIGE&&fige)){
+    const s=Math.exp(lnS(t));
+    const ee=1-ease.inOut(prog(t,T_MONTE[0],T_MONTE[1]));
+    // fin de film : l'île glisse au centre et s'atténue derrière la signature
+    const cam={x:TERRAIN.x,y:TERRAIN.y,cx:lerp(A0.x,A1.x,ee)+fin*(960-CAM0.cx),cy:lerp(A0.y,A1.y,ee)+fin*14,s};
+    const larg=1920/s; const f=(a,b)=>clamp((L(a)-L(larg))/(L(a)-L(b)));
+    const aOrtho=f(12000,4200), aPts=1-f(3000,1100), aCad=f(2400,1000), couleur=f(5200,900);
+    g.globalCompositeOperation='source-over'; g.globalAlpha=1; g.filter='none'; g.fillStyle='#0A0C0B'; g.fillRect(0,0,1920,1080);
+    ortho(g,cam,aOrtho,{assombrir:lerp(0.66,0.14,couleur),sat:lerp(0.35,1,couleur)});
+    // en veilleuse d'abord, puis l'onde rallume tout à partir du terrain
+    const onde=ease.inOut(prog(t,T_ONDE[0],T_ONDE[1])); const n=Math.floor(onde*ile.N);
+    dessiner(g,cam,{fond:null,alpha:aPts,rayon:clamp(s*14,0,4),gain:clamp(0.05*Math.pow(s/S0,0.92),0.05,2.4),halo:0.3});
+    if(n>0) dessiner(g,cam,{fond:null,n,front:onde<1?0.03:0,gain:lerp(0.22,0.034,fin),halo:lerp(0.55,0.16,fin)});
+    cadastre(g,cam,aCad*0.62,{epais:2.4,couleur:'rgba(232,239,234,0.76)',sauf:TERRAIN.id});
+    if(aCad>0){ g.save(); g.globalAlpha=aCad; tracerParcelle(g,cam,TERRAIN.id); g.fillStyle='rgba(74,222,128,0.2)'; g.fill(); g.shadowColor='#4ADE80'; g.shadowBlur=22; g.strokeStyle='#4ADE80'; g.lineWidth=5; g.stroke(); g.restore(); }
+    flouZoom(g,cam.cx,cam.cy,(lnS(t+1/60)-lnS(t-1/60))*30);
+    $('voile').style.opacity=aOrtho; $('socle').style.opacity=(1-aOrtho)*(1-ease.inOut(prog(t,T_MONTE[1]-0.9,T_MONTE[1]-0.1)));
+    // le point du terrain reste allumé pendant la remontée, puis se fond dans l'île rallumée
+    const pt=$('point'); pt.style.opacity=(1-aCad)*(1-ease.out(prog(t,T_ONDE[0]+0.6,T_ONDE[1])))*clamp(prog(t,T_MONTE[0]+1.0,T_MONTE[0]+1.6)); pt.style.transform=`translate(${cam.cx}px,${cam.cy}px)`;
+    fige=t>=T_FIGE;
+  }
+  $('ombre').style.opacity=fin;
+  // les phrases, puis les quatre chiffres, tenus assez longtemps pour être lus
+  const sortie=1-ease.out(prog(t,T_SORTIE-0.25,T_SORTIE+0.3));
+  const a1=ease.out(prog(t,T_PH1,T_PH1+0.5)); $('ph1').style.opacity=a1*sortie; $('ph1').style.transform=`translateY(${(1-a1)*26}px)`;
+  const a2=ease.out(prog(t,T_PH2,T_PH2+0.55)); $('ph2').style.opacity=a2*sortie; $('ph2').style.transform=`translateY(${(1-a2)*26}px)`;
+  const a3=ease.out(prog(t,T_STATS,T_STATS+0.5)); $('st').style.opacity=a3*sortie; $('st').style.transform=`translateY(${(1-a3)*18}px)`;
+  // la phrase est d'abord posée en bas, loin du terrain ; elle prend sa hauteur finale pendant la remontée, avant que la seconde ligne n'arrive
+  $('bloc').style.transform=`translateY(${(1-ease.inOut(prog(t,1.5,2.25)))*176}px)`;
+  $('marque').style.opacity=sortie; $('adresse').style.opacity=sortie; $('coin').style.opacity=sortie;
+  // l'oiseau arrive en vol, se pose, LABUSE s'écrit. Flou de mouvement : douze poses réparties sur l'ouverture de l'obturateur, additionnées.
+  const u=t-T_OISEAU; go.setTransform(1,0,0,1,0,0); go.globalCompositeOperation='source-over'; go.globalAlpha=1; go.clearRect(0,0,1920,1080); go.fillStyle='#4ADE80';
+  if(u>=0){ if(u>=VOL+POSE){ tracer(oiseauA(u),1); } else { const K=12; go.globalCompositeOperation='lighter'; for(let i=0;i<K;i++){ const v=u-(i/(K-1))*(0.5/30); if(v>=0) tracer(oiseauA(v),1/K); } } }
+  lettres.forEach((el,i)=>{ const t0=VOL+0.25+i*0.09; const a=ease.out(prog(u,t0,t0+0.36)); el.style.opacity=a; el.style.transform=`translateY(${(1-a)*14}px)`; });
+  const sg=ease.out(prog(u,VOL+POSE+0.35,VOL+POSE+0.9)); $('sig').style.opacity=sg; $('sig').style.transform=`translateY(${(1-sg)*18}px)`;
+  // le bouton, l'adresse (rien n'est cliquable dans une vidéo : c'est elle qu'on recopie), puis ce que la démo offre ; ensuite plus rien ne bouge, sauf la lueur du bouton
+  const entre=(id,t0)=>{ const a=ease.out(prog(t,t0,t0+0.55)); $(id).style.opacity=a; $(id).style.transform=`translateY(${(1-a)*20}px)`; return a; };
+  entre('btn',T_CTA); entre('url',T_CTA+0.3); entre('h48',T_CTA+0.6);
+  $('cred').style.opacity=ease.out(prog(t,T_CTA+0.9,T_CTA+1.45));
+  const lueur=t>T_CTA+1.4?0.5-0.5*Math.cos(TAU*(t-T_CTA-1.4)/2.2):0; $('btn').style.boxShadow=`0 0 ${60+34*lueur}px rgba(74,222,128,${0.28+0.26*lueur})`;
+};
+</script></body></html>

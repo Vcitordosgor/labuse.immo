@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="/lib/base.css">
+<style>
+/* format vertical 1080 × 1920 : rien dans les 250 px du haut ni dans les 350 px du bas (zones couvertes par les applications) */
+html,body{width:1080px;height:1920px}
+canvas{position:absolute;inset:0}
+.marque{left:84px;top:268px;font-size:64px}.marque svg{width:104px;height:36px}
+.devise{left:84px;top:352px;font-size:40px}
+#bloc{position:absolute;left:84px;right:84px;top:1090px}
+#n{font:600 176px/1 'Space Grotesk';letter-spacing:-.035em;color:var(--hi);white-space:nowrap}
+#l1{margin-top:10px;font:500 72px/1.1 'Space Grotesk';letter-spacing:-.015em;color:var(--dim)}
+#l2{margin-top:30px;font:600 92px/1.04 'Space Grotesk';letter-spacing:-.03em;color:var(--mint)}
+</style></head><body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<div class="marque sg"><svg viewBox="0 0 240 82"><path id="logo" fill="#4ADE80"/></svg><span>LA<b>BUSE</b></span></div>
+<div class="devise">Tout le foncier de La Réunion.<br>Au même endroit.</div>
+<div id="bloc"><div id="n" class="sg">434 582</div><div id="l1">parcelles.</div><div id="l2">Vous en<br>cherchez une.</div></div>
+<script type="module">
+import {oiseau} from '/lib/anim.js';
+import {ile,charger,dessiner} from '/lib/ile.js';
+window.DUR=1; const g=document.getElementById('c').getContext('2d');
+document.getElementById('logo').setAttribute('d',oiseau(0));
+window.pret=charger();
+window.render=(t)=>{ dessiner(g,{x:-550,y:0,cx:560,cy:786,s:680/64000},{gain:0.34,halo:0.55}); };
+</script></body></html>

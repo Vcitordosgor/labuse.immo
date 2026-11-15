@@ -1,0 +1,116 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="/lib/base.css">
+<style>
+canvas{position:absolute;inset:0}
+#phrase{position:absolute;left:112px;bottom:118px;font:600 92px/1.05 'Space Grotesk';letter-spacing:-.025em;color:var(--hi)}
+#phrase>div{position:absolute;left:0;bottom:0;white-space:nowrap;opacity:0}
+#ph0{font-size:80px;line-height:1.1}#ph0 b{display:block;color:var(--mint);font-weight:600}
+/* les dix sites publics : de simples noms, chacun relié au terrain par un fil ; ils s'effacent quand LABUSE entre en scène */
+.site{position:absolute;left:0;top:0;opacity:0;white-space:nowrap;font:500 42px/1 'JetBrains Mono';color:var(--hi);background:rgba(10,12,11,.93);border:2px solid #3A4740;border-radius:12px;padding:14px 20px 16px}
+#curseur{position:absolute;left:0;top:0;width:54px;height:72px;opacity:0;overflow:visible;filter:drop-shadow(0 6px 12px rgba(0,0,0,.65))}
+/* la fiche : reconstitution du panneau de l'application (mêmes libellés), agrandie pour être lue sur un téléphone */
+#fiche{position:absolute;right:0;top:0;width:900px;height:1080px;background:#0C0F0D;border-left:2px solid #212A25;box-shadow:-40px 0 90px rgba(0,0,0,.55);padding:40px 44px 0 44px}
+.entete{background:#111614;border:2px solid #212A25;border-radius:16px;padding:26px 30px 28px}
+.idu{font:500 52px/1 'JetBrains Mono';color:var(--hi);letter-spacing:.01em}
+.grille{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ind{position:relative;background:#111614;border:2px solid #212A25;border-radius:16px;padding:22px 26px;height:204px;overflow:hidden}
+.ind span{display:block;font:500 34px/1 'JetBrains Mono';letter-spacing:.06em;color:#9DAAA2;white-space:nowrap}
+.ind b{display:block;margin-top:20px;font:600 58px/1 'Space Grotesk';letter-spacing:-.015em;font-variant-numeric:tabular-nums;color:var(--hi);white-space:nowrap}
+.ind small{display:block;margin-top:12px;font:400 34px/1 'Inter';color:#9DAAA2}
+.ind.amb b{color:var(--amber)}
+.ind u{position:absolute;inset:-2px;border:3px solid var(--mint);border-radius:16px;opacity:0;text-decoration:none;box-shadow:0 0 34px rgba(74,222,128,.35) inset}
+.ind.amb u{border-color:var(--amber);box-shadow:0 0 34px rgba(224,169,79,.35) inset}
+.mention{position:absolute;left:44px;right:44px;bottom:58px;font:400 44px/1.3 'Inter';color:var(--hi)}
+.mention b{font-weight:600}
+</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<div class="voile" id="voile"></div><div class="coin" style="opacity:1"></div>
+<div class="marque sg" id="marque"><svg viewBox="0 0 240 82"><path id="logo" fill="#4ADE80"/></svg><span>LA<b>BUSE</b></span></div>
+<div class="adresse" style="opacity:1">labuse.immo</div>
+<div id="sites"></div>
+<div id="phrase" class="sg"><div id="ph0">Aujourd’hui, dix sites à consulter.<b>Pour un seul terrain.</b></div><div id="ph1">Un clic<br>sur le terrain.</div><div id="ph2">Tout est déjà là.</div></div>
+<div class="fil" id="fil"><span style="opacity:1">La Réunion</span><span style="opacity:1"><i>›</i>Saint-Paul</span><span style="opacity:1"><i>›</i>section EY</span><span style="opacity:1"><i>›</i><b class="d">parcelle 0109</b></span></div>
+<svg id="curseur" viewBox="0 0 48 64"><path d="M3 2 L3 50 L15 39 L24 60 L33 56 L24 36 L41 36 Z" fill="#fff" stroke="#0A0C0B" stroke-width="3" stroke-linejoin="round"/></svg>
+<div id="fiche">
+  <div class="entete"><div class="idu">97415000EY0109</div></div>
+  <div class="grille" id="grille">
+    <div class="ind"><span>SURFACE</span><b>1 111 m²</b><u></u></div>
+    <div class="ind"><span>ZONE</span><b>U3c</b><u></u></div>
+    <div class="ind"><span>PENTE</span><b>9,6°</b><u></u></div>
+    <div class="ind"><span>EXPOSITION</span><b>Nord-Ouest</b><u></u></div>
+    <div class="ind amb"><span>RISQUES</span><b>2 vigilances</b><u></u></div>
+    <div class="ind"><span>SDP RESTANTE</span><b>582 m²</b><small>bâti conservé</small><u></u></div>
+  </div>
+  <div class="mention" id="men"><b>LABUSE</b> indique ce que permet la zone du PLU. Il ne remplace pas le certificat d’urbanisme.</div>
+</div>
+<script type="module">
+import {clamp,lerp,prog,ease,oiseau} from '/lib/anim.js';
+import {pl,charger,ortho,cadastre,tracerParcelle,contour,ancrage} from '/lib/plongee.js';
+import {TERRAIN,S1,A1} from '/lib/cadre.js';
+window.DUR=18.4; const g=document.getElementById('c').getContext('2d'); const $=(i)=>document.getElementById(i);
+$('logo').setAttribute('d',oiseau(0));
+// les dix sites cités par le site de LABUSE (centre de chaque étiquette) : trois à gauche du terrain, une dessous, six à droite ; aucun fil ne passe sous une autre étiquette ; à gauche, elles s'alignent sur la marge de 112 px
+const SITES=[['cadastre.gouv.fr',336,318],['Géoportail de l’urbanisme',1100,150],['georisques.gouv.fr',1290,270],['bodacc.fr',248,448],['Annuaire des entreprises',1480,372],['explore.data.gouv.fr',1200,532],['cartes.gouv.fr',311,596],['annonces immobilières',1420,690],['Sitadel',1000,720],['DEAL Réunion',640,712]];
+const els=SITES.map(([n])=>{const d=document.createElement('div');d.className='site';d.textContent=n;$('sites').appendChild(d);return d;});
+const T_SITES=0.45, PAS_S=0.19, T_L2=2.55, T_RANGE=5.2, T_CLIC=6.6, T_PANNEAU=6.8, T_IND=7.7, PAS=0.8, T_REVUE=13.0, T_FIN=17.7;
+const camera=(t)=>{ const k=1+0.045*ease.inOut(prog(t,0,window.DUR)); const pa=ease.out5(prog(t,T_PANNEAU,T_PANNEAU+0.75))*(1-ease.in(prog(t,T_FIN,T_FIN+0.6)));
+  return {cam:{x:TERRAIN.x,y:TERRAIN.y,cx:A1.x-70*pa,cy:A1.y,s:S1*k},pa}; };   // la carte glisse de 70 px quand le panneau arrive : le terrain reste au milieu de ce qui en reste visible
+let larg=[];
+window.pret=charger().then(async()=>{ await document.fonts.ready; larg=els.map(e=>[e.offsetWidth,e.offsetHeight]);
+  // contrôles automatiques : rien ne déborde dans la fiche ; aucun fil ne passe sous une autre étiquette ; aucune étiquette n'en touche une autre
+  for(const b of document.querySelectorAll('.ind b,.ind span,.ind small')) if(b.scrollWidth>b.parentElement.clientWidth-52) console.error('déborde : '+b.textContent+' '+b.scrollWidth);
+  const gr=$('grille').getBoundingClientRect(), me=$('men').getBoundingClientRect(); if(me.top<gr.bottom+24) console.error('mention trop près de la grille : '+Math.round(me.top-gr.bottom)+' px, '+Math.round(me.height)+' px de haut');
+  const poly=contour(camera(0).cam,TERRAIN.id); const R=SITES.map(([n,x,y],i)=>[x-larg[i][0]/2,y-larg[i][1]/2,x+larg[i][0]/2,y+larg[i][1]/2]);
+  const coupe=(x0,y0,x1,y1,r)=>{ let t0=0,t1=1; const dx=x1-x0,dy=y1-y0; for(const [p,q] of [[-dx,x0-r[0]],[dx,r[2]-x0],[-dy,y0-r[1]],[dy,r[3]-y0]]){ if(p===0){ if(q<0) return false; } else { const u=q/p; if(p<0){ if(u>t1) return false; if(u>t0) t0=u; } else { if(u<t0) return false; if(u<t1) t1=u; } } } return t0<=t1; };
+  SITES.forEach(([n,x,y],i)=>{ const P=ancrage(poly,x,y);
+    SITES.forEach(([m],j)=>{ if(j===i) return; const r=[R[j][0]-8,R[j][1]-8,R[j][2]+8,R[j][3]+8]; if(coupe(x,y,P[0],P[1],r)) console.error(`le fil de « ${n} » passe sous « ${m} »`);
+      if(j>i&&R[i][0]<R[j][2]+14&&R[j][0]<R[i][2]+14&&R[i][1]<R[j][3]+14&&R[j][1]<R[i][3]+14) console.error(`« ${n} » touche « ${m} »`); });
+    if(R[i][0]<111||R[i][2]>1880||R[i][1]<40||R[i][3]>770) console.error(`« ${n} » sort de sa zone : ${R[i].map(Math.round)}`); }); });
+const inds=[...document.querySelectorAll('.ind')];
+window.render=(t)=>{
+  const {cam,pa}=camera(t);
+  g.setTransform(1,0,0,1,0,0); g.globalCompositeOperation='source-over'; g.globalAlpha=1; g.filter='none'; g.fillStyle='#0A0C0B'; g.fillRect(0,0,1920,1080);
+  ortho(g,cam,1,{assombrir:0.14,sat:1}); cadastre(g,cam,0.62,{epais:2.4,couleur:'rgba(232,239,234,0.76)',sauf:TERRAIN.id});
+  // le terrain : son contour respire doucement ; il bat une fois quand on clique dessus, et une onde part du clic
+  const clic=prog(t,T_CLIC,T_CLIC+0.75); const pouls=clic>0&&clic<1?Math.sin(Math.PI*Math.min(1,clic*1.6)):0;
+  const souffle=ease.smooth(prog(t,1.0,2.2))*(1-ease.smooth(prog(t,window.DUR-1.5,window.DUR-0.5)))*(0.5-0.5*Math.cos(2*Math.PI*t/2.6));
+  g.save(); const bo=tracerParcelle(g,cam,TERRAIN.id); g.fillStyle=`rgba(74,222,128,${0.20+0.20*pouls+0.05*souffle})`; g.fill(); g.shadowColor='#4ADE80'; g.shadowBlur=22+28*pouls+16*souffle; g.strokeStyle='#4ADE80'; g.lineWidth=5+3*pouls; g.stroke(); g.restore();
+  const px=(bo.x0+bo.x1)/2, py=(bo.y0+bo.y1)/2;
+  // les fils : chacun part de son étiquette et s'ancre sur le contour réel du terrain, puis se retire
+  const poly=contour(cam,TERRAIN.id); const retrait=ease.inOut(prog(t,T_RANGE,T_RANGE+0.32));
+  g.save(); g.lineCap='round';
+  SITES.forEach(([n,x,y],i)=>{ const a=ease.out(prog(t,T_SITES+i*PAS_S+0.1,T_SITES+i*PAS_S+0.55))*(1-retrait); if(a<=0.002) return;
+    const P=ancrage(poly,x,y); const dx=P[0]-x, dy=P[1]-y, d=Math.hypot(dx,dy), ux=dx/d, uy=dy/d; const w=larg[i]||[120,76];
+    const dep=Math.min(w[0]*0.5/Math.max(Math.abs(ux),1e-3), w[1]*0.5/Math.max(Math.abs(uy),1e-3))+4; if(d<=dep) return; const lon=dep+(d-dep)*a;
+    const x0=x+ux*dep,y0=y+uy*dep,x1=x+ux*lon,y1=y+uy*lon;
+    g.strokeStyle='rgba(10,12,11,0.55)'; g.lineWidth=6.5; g.beginPath(); g.moveTo(x0,y0); g.lineTo(x1,y1); g.stroke();
+    g.strokeStyle='#4ADE80'; g.lineWidth=3.2; g.beginPath(); g.moveTo(x0,y0); g.lineTo(x1,y1); g.stroke();
+    g.fillStyle='rgba(10,12,11,0.6)'; g.beginPath(); g.arc(x1,y1,9.5,0,7); g.fill(); g.fillStyle='#EFFFF5'; g.beginPath(); g.arc(x1,y1,6.5,0,7); g.fill(); });
+  g.restore();
+  if(clic>0&&clic<1){ g.save(); for(const dec of [0,0.22]){ const q=clamp((clic-dec)/(1-dec)); if(q<=0) continue; g.globalAlpha=(1-q)*0.95; g.strokeStyle='#EFFFF5'; g.lineWidth=lerp(5,1.5,q); g.beginPath(); g.arc(px,py,26+210*ease.out(q),0,7); g.stroke(); } g.restore(); }
+  // le fil d'Ariane de la plongée s'efface : un seul texte à la fois
+  $('fil').style.opacity=1-ease.out(prog(t,0.02,0.32));
+  // les étiquettes apparaissent une à une, restent le temps d'être lues, puis s'éteignent sur place
+  els.forEach((el,i)=>{ const [n,x,y]=SITES[i]; const a=ease.out(prog(t,T_SITES+i*PAS_S,T_SITES+i*PAS_S+0.4)); const w=larg[i]||[0,0];
+    const t0=T_RANGE+0.08+i*0.02; const r=ease.inOut(prog(t,t0,t0+0.3));
+    el.style.opacity=a*(1-r); el.style.transform=`translate(${x-w[0]/2}px,${y-w[1]/2+(1-a)*18-r*10}px) scale(${lerp(0.94,1,a)*lerp(1,0.96,r)})`; });
+  // le curseur vient se poser sur le terrain et clique
+  const cu=$('curseur'); const arrive=ease.inOut(prog(t,T_CLIC-0.82,T_CLIC-0.2)); const cxm=lerp(1010,px+8,arrive), cym=lerp(905,py+10,arrive)-Math.sin(Math.PI*arrive)*34;
+  const appui=1-0.16*Math.sin(Math.PI*prog(t,T_CLIC-0.07,T_CLIC+0.2));
+  cu.style.opacity=ease.out(prog(t,T_CLIC-0.82,T_CLIC-0.62))*(1-ease.out(prog(t,T_PANNEAU+0.5,T_PANNEAU+0.9))); cu.style.transformOrigin='3px 2px'; cu.style.transform=`translate(${cxm-3.4}px,${cym-2.3}px) scale(${appui})`;
+  // le panneau glisse depuis la droite ; son en-tête et sa mention arrivent avec lui
+  $('fiche').style.transform=`translateX(${(1-pa)*1090}px)`;
+  const complet=T_IND+5*PAS+0.5;
+  inds.forEach((el,i)=>{ const t0=T_IND+i*PAS; const a=ease.out(prog(t,t0,t0+0.42)); el.style.opacity=a; el.style.transform=`translateY(${(1-a)*26}px)`;
+    // un liseré marque l'arrivée de chaque indicateur ; il repasse sur chacun pendant la tenue, pour guider la relecture
+    const eclat=prog(t,t0,t0+1.0), tr=T_REVUE+i*0.7, revue=prog(t,tr,tr+0.95);
+    el.querySelector('u').style.opacity=Math.max(eclat<=0?0:Math.pow(1-eclat,1.6), revue>0&&revue<1?0.62*Math.sin(Math.PI*revue):0);
+    const v=el.querySelector('b'); const av=ease.out(prog(t,t0+0.08,t0+0.5)); v.style.opacity=av; v.style.transform=`translateY(${(1-av)*18}px)`; });
+  // la mention est là dès l'arrivée du panneau, en retrait ; elle passe en pleine clarté quand la fiche est complète
+  $('men').style.opacity=lerp(0.62,1,ease.out(prog(t,complet,complet+0.5)));
+  // trois phrases se relaient, jamais deux à la fois
+  const i0=ease.out(prog(t,0.4,0.9)), o0=ease.out(prog(t,T_RANGE-0.05,T_RANGE+0.35)); $('ph0').style.opacity=i0*(1-o0); $('ph0').style.transform=`translateY(${(1-i0)*24-o0*22}px)`;
+  $('ph0').querySelector('b').style.opacity=ease.out(prog(t,T_L2,T_L2+0.45));
+  const i1=ease.out(prog(t,T_CLIC-0.78,T_CLIC-0.36)), o1=ease.out(prog(t,complet-0.5,complet-0.1)); $('ph1').style.opacity=i1*(1-o1); $('ph1').style.transform=`translateY(${(1-i1)*24-o1*22}px)`;
+  const i2=ease.out(prog(t,complet,complet+0.5)), o2=ease.out(prog(t,T_FIN-0.15,T_FIN+0.35)); $('ph2').style.opacity=i2*(1-o2); $('ph2').style.transform=`translateY(${(1-i2)*24-o2*20}px)`;
+};
+</script></body></html>
