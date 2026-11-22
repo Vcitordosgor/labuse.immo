@@ -52,3 +52,25 @@ python3 -I montage8.py sortie.mp4
 `capture-fiche5.mjs` capture la fiche à 5 px par px CSS, par bandes recollées sous l'en-tête fixe (au-delà de
 8192 px physiques de haut, une capture d'un seul tenant se répète). `couches/` : captures de la carte par couche,
 à des cadrages exacts, et photos IGN calées sur la même emprise (film « les couches »).
+
+## Version 9 (plus rapide, vue 3D, recherche par filtres, logo de fin)
+
+- `record9.mjs` : nouveaux segments. `G` : bouton « 3D » → « Relief + bâtiments », recul et tour de caméra pilotés,
+  retour en 2D. `B` : vue aérienne, clic sur le terrain, fiche parcourue en trois temps, « Dossier ». `C`/`E` :
+  couches (PPR, zonage PLU) puis zoom. `F` : filtres — Saint-Denis, surface minimale 600 m², terrain nu seul,
+  « Détenu par une société », « Voir la liste brute ». Le compte est remis en l'état après chaque passage
+  (fond « Sombre », aucune couche, filtres réinitialisés).
+- `montage9.py` : la « caméra » se fait au montage. Les images sont enregistrées en 2880×1800 ; on y recadre des
+  plans serrés animés entre des repères du journal (fiche, panneau des filtres), sans perte en 1440×900. Les
+  passages presque noirs (fin du zoom sur la carte sombre, trajets du curseur) passent une image sur deux.
+- `dossier9.html` / `dossier9-render.mjs` : le Dossier PDF part de la dernière image recadrée de la fiche.
+- `logofin.html` / `logofin-render.mjs` : carton de fin (oiseau, « LABUSE », « Le trésor est sous vos pieds. »).
+
+```bash
+SEGS=G,B PANNEAU=ferme SUF=-v9 node record9.mjs
+SEGS=C,E,F SUF=-v9 node record9.mjs
+SLOW=1.2 FLY=1.3 node logo9-render.mjs
+python3 -I montage9.py --dernier B && node dossier9-render.mjs
+python3 -I montage9.py --dernier F && FROM=controle/F-dernier.jpg node logofin-render.mjs
+python3 -I montage9.py sortie.mp4
+```
