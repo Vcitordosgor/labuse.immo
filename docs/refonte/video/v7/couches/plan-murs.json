@@ -1,0 +1,6 @@
+{ "vues": [
+ { "cle": "chaloupe", "nom": "La route du littoral, La Grande Chaloupe", "c": [55.3695, -20.9030], "larg": 1900, "variantes": [ { "cle": "murs", "couches": ["Murs de soutènement"] }, { "cle": "murs-ponts", "couches": ["Murs de soutènement", "Barrages, ponts et dalles"] } ] },
+ { "cle": "tamarins", "nom": "Saint-Paul, la route des Tamarins", "c": [55.2626, -21.0869], "larg": 1900, "variantes": [ { "cle": "murs", "couches": ["Murs de soutènement"] }, { "cle": "murs-ponts", "couches": ["Murs de soutènement", "Barrages, ponts et dalles"] } ] },
+ { "cle": "possession", "nom": "La Possession", "c": [55.3494, -20.9195], "larg": 1900, "variantes": [ { "cle": "murs", "couches": ["Murs de soutènement"] } ] },
+ { "cle": "stdenisouest", "nom": "Saint-Denis, entrée ouest", "c": [55.4437, -20.8850], "larg": 1900, "variantes": [ { "cle": "murs", "couches": ["Murs de soutènement"] } ] }
+] }
