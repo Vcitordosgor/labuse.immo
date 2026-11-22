@@ -1,0 +1,163 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="icon" href="data:,">
+<style>
+html,body{margin:0;width:1440px;height:900px;overflow:hidden;background:#0A0C0B}
+#monde{position:absolute;left:0;top:0;width:1440px;height:900px;overflow:hidden}
+#monde canvas{position:absolute;left:0;top:0;width:1440px;height:900px}
+</style></head><body>
+<div id="monde"><canvas id="c"></canvas><canvas id="f"></canvas></div>
+<script type="module">
+// VIDÉO 3 — SÉQUENCE « FICHE PARCELLE » (FV), 1440×900, 222 images (7,4 s). C'est le plan 4 de la vidéo 2 (scenes/s2-sites-fiche.html, de 9,9 à 20,3 s) refait
+// pour le cadre 16:10 : la VRAIE fiche (captures de l'application à 5 px par px CSS) entre par la droite sur une image fixe de l'application, la caméra serre sur les
+// six tuiles qui s'allument une à une, « Urbanisme » s'ouvre sur les tuiles du règlement, « Terrain » sur le profil altimétrique, puis la grille des outils :
+// le cadre en fait le tour et finit sur « Dossier », qui est pressé sur les six dernières images. AUCUN texte ajouté, aucun logo, aucun bandeau.
+//   ?fond=/f-data/fond.jpg  l'image de l'application (2880×1800), intacte sur la première image
+//   ?tx=575&ty=498          le terrain cliqué, en px du cadre 1440×900 : le fond avance à peine vers lui
+//   ?ss=2                   px du canevas par px de l'image finale (2 pour le rendu, 1 pour un brouillon)
+//   ?anneau=1               option : un anneau fin part du terrain quand la fiche arrive (éteint par défaut : le clic est montré juste avant la séquence)
+// Le temps « t » de la scène est celui de la vidéo 2 (un temps = 0,55 s), lu 1,375 fois plus vite : un temps = 0,4 s = 12 images (lib/f-commun.js).
+import {clamp,lerp,prog,ease} from '/lib/anim.js';
+import {fiche,chargerFiche,dessiner,dessinerEntree,ecran,yDoc,yDepuisFerme,LARG} from '/lib/m-fiche.js';
+import {L,H,TEMPS,V2,IMG,temps,image,rendu,ressort,chute,pouls,chargerFond,peindreFond,anneau,cadre,poser} from '/lib/f-commun.js';
+const P=new URLSearchParams(location.search), $=(i)=>document.getElementById(i);
+const SS=Math.max(1,Math.min(3,Math.round(+(P.get('ss')||1)))); rendu.ss=SS;
+const TX=+(P.get('tx')||575), TY=+(P.get('ty')||498), FOND_SRC=P.get('fond')||'/f-data/fond.jpg', ANNEAU=+(P.get('anneau')||0);
+const LS=L*SS, HS=H*SS; for(const k of [$('c'),$('f')]){ k.width=LS; k.height=HS; }
+const g=$('c').getContext('2d'), F=$('f').getContext('2d'); const tmp=document.createElement('canvas'); tmp.width=LS; tmp.height=HS; const G2=tmp.getContext('2d');
+
+// ───────────── la grille de temps (instants de la scène ; entre parenthèses, l'image du film) ─────────────
+const T={CLIC:0, IND:temps(2), URBA:temps(8), TERRAIN:temps(12), ACTIONS:temps(16)};          // la fiche entre (0) · les six tuiles (24) · Urbanisme (96) · Terrain (144) · les outils (192)
+const TI=[0,1,2,3,4,5].map(i=>T.IND+i*TEMPS), T_IND_TOUS=T.URBA;                               // une tuile par temps : images 24, 36, 48, 60, 72, 84
+const T_URBA_CLIC=T.URBA+TEMPS, T_URBA_GROS=T.URBA+0.77, T_REGL=T.URBA+2*TEMPS;                // la rubrique s'ouvre (108), la caméra descend, les tuiles du règlement (120)
+const T_TERR_CLIC=T.TERRAIN+TEMPS, T_TERR_GROS=T.TERRAIN+0.77, T_PROFIL=T.TERRAIN+2*TEMPS, T_STATS=T.TERRAIN+3*TEMPS;   // Terrain s'ouvre (156), le profil se trace (168), ses chiffres (180)
+const PAS_REGL=TEMPS/3, PAS_ACT=TEMPS/6, ENTREE=0.62, G=0.6*IMG;                                          // une tuile du règlement toutes les 4 images ; un outil toutes les 2 images ; la fiche met 14 images à se poser
+const T_ACT=T.ACTIONS+TEMPS-PAS_ACT, T_DOSSIER=T_ACT+5*PAS_ACT, T_PRESSE=temps(18), N_PRESSE=6; // la ronde des outils (202 → 210), « Dossier » s'allume (212), il est pressé SUR le temps (216 → 221)
+const N=image(T_PRESSE)+N_PRESSE; window.DUR=N/30;                                             // 222 images, 7,4 s
+
+// ───────────── la mise en page 16:10 : les échelles (px du cadre par px CSS de la fiche) et les cadrages ─────────────
+// Chaque cadrage est choisi pour que le bord du cadre 1440×900 tombe dans un intervalle VIDE de la fiche (aucune ligne de texte, aucune carte tranchée) :
+//   · entrée        : la fiche à droite sur 55 % de la largeur, de l'en-tête à « Identité » (le bas du cadre passe entre « Identité » et « Urbanisme ») ;
+//   · six tuiles    : de l'adresse aux deux boutons (haut entre l'identifiant et l'adresse, bas entre les boutons et « Identité ») ;
+//   · Urbanisme     : la caméra recule — l'en-tête, « Urbanisme », « Potentiel », « Risques et environnement » ; puis elle plonge dans le règlement :
+//                     du titre « Règlement — zone U3c » à la note « Le règlement PLU fait foi… » ;
+//   · Terrain       : recul — l'en-tête, « Terrain », « Bâti », « Réseaux et desserte » ; puis le profil altimétrique : du titre aux six chiffres et à leur note
+//                     (plus serré, le bas du cadre trancherait cette note ou collerait au cadre vert des chiffres) ;
+//   · outils        : de « + CRM / + Projet » à « Signaler une erreur », la grille des six outils au milieu, la mention de prudence de la fiche dessous.
+const K_APP=2.0, K_IND=3.2, K_LIRE_U=2.42, K_REGL=3.16, K_LIRE_T=2.37, K_PROFIL=2.9, K_ACT=3.0;
+const PX_HORS=L+120, DROITE=(k)=>L-LARG*k, PX_APP=DROITE(K_APP), PY_APP=20;
+const HAUT_IND=[86,88.5], HAUT_REGL=680, HAUT_PROFIL=1094, HAUT_ACT=1124;                    // première ligne du document visible en haut du cadre (px CSS)
+const SC_URBA=284.5, SC_TERR=500.5, SC_ACT=960;                                                // défilements : la rubrique vient se ranger sous l'en-tête fixe
+const PX_IND=134, PENCHE=0.10;                                                                 // la caméra se penche à peine vers la tuile visée (aucune tuile ne touche le bord)
+const REGL=[[28,717,110,75],[144,717,111,75],[261,717,110,75],[28,798,110,86],[144,798,111,86],[261,798,110,86]];   // les six tuiles du règlement (capture « urbanisme »)
+const GRAPHE=[63.2,1140,300.8,100.6], PROFIL=[40,1132,334,128], STATS=[20,1263,359,76.5];                           // le profil altimétrique (capture « terrain »)
+const RANG=[5,0,1,4,3,2];                                      // rang de chaque outil dans la ronde : Étude de zone, Gabarit, Courrier, Remonter le temps, Estimer, puis Dossier
+// le fond : voile sombre, flou (px du cadre), avancée vers le terrain. Tant que le fond est net (la fiche entre), il n'avance que de 0,6 % : rien de l'application
+// (menu de gauche, barre du haut) n'est tranché par le bord du cadre — le bouton « Carte », à 6,5 px du bord gauche, garde ses coins ; il avance davantage (3 %)
+// quand la caméra serre sur la fiche et qu'il devient flou.
+const SOMBRE_ENTREE=0.26, SOMBRE_GROS=0.18, FLOU_GROS=7, AVANCE=0.005, AVANCE_GROS=0.030, GLISSE=0.0004;
+
+// ───────────── la fiche : pistes à ressort (une valeur saute de cible en cible ; chaque saut est la réponse d'un ressort) — comme dans la vidéo 2 ─────────────
+const R=(w,z)=>(u)=>ressort(u,w,z); const RC=R(21,0.66), RS=R(27,0.72);
+// RN : le même ressort, arrêté net à l'arrivée. Aux trois retours de caméra (vers « Urbanisme », vers « Terrain », vers les outils), l'échelle, la position, le
+// défilement ET le repli de la rubrique suivent TOUS cette même courbe : la fiche file d'un seul mouvement, sans aller-retour (dans la vidéo 2, la position arrivait
+// avant le défilement : l'image repartait un instant en arrière ; lu plus vite, cela donnait une image nette isolée au milieu du filé).
+const RN=(u)=>Math.min(1,RC(u)), D_RN=0.5;                     // RN vaut exactement 1 au bout de 0,34 s (de la scène) ; la rubrique repliée laisse la place au document fermé à 0,5 s
+const piste=(cles)=>(t)=>{ let v=cles[0][1]; for(let i=1;i<cles.length;i++){ const c=cles[i]; if(t<=c[0]) break; v+=(c[1]-cles[i-1][1])*(c[2]||RC)(t-c[0]); } return v; };
+let lnk,pxT,pyT,scT;
+function pistes(){
+  const c=fiche.ind.map(r=>[r[0]+r[2]/2,r[1]+r[3]/2]); const pxI=(i)=>PX_IND-PENCHE*K_IND*(c[i][0]-199.5), pyI=(i)=>-K_IND*HAUT_IND[i<3?0:1];
+  const Lg=Math.log;
+  lnk=piste([[0,Lg(K_APP)],[T.IND,Lg(K_IND)],[T.URBA,Lg(K_LIRE_U),RN],[T_URBA_GROS,Lg(K_REGL)],[T.TERRAIN,Lg(K_LIRE_T),RN],[T_TERR_GROS,Lg(K_PROFIL)],[T.ACTIONS,Lg(K_ACT),RN]]);
+  pxT=piste([[0,PX_HORS],[T.CLIC,PX_APP,R(17,0.55)],[TI[0],pxI(0)],...[1,2,3,4,5].map(i=>[TI[i],pxI(i),RS]),[T.URBA,DROITE(K_LIRE_U),RN],[T_URBA_GROS,DROITE(K_REGL)],[T.TERRAIN,DROITE(K_LIRE_T),RN],[T_TERR_GROS,DROITE(K_PROFIL)],[T.ACTIONS,DROITE(K_ACT),RN]]);
+  pyT=piste([[0,PY_APP],[TI[0],pyI(0)],[TI[3],pyI(3),RS],[T.URBA,0,RN],[T_URBA_GROS,-K_REGL*(HAUT_REGL-SC_URBA)],[T.TERRAIN,0,RN],[T_TERR_GROS,-K_PROFIL*(HAUT_PROFIL-SC_TERR)],[T.ACTIONS,-K_ACT*(HAUT_ACT-SC_ACT),RN]]);
+  scT=piste([[0,0],[T.URBA,SC_URBA,RN],[T.TERRAIN,SC_TERR,RN],[T.ACTIONS,SC_ACT,RN]]);
+}
+// le document : fermé, Urbanisme qui se déplie puis se replie, Terrain de même (hauteurs en px CSS)
+const docA=(t)=>{
+  if(t<T_URBA_CLIC) return {doc:'F',H:0};
+  if(t<T.TERRAIN) return {doc:'U',H:lerp(58,1133,ease.inOut(prog(t,T_URBA_CLIC,T_URBA_CLIC+0.6)))};
+  if(t<T.TERRAIN+D_RN) return {doc:'U',H:lerp(1133,58,RN(t-T.TERRAIN))};
+  if(t<T_TERR_CLIC) return {doc:'F',H:0};
+  if(t<T.ACTIONS) return {doc:'T',H:lerp(65,821,ease.inOut(prog(t,T_TERR_CLIC,T_TERR_CLIC+0.6)))};
+  if(t<T.ACTIONS+D_RN) return {doc:'T',H:lerp(821,65,RN(t-T.ACTIONS))};
+  return {doc:'F',H:0}; };
+// pendant chaque tenue, la caméra continue d'avancer d'un rien (2 %) : l'image n'est jamais figée
+const TENUES=[[T.CLIC+ENTREE,T.IND],[T.IND,T.URBA],[T_REGL-0.1,T.TERRAIN],[T_PROFIL-0.1,T.ACTIONS],[T_ACT-0.1,T_PRESSE+N_PRESSE*IMG]];
+const derive=(t)=>{ let z=0; TENUES.forEach(([a,b],n)=>{ z+=0.02*prog(t,a,b)*(n===TENUES.length-1?1:1-ease.smooth(prog(t,b,b+0.12))); }); return 1+z; };
+const etat=(t)=>{ const k=Math.exp(lnk(t)), px=pxT(t), py=pyT(t), z=derive(t), cx=px+k*LARG/2, cy=H/2;
+  return {k:k*z,px:cx-(cx-px)*z,py:cy-(cy-py)*z,sc:scT(t),...docA(t)}; };
+const avance=(t)=>(i)=>ease.out5(prog(t,T.CLIC+0.08+i*0.03,T.CLIC+0.28+i*0.03));
+const masques=(t)=>{ if(t<T_TERR_CLIC||t>=T.ACTIONS) return []; const q=ease.out(prog(t,T_PROFIL,T_PROFIL+0.5)); return q>=1?[]:[[GRAPHE[0]+GRAPHE[2]*q,GRAPHE[1],GRAPHE[2]*(1-q)+2,GRAPHE[3]]]; };
+const peindre=(ctx,t)=>{ const e=etat(t); ctx.setTransform(SS,0,0,SS,0,0); if(t<T.CLIC+ENTREE) dessinerEntree(ctx,e,avance(t)); else dessiner(ctx,e,{masques:masques(t)}); if(t>=T.CLIC+TEMPS) cadres(ctx,e,t); return e; };
+// flou de mouvement de la fiche : on moyenne plusieurs poses de l'obturateur (la scène n'est fonction que du temps) — même obturateur que la vidéo 2
+const OBTURATEUR=0.34, POSES_MAX=32;
+function filmerFiche(t){
+  F.setTransform(1,0,0,1,0,0); F.globalCompositeOperation='source-over'; F.globalAlpha=1; F.clearRect(0,0,LS,HS);
+  const e=etat(t), a=etat(t-IMG/2); if(e.px>=L+112) return e;
+  const d=2*Math.max(Math.abs(e.px-a.px),Math.abs(e.py-a.py)+e.k*Math.abs(e.sc-a.sc),e.doc===a.doc?e.k*Math.abs(e.H-a.H)*0.5:0,Math.abs(e.k-a.k)*260);   // déplacement par image (px du cadre)
+  const K=Math.max(1,Math.min(POSES_MAX,Math.ceil(d*OBTURATEUR/2.2)));
+  if(K===1){ peindre(F,t); return e; }
+  // moyenne courante exacte, transparence comprise : l'accumulé est d'abord réduit de 1/(j+1), puis la pose est ajoutée à 1/(j+1)
+  for(let j=0;j<K;j++){ G2.setTransform(1,0,0,1,0,0); G2.globalAlpha=1; G2.clearRect(0,0,LS,HS); peindre(G2,t-OBTURATEUR*IMG*(j/K)); const p=1/(j+1);
+    F.setTransform(1,0,0,1,0,0);
+    if(j){ F.globalCompositeOperation='destination-out'; F.globalAlpha=p; F.fillStyle='#000'; F.fillRect(0,0,LS,HS); }
+    F.globalCompositeOperation='lighter'; F.globalAlpha=p; F.drawImage(tmp,0,0); }
+  F.globalAlpha=1; F.globalCompositeOperation='source-over'; return e;
+}
+// « Dossier » pressé : 0 → 1 sur les six dernières images (enfoncement rapide, qui se pose)
+const presse=(t)=>{ const q=prog(t,T_PRESSE-IMG,T_PRESSE+(N_PRESSE-1)*IMG); return 1-(1-q)*(1-q); };
+// ── les cadres vert menthe : un cadre glisse d'élément en élément (l'élément visé se soulève, détouré) ; certains restent marqués derrière lui.
+// Ils sont peints DANS chaque pose de l'obturateur (avec la fiche) : quand la caméra file, ils filent avec elle au lieu de rester nets sur une image floue.
+// Les cadres d'un passage tiennent jusqu'à l'image du temps suivant comprise (G) : ils disparaissent dans le filé du départ de la caméra, pas sur une image fixe.
+function cadres(F,e,t){
+  F.setTransform(SS,0,0,SS,0,0); F.globalCompositeOperation='source-over'; F.globalAlpha=1;
+  const ouvert=(r)=>[r[0],yDoc(e,r[1]),r[2],r[3]], ferme=(r)=>[r[0],yDepuisFerme(e,r[1]),r[2],r[3]];
+  const S=[];                                      // {a, b, rect() : rectangle d'écran}
+  S.push({a:T.CLIC+TEMPS,b:T.IND,rect:()=>ecran(e,[14,7.5,371,141],true)});
+  if(t<T.IND) fiche.ind.forEach((r,i)=>{ const s=1+0.04*pouls(t,T.CLIC+0.74+i*0.06,0.08,0.22); if(s>1.002) poser(F,e,r,s); });        // avant le gros plan : une vague douce passe sur les six tuiles
+  // les six tuiles : le cadre GLISSE de l'une à l'autre, une par temps ; celles qu'il a quittées restent marquées
+  fiche.ind.forEach((r,i)=>{ const fin=i<5?TI[i+1]:T_IND_TOUS, s=1+0.06*ressort(t-TI[i],20,0.6)*(1-ease.inOut(prog(t,fin-0.04,fin+0.2)));
+    const Rr=(t>=TI[i]&&t<fin+0.2&&s>1.002)?poser(F,e,r,s):ecran(e,r);
+    if(t>=fin&&t<T.URBA+G) cadre(F,ecran(e,r),{alpha:0.6,ep:3,lueur:10,rayon:e.k*8.5,gonfle:1});
+    S.push({a:TI[i],b:i<5?fin:fin+G,rect:()=>Rr}); });
+  S.push({a:T.URBA+0.12,b:T_REGL,rect:()=>ecran(e,fiche.rub['Urbanisme'])});
+  // le règlement : les tuiles déjà visitées restent marquées
+  if(t>=T_REGL&&t<T.TERRAIN+G) REGL.forEach((r,i)=>{ if(t>=T_REGL+i*PAS_REGL) cadre(F,ecran(e,ouvert(r)),{alpha:0.75,ep:3,lueur:12,rayon:e.k*6}); });
+  REGL.forEach((r,i)=>{ const a=T_REGL+i*PAS_REGL, s=1+0.045*pouls(t,a,0.08,0.3); const Rr=(t>=a&&t<T.TERRAIN+G&&s>1.002)?poser(F,e,ouvert(r),s,{doc:'U',src:r,rayon:6}):ecran(e,ouvert(r)); S.push({a,b:i<5?T_REGL+(i+1)*PAS_REGL:T.TERRAIN+G,rect:()=>Rr}); });
+  S.push({a:T.TERRAIN+0.12,b:T_PROFIL,rect:()=>ecran(e,ferme(fiche.rub['Terrain']))});
+  S.push({a:T_PROFIL,b:T_STATS,rect:()=>ecran(e,ouvert(PROFIL))}); S.push({a:T_STATS,b:T.ACTIONS+G,rect:()=>ecran(e,ouvert(STATS))});
+  // les six outils : le cadre fait le tour de la grille (un outil toutes les deux images, chacun se soulève et reste marqué) et finit sur « Dossier »,
+  // plus lumineux, pendant que les cinq autres s'effacent à demi ; puis « Dossier » est pressé : il s'enfonce, son cadre le serre
+  if(t>=T_ACT){ const pr=presse(t), baisse=ease.smooth(prog(t,T_DOSSIER,T_DOSSIER+0.22));
+    fiche.actions.forEach((r,i)=>{ const a=T_ACT+RANG[i]*PAS_ACT; if(!i||t<a) return; const s=1+0.05*pouls(t,a,0.08,0.3), coup=chute(t,a,0.3); const Rr=poser(F,e,r,s,{rayon:8});
+      cadre(F,Rr,{alpha:(0.9-0.5*baisse)*Math.min(1,(t-a)/0.1),ep:4+2*coup,lueur:14+14*coup,rayon:e.k*8*s,plein:0.07*coup,gonfle:1+2*coup}); });
+    if(t>=T_DOSSIER){ const r=fiche.actions[0], coup=chute(t,T_DOSSIER,0.3), s=(1+0.06*pouls(t,T_DOSSIER,0.08,0.3))*(1-0.055*pr); const Rr=poser(F,e,r,s,{rayon:8,creux:0.06*pr});
+      cadre(F,Rr,{alpha:Math.min(1,(t-T_DOSSIER)/0.07),ep:5+2*coup+1.5*pr,lueur:26+14*coup+8*pr,rayon:e.k*8*s,plein:0.10+0.07*coup+0.03*pr,gonfle:2+2*coup-1.5*pr}); } }
+  // le cadre : il GLISSE d'un élément au suivant (0,26 s au plus), au lieu de sauter
+  let i=-1; for(let j=0;j<S.length;j++) if(t>=S[j].a&&t<S[j].b) i=j; if(i<0) return;
+  let Rr=S[i].rect(); const t0=S[i].a;
+  if(i>0&&Math.abs(S[i-1].b-t0)<1e-6){ const q=ease.inOut(prog(t,t0,t0+Math.min(0.26,(S[i].b-t0)*0.55))); if(q<1){ const A=S[i-1].rect(); Rr=Rr.map((v,n)=>lerp(A[n],v,q)); } }
+  const coup=pouls(t,t0+0.08,0.14,0.3), clic=Math.max(chute(t,T_URBA_CLIC,0.3),chute(t,T_TERR_CLIC,0.3)), nait=i>0&&Math.abs(S[i-1].b-t0)<1e-6?1:Math.min(1,(t-t0)/0.12);
+  cadre(F,Rr,{alpha:nait,ep:5+2*coup,lueur:26+14*coup,rayon:e.k*8.5,plein:0.05*coup+0.11*clic,gonfle:3+2.5*coup});
+}
+// le journal de la séquence : index d'image des temps forts, centre de « Dossier » dans la dernière image (px du cadre 1440×900)
+function journal(){ const a1=(x)=>Math.round(x*10)/10, e=etat((N-1)*IMG), r=fiche.actions[0], q=ecran(e,r), s=1-0.055*presse((N-1)*IMG), w=q[2]*s, h=q[3]*s;
+  return {n:N, ips:30, duree_s:Math.round(N/30*1000)/1000, largeur:L, hauteur:H,
+    reperes:{carte:1, tuiles:image(T.IND), urbanisme:image(T.URBA), terrain:image(T.TERRAIN), outils:image(T.ACTIONS), dossier:image(T_DOSSIER)},
+    dossier:{x:a1(q[0]+q[2]/2), y:a1(q[1]+q[3]/2)},
+    details:{temps_images:Math.round(TEMPS/IMG), carte_posee:Math.ceil((T.CLIC+ENTREE)/IMG), tuiles:TI.map(image), urbanisme_ouvre:image(T_URBA_CLIC), reglement:image(T_REGL), terrain_ouvre:image(T_TERR_CLIC),
+      profil:image(T_PROFIL), chiffres_profil:image(T_STATS), ronde_outils:image(T_ACT), dossier_allume:image(T_DOSSIER), dossier_presse:[image(T_PRESSE),N-1],
+      tuile_dossier:[a1(q[0]+q[2]/2-w/2),a1(q[1]+q[3]/2-h/2),a1(w),a1(h)], fond:FOND_SRC, terrain_px:[TX,TY]} }; }
+
+window.pret=Promise.all([chargerFond(FOND_SRC),chargerFiche()]).then(()=>{ fiche.jeux[3]=fiche.jeux[5];      // toujours les captures à 5 px par px CSS (le canevas est peint à 2 px par px)
+  pistes(); window.JOURNAL=journal(); });
+
+window.render=(tl)=>{ const t=tl/V2;
+  // ───── le fond : l'image de l'application, intacte à t = 0 ; elle s'assombrit quand la fiche entre, avance à peine vers le terrain, se floute dans les gros plans ─────
+  // (une fois la caméra entrée dans la fiche, il reste flou et sombre même quand elle recule pour montrer les rubriques : le menu de l'application ne redevient pas lisible)
+  const e=etat(t); const serre=clamp((e.k-K_APP)/(K_IND-K_APP))*(e.px<L?1:0), gros=t<T.URBA?serre:Math.max(serre,0.85), entree=clamp((L-e.px)/(L-PX_APP));
+  peindreFond(g,{k:1+AVANCE*ease.smooth(prog(t,T.CLIC,T.CLIC+0.7))+AVANCE_GROS*gros+GLISSE*t/TEMPS,tx:TX,ty:TY,sombre:SOMBRE_ENTREE*entree+SOMBRE_GROS*gros,flou:FLOU_GROS*gros});
+  if(ANNEAU){ anneau(g,TX,TY,t,T.CLIC,{r0:15,r1:285,duree:0.6,ep:3,ep1:1.2}); anneau(g,TX,TY,t,T.CLIC+0.13,{r0:15,r1:165,duree:0.45,ep:2.4}); }
+  // ───── la fiche ─────
+  filmerFiche(t);
+};
+</script></body></html>

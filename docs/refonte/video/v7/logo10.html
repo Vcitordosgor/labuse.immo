@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>@font-face{font-family:'Space Grotesk';src:url('../promo/lib/fonts/space-grotesk-latin-wght-normal.woff2') format('woff2');font-weight:300 700;font-display:block}@font-face{font-family:'Inter';src:url('../promo/lib/fonts/inter-latin-wght-normal.woff2') format('woff2');font-weight:100 900;font-display:block}</style>
+<style>
+html,body{margin:0;width:2880px;height:1800px;overflow:hidden;background:#0A0C0B}
+#app{position:absolute;inset:0;width:2880px;height:1800px;opacity:0}
+#bird{position:absolute;left:0;top:0;width:240px;height:82px;transform-origin:120px 30px;overflow:visible}
+#wm{position:absolute;left:0;right:0;top:920px;text-align:center;font:700 250px/1 'Space Grotesk',sans-serif;letter-spacing:.04em;text-indent:.04em;color:#E8EFEA;opacity:0}
+#bl{position:absolute;left:0;right:0;top:1228px;text-align:center;font:500 88px/1 'Inter',sans-serif;letter-spacing:.004em;color:#D3DCD6;opacity:0}
+#wm b{color:#4ADE80}
+</style></head><body>
+<img id="app" src="frames/H-v10/0000.jpg">
+<svg id="bird" viewBox="0 0 240 82" overflow="visible">
+  <!-- Une seule forme : les ailes se PLIENT au lieu de pivoter en deux moitiés.
+       L'ancienne version découpait l'oiseau en deux et faisait tourner chaque moitié :
+       au plus fort du battement, les deux bords se séparaient et un coin sombre
+       apparaissait au centre — l'aile semblait se décrocher puis se raccrocher. -->
+  <path id="w" fill="#4ADE80"/>
+</svg>
+<div id="wm">LA<b>BUSE</b></div>
+<div id="bl">Le trésor est sous vos pieds.</div>
+<script>
+const W=2880,H=1800;
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const lerp=(a,b,t)=>a+(b-a)*t;
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+// position finale = oiseau de l'en-tête de l'app (capture 2x) : centre ≈ (69,53), largeur ≈ 58 px
+const END={x:69,y:53,w:58};
+// 0 → 1,3 s : vol d'arrivée · 1,3 → 1,7 s : il se pose (le vol s'amortit) · 1,7 → 2,2 s : immobile, LABUSE écrit
+// 2,2 → 2,8 s : il redécolle et rejoint le logo de l'en-tête · 2,5 → 2,85 s : l'app apparaît
+const SETTLE=1.7, TAKEOFF=3.0, FLIGHT=0.6;   // tenue allongée : LABUSE puis la phrase de marque
+const CY=680, LARG=800;                       // oiseau plus gros, un peu plus haut
+const smooth=(x)=>{x=clamp(x,0,1);return x*x*(3-2*x);};
+// Les 19 points du tracé. On les replie autour de l'axe du corps (x=120) : l'angle
+// croît avec l'éloignement du centre (puissance 1,6), donc le centre ne bouge JAMAIS
+// et l'aile se courbe comme une vraie aile au lieu de pivoter d'un bloc.
+const PTS=[[2,15],[58,10],[100,18],[120,27],[140,18],[182,10],[238,15],[202,29],[162,40],[135,46],[127,49],[122,53],[120,60],[118,53],[113,49],[105,46],[78,40],[38,29],[2,15]];
+const AXE=120, PIVOT=30, DEMI=118, COURBE=1.6;
+const plie=(deg)=>{
+  const P=PTS.map(([x,y])=>{
+    const u=(x-AXE)/DEMI;
+    const phi=deg*Math.PI/180*Math.pow(Math.abs(u),COURBE)*(u<0?-1:1);
+    const dx=x-AXE, dy=y-PIVOT, c=Math.cos(phi), s=Math.sin(phi);
+    return [AXE+dx*c-dy*s, PIVOT+dx*s+dy*c];
+  });
+  const f=(i)=>P[i][0].toFixed(2)+' '+P[i][1].toFixed(2);
+  return `M${f(0)} C${f(1)} ${f(2)} ${f(3)} C${f(4)} ${f(5)} ${f(6)} C${f(7)} ${f(8)} ${f(9)} C${f(10)} ${f(11)} ${f(12)} C${f(13)} ${f(14)} ${f(15)} C${f(16)} ${f(17)} ${f(18)} Z`;
+};
+window.render=(t)=>{
+  let cx,cy,w,amp;
+  if(t<1.3){ const u=ease(t/1.3); cx=lerp(-300,W/2,u); cy=lerp(1250,CY,u)+Math.sin(u*Math.PI)*-120; w=lerp(460,LARG,u); amp=34; }
+  else if(t<TAKEOFF){ const d=1-smooth((t-1.3)/(SETTLE-1.3)); cx=W/2; cy=CY+Math.sin((t-1.3)*4)*10*d; w=LARG; amp=34*d; }
+  else { const v=clamp((t-TAKEOFF)/FLIGHT,0,1), u=ease(v); cx=lerp(W/2,END.x,u); cy=lerp(CY,END.y,u); w=lerp(LARG,END.w,u); amp=26*Math.sin(Math.PI*v); }
+  const f = t<1.3?3.4:2.6;
+  const a = amp*Math.sin(2*Math.PI*f*t);
+  const s=w/240;
+  const bird=document.getElementById('bird');
+  bird.style.transform=`translate(${cx-120}px,${cy-30}px) scale(${s})`;
+  document.getElementById('w').setAttribute('d', plie(a));
+  const wo = t<1.45?0:(t<1.85?(t-1.45)/0.4:(t<TAKEOFF?1:Math.max(0,1-(t-TAKEOFF)/0.25)));
+  document.getElementById('wm').style.opacity=wo;
+  const bo = t<1.8?0:(t<2.2?(t-1.8)/0.4:(t<TAKEOFF?1:Math.max(0,1-(t-TAKEOFF)/0.25)));
+  const bl=document.getElementById('bl'); bl.style.opacity=bo; bl.style.transform=`translateY(${(1-smooth((t-1.8)/0.4))*22}px)`;
+  document.getElementById('app').style.opacity=clamp((t-(TAKEOFF+0.3))/0.35,0,1);
+};
+</script></body></html>

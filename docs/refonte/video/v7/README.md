@@ -74,3 +74,24 @@ python3 -I montage9.py --dernier B && node dossier9-render.mjs
 python3 -I montage9.py --dernier F && FROM=controle/F-dernier.jpg node logofin-render.mjs
 python3 -I montage9.py sortie.mp4
 ```
+
+## Version 10 (refonte : un seul mouvement d'ouverture, fiche animée, rythme resserré)
+
+- `record10.mjs` : segment `H`, d'un seul tenant et sans retour en arrière — île → zoom sur le terrain → bouton « 3D »
+  (relief + bâtiments) → fond « Ortho IGN » sans quitter la 3D → descente vers le terrain → clic. La caméra 3D est
+  posée explicitement (`calculateCameraOptionsFromTo` : position et altitude de la caméra, cible et altitude de la
+  cible) ; avec le relief, un simple « zoom + inclinaison » peut placer la caméra sous le sol (image en stries).
+  La caméra continue de bouger pendant les gestes du curseur (crochet `avant` appelé avant chaque image).
+- `fiche/` : la séquence « fiche parcelle » reprend l'animation du film (banc `docs/refonte/film`), au format
+  1440×900, sans texte ajouté ; elle part de la dernière image de `H` (`f-rendre.sh <fond.jpg> <x> <y>`), finit sur
+  « Dossier » pressé. Dépend des fichiers du banc (`lib/s-commun.js`, `lib/m-fiche.js`, captures de la fiche).
+- `dossier10*` : le Dossier PDF part de la dernière image de la fiche, plus vif (`SLOW=0.7`).
+- `montage10.py` : `ACCEL` joue certaines plages d'images k fois plus vite (trajets du curseur, défilements) en
+  gardant les temps forts ; les passages couches, zonage et filtres réutilisent les enregistrements de la v9.
+
+```bash
+PANNEAU=ferme SUF=-v10 node record10.mjs
+./fiche/f-rendre.sh frames/H-v10/0152.jpg 771 478      # dans le banc du film
+SLOW=0.9 FLY=1.3 node logo10-render.mjs && node dossier10-render.mjs
+python3 -I montage10.py sortie.mp4
+```
