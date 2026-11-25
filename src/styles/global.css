@@ -155,6 +155,8 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .after .one svg{width:18px;height:auto}
 .after p{color:var(--txt-hi);font-size:17px}
 .after p b{color:var(--mint);font-weight:500}
+.vfilm{margin-top:16px;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;background:var(--bg-1);aspect-ratio:16/9}
+.vfilm video{display:block;width:100%;height:100%;object-fit:cover}
 
 /* ── Avantages (5 fiches, même gabarit) ── */
 .fr{max-width:920px}
