@@ -1,11 +1,13 @@
 # Headers Cloudflare Pages — sécurité + cache.
 # 'unsafe-inline' requis : scripts inline Astro (reveal, header, menu) et attributs style.
+# static.cloudflareinsights.com + cloudflareinsights.com : mesure d'audience Cloudflare (sans cookie).
+# Sans ces deux entrées, le script est bloqué — y compris s'il est activé depuis le tableau de bord Pages.
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
 
 # Assets hashés : cache immuable 1 an.
 /_astro/*
