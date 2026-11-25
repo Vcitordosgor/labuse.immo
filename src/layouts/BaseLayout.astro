@@ -26,6 +26,11 @@ export interface Props {
   home?: boolean;
 }
 
+// Mesure d'audience Cloudflare (facultative) : jeton fourni par la variable PUBLIC_CF_BEACON
+// (Cloudflare Pages, Settings, Variables and Secrets). Sans jeton, aucun script n'est posé.
+// Inutile si la mesure est activée depuis le tableau de bord Pages : Cloudflare pose alors le script.
+// La CSP de public/_headers autorise static.cloudflareinsights.com, sinon le script serait bloqué.
+const beacon = import.meta.env.PUBLIC_CF_BEACON;
 const SITE = 'https://labuse.immo';
 const {
   title = 'Tout le foncier de La Réunion au même endroit | LABUSE',
@@ -127,5 +132,6 @@ const ld = { '@context': 'https://schema.org', '@graph': [organization, website,
     <Header />
     <slot />
     <Footer />
+    {beacon && <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token":"${beacon}"}`}></script>}
   </body>
 </html>

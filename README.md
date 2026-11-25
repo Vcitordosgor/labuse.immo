@@ -22,6 +22,25 @@ npm run preview  # prévisualiser le build
 npm run seo:check  # après le build : titles, canonical, JSON-LD, sitemap, mots interdits
 ```
 
+## Mesure d'audience
+
+Cloudflare Web Analytics, sans cookie et sans identifiant : pas de bandeau cookies.
+Deux façons de l'activer, une seule à la fois sinon le script est posé deux fois :
+
+1. **Tableau de bord** (le plus simple) : Cloudflare → le projet Pages `labuse-immo` →
+   onglet *Analytics* → *Web Analytics* → *Enable*. Rien à déployer.
+2. **Par le dépôt** : copier le jeton (*Web Analytics* → *Manage site* → *JS snippet*,
+   champ `token`) dans la variable `PUBLIC_CF_BEACON` (Pages → *Settings* →
+   *Variables and Secrets*, portée *Production*), puis relancer un déploiement.
+   Sans cette variable, aucun script de mesure n'est posé.
+
+La CSP de `public/_headers` autorise déjà `static.cloudflareinsights.com` (script) et
+`cloudflareinsights.com` (envoi des mesures). Sans ces deux entrées, le script est
+bloqué par le navigateur, y compris avec la méthode 1.
+
+Les chiffres se lisent dans Cloudflare → *Web Analytics*. Le tableau de bord du domaine
+donne par ailleurs, sans aucun script, les requêtes et les visiteurs estimés.
+
 ## Déploiement
 
 ### 1. Le site — Cloudflare Pages
