@@ -162,6 +162,11 @@ h3{font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.01em}
 .fr{max-width:920px}
 .fr h2{font-size:clamp(32px,4.4vw,56px);line-height:1.05}
 .fr .lead{margin-top:22px;max-width:52ch}
+/* Fraîcheur : texte à gauche, vidéo des couches à droite (empilés sous 900 px) */
+.fr2{display:grid;gap:clamp(24px,3vw,40px);grid-template-columns:minmax(0,1fr);align-items:center}
+@media (min-width:900px){.fr2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .fr2 .fr h2{font-size:clamp(28px,2.9vw,42px)}
+  .fr2 .fr .lead{margin-top:18px}}
 .tile{width:34px;height:34px;border-radius:var(--r);display:grid;place-items:center;border:1px solid rgba(74,222,128,.38);background:rgba(74,222,128,.14);color:var(--mint)}
 .tile svg{width:17px;height:17px}
 
