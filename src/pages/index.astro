@@ -109,7 +109,7 @@ const application = {
       <div class="laptop">
         <div class="lid">
           <div class="screen">
-            <video id="promo" autoplay muted loop playsinline preload="metadata" poster="/video/poster.jpg" aria-label="Vidéo : le logo LABUSE prend son envol, on zoome sur la carte, on passe en vue aérienne, on ouvre la fiche d’un terrain puis son dossier PDF, on affiche les risques sur toute l’île, puis le zonage du PLU parcelle par parcelle."><source src="/video/labuse-promo.mp4" type="video/mp4"></video>
+            <video id="promo" class="vauto" muted loop playsinline preload="none" poster="/video/poster-demo-app.jpg" data-src="/video/demo-app.mp4" data-src-tel="/video/demo-app-tel.mp4" aria-label="Vidéo : le logo LABUSE prend son envol, on zoome de l’île jusqu’à un terrain, on passe en relief 3D puis en vue aérienne, on ouvre la fiche du terrain et son dossier PDF, on affiche les risques et le zonage du PLU sur toute l’île, puis on cherche des terrains par filtres."></video>
           </div>
         </div>
         <div class="base" aria-hidden="true"></div>
@@ -151,6 +151,9 @@ const application = {
           <span class="one"><svg viewBox="0 0 240 82" fill="currentColor" aria-hidden="true"><path d="M2 15 C58 10 100 18 120 27 C140 18 182 10 238 15 C202 29 162 40 135 46 C127 49 122 53 120 60 C118 53 113 49 105 46 C78 40 38 29 2 15 Z"/></svg>app.labuse.immo</span>
           <p>Un onglet. Un clic sur le terrain.<br><b>Tout est déjà là.</b></p>
         </div>
+      </div>
+      <div class="vfilm">
+        <video id="parcelles" class="vauto" muted loop playsinline preload="none" poster="/video/poster-parcelles.jpg" data-src="/video/parcelles.mp4" data-src-tel="/video/parcelles-tel.mp4" aria-label="Vidéo : les 434 582 parcelles de La Réunion ; on plonge sur l’une d’elles, les dix sites à consulter s’affichent, puis un clic ouvre sa fiche LABUSE ; on remonte et toute l’île s’allume."></video>
       </div>
     </div>
   </section>
@@ -304,8 +307,24 @@ const application = {
     new IntersectionObserver((es) => es.forEach((e) => r.classList.toggle('radar-paused', !e.isIntersecting))).observe(r);
   }
   // Vidéo : figée si l'utilisateur réduit les animations
-  const v = document.getElementById('promo');
-  if (v && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
+  // Vidéos : fichier léger sur petit écran, chargées et lancées seulement quand elles arrivent à l'écran,
+  // mises en pause quand elles en sortent, figées si l'utilisateur réduit les animations (seule l'affiche reste).
+  const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const petit = window.matchMedia('(max-width: 760px)').matches;
+  const films = document.querySelectorAll('video.vauto');
+  const charger = (v) => { if (!v.src) v.src = (petit && v.dataset.srcTel) || v.dataset.src; };
+  if (!calme) {
+    if ('IntersectionObserver' in window) {
+      const o = new IntersectionObserver((es) => es.forEach((e) => {
+        const v = e.target;
+        if (!e.isIntersecting) { v.pause(); return; }
+        charger(v); v.play().catch(() => {});
+      }), { threshold: 0.2 });
+      films.forEach((v) => o.observe(v));
+    } else {
+      films.forEach((v) => { charger(v); v.play().catch(() => {}); });
+    }
+  }
   // Boutons Démo / Flash : amorce du message, sans choix d'offre dans le formulaire
   const msg = document.getElementById('f-msg');
   // Arrivée depuis une autre page avec ?pre=demo|flash
